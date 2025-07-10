@@ -63,6 +63,12 @@
 
 ### Wireframes
 
+#### Initial Website Design
+
+- [Home / Main Page](https://balsamiq.cloud/smzasgd/ppiwpgi/r2278)
+- [Settings Page](https://balsamiq.cloud/smzasgd/ppiwpgi/rFC6A)
+- [Instructions Page](https://balsamiq.cloud/smzasgd/ppiwpgi/rCAF6)
+
 ### Future Design Plans
 
 ## Technology Use
