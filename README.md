@@ -57,6 +57,14 @@
 
 ### Colour Scheme
 
+#### [Colour Scheme 1](https://coolors.co/000814-001d3d-003566-ffc300-ffd60a)
+
+![Image of first colour palette](assets\images\screenshot_of_palette1.jpeg)
+
+#### [Colour Scheme 2](https://coolors.co/03045e-0077b6-00b4d8-90e0ef-caf0f8)
+
+![Image of colour palette 2](assets\images\screenshot_of_palette2.jpeg)
+
 ### Typography 
 
 ### Images
