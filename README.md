@@ -4,9 +4,11 @@
  ...
 
 ## Introduction 
-...
+
+Welcome to the ReadMe for my second portfolio project. Here, you'll find a detailed documentation of my journey from planning to implementation to finalising my first Javascript game. 
 
 ## Project Overview
+
 
 ### Scope
 
@@ -114,6 +116,8 @@
 ### Responsiveness 
 
 ### Browser Compatibility 
+
+## TDD For JavaScript
 
 ## Bugs
 
