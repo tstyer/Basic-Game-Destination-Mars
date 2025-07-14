@@ -39,6 +39,14 @@ Welcome to the ReadMe for my second portfolio project. Here, you'll find a detai
 
 ## Features 
 
+### Space Bug
+
+The space bug was generated with AI at [Shutterstock](https://www.shutterstock.com/).
+
+I ensured that this image was original. It was paid for by me, and I completed reverse image searches on google to avoid plagiarism. 
+
+![Image of the space bug](assets\images\space_bug_animation.png)
+
 ### Navigation Bar
 
 ### Score Counter
