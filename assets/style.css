@@ -1,8 +1,12 @@
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Codystar:wght@300;400&family=Londrina+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Codystar:wght@300;400&family=Original+Surfer&display=swap');
 
-/* Cody Star is for Headers - set weight to 'regular 400' */
-/* Londrina Shadow is for regular text */
+/* NOTES TO REMEMBER */
+
+/* 1. Cody Star is for Headers - set weight to 'regular 400' */
+/* 2. Londrina Shadow is for regular text */
+/* 3. Regular text is coloured #CAF0F8 */
+/* 4. Titles are coloured with #FFC300 */
 
 /* Global Styles */
 
@@ -10,7 +14,7 @@
   width: fit-content;
   margin: 0 auto;
   padding: 10px 20px;
-  font-family: 'Londrina Shadow', serif;
+  font-family: 'Original Surfer', serif;
   font-size: 16px;
   background-color: transparent;
 }
@@ -19,6 +23,7 @@
   text-decoration: none;
   color: #CAF0F8;
   margin: 0 5px;
+  letter-spacing: 4px;
 }
 
 .custom-navbar span {
@@ -33,15 +38,43 @@
     color: #FFC300;
 }
 
-.game-area {
-    border: 2px solid white;
+/* Game section */
+
+.game-container {
+    display: flex;
+    justify-content: center;
 }
 
-.footer {
+.game-area {
+    border: 2px solid white;
+    width: 60%;
+    align-items: center;
+}
+
+/* Footer */
+
+footer {
     margin-top: auto;
     border: 2px solid white;
 }
 
+.custom-footer {
+    text-align: center;
+}
+
 body {
     background-color: #001D3D;
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Regular Text / Paragraphs */
+
+p {
+    color: #CAF0F8;
+    font-family: 'Original Surfer', serif;
 }
