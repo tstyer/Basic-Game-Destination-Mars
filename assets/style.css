@@ -15,7 +15,6 @@
   font-family: 'Londrina Shadow', serif;
   font-size: 16px;
   background-color: #fff;
-  margin-top: 20px;
 }
 
 .custom-navbar a {
@@ -27,4 +26,18 @@
 .custom-navbar span {
   margin: 0 5px;
   color: #666;
+}
+
+.header {
+    font-family: 'Codystar', Serif;
+
+}
+
+.game-area {
+    border: 2px solid black;
+}
+
+.footer {
+    margin-top: auto;
+    border: 2px solid black;
 }
