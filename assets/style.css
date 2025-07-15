@@ -7,19 +7,17 @@
 /* Global Styles */
 
 .custom-navbar {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
+  width: fit-content;
+  margin: 0 auto;
   padding: 10px 20px;
   font-family: 'Londrina Shadow', serif;
   font-size: 16px;
-  background-color: #fff;
+  background-color: transparent;
 }
 
 .custom-navbar a {
   text-decoration: none;
-  color: #000;
+  color: #CAF0F8;
   margin: 0 5px;
 }
 
@@ -30,14 +28,20 @@
 
 .header {
     font-family: 'Codystar', Serif;
-
+    width: fit-content;
+    margin: 10px auto;
+    color: #FFC300;
 }
 
 .game-area {
-    border: 2px solid black;
+    border: 2px solid white;
 }
 
 .footer {
     margin-top: auto;
-    border: 2px solid black;
+    border: 2px solid white;
+}
+
+body {
+    background-color: #001D3D;
 }
