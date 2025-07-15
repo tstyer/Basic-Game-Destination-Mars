@@ -5,3 +5,26 @@
 /* Londrina Shadow is for regular text */
 
 /* Global Styles */
+
+.custom-navbar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 10px 20px;
+  font-family: 'Londrina Shadow', serif;
+  font-size: 16px;
+  background-color: #fff;
+  margin-top: 20px;
+}
+
+.custom-navbar a {
+  text-decoration: none;
+  color: #000;
+  margin: 0 5px;
+}
+
+.custom-navbar span {
+  margin: 0 5px;
+  color: #666;
+}
