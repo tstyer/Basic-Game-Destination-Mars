@@ -57,7 +57,7 @@
   border: 2px solid white;
   border-radius: 5%;
   width: 60%;
-  height: 70%;
+  height: 80%;
   background-color: #001d3d;
 }
 
@@ -97,6 +97,8 @@ footer {
     justify-content: center;
     margin-top: 5px;
 }
+
+/* Body */
 
 body {
     background-color: #001D3D;
