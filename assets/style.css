@@ -83,7 +83,6 @@
   color: #CAF0F8;
   font-family: 'Original Surfer', serif;
   font-size: 1rem;
-  padding-right: 30px;
 }
 
 /* Footer */
@@ -114,4 +113,18 @@ body {
 p {
     color: #CAF0F8;
     font-family: 'Original Surfer', serif;
+}
+
+/* Media Query's */
+
+@media screen and (max-width: 700px) { /* Max width, so everything below is using these adjustments */
+    .game-paragraphs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .game-paragraphs p {
+        text-align: center;
+    }
 }
