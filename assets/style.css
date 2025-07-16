@@ -42,21 +42,48 @@
 
 .game-container {
     /* This centres the game-area section within the container. */
-    display: flex; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 80vh;
     background-color: #00b4d8;
-    backdrop-filter: blur(3px);
     border-radius: 5%;
 }
 
 .game-area {
-    border: 2px solid white;
-    border-radius: 5%;
-    width: 60%;
-    height: 70%;
-    background-color: #001d3d;
+  position: relative;              /* enables absolute positioning inside */
+  border: 2px solid white;
+  border-radius: 5%;
+  width: 60%;
+  height: 70%;
+  background-color: #001d3d;
+}
+
+/* Adjusting the paragraphs in the game container to be positoned properly */
+
+.game-paragraphs {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.level-label {
+  top: 10px;
+  left: 10px;
+  color: #CAF0F8;
+  font-family: 'Original Surfer', serif;
+  font-size: 1rem;
+}
+
+.distance-label {
+  color: #CAF0F8;
+  font-family: 'Original Surfer', serif;
+  font-size: 1rem;
+  padding-right: 30px;
 }
 
 /* Footer */
