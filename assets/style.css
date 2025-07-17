@@ -10,23 +10,23 @@
 
 /* Global Styles */
 
-.custom-navbar {
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px 20px;
+.navbar {
   font-family: 'Original Surfer', serif;
   font-size: 16px;
-  background-color: transparent;
+  width: fit-content;
+  margin: 0 auto;
+  z-index: 1000;
+
 }
 
-.custom-navbar a {
+.navbar a {
   text-decoration: none;
   color: #CAF0F8;
   margin: 0 5px;
   letter-spacing: 4px;
 }
 
-.custom-navbar span {
+.navbar span {
   margin: 0 5px;
   color: #666;
 }
@@ -91,6 +91,10 @@ footer {
     margin-top: auto;
 }
 
+footer a {
+    color: #CAF0F8;
+}
+
 .copyright {
     display: flex;
     align-items: center;
@@ -144,9 +148,17 @@ p {
 }
 
 
-
 @media screen and (max-width: 444px) { /* This hides the header when the scren is too small, only showing the burger */
     .header {
         display: none;
     }
 }
+
+@media (max-width: 767.98px) { /* When navbar turns into burger, it shows on the left */
+  .navbar {
+    display: flex;
+    margin-left: 0;
+    margin-right: auto;
+    justify-content: flex-start !important;
+  }
+
