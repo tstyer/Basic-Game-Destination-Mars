@@ -118,6 +118,22 @@
   font-size: 1rem;
 }
 
+/* Instructions Page */
+
+/* Instructions Section */
+
+.instructions_section {
+  border: 2px solid white;
+  border-radius: 5%;
+  width: 60vh;
+  height: 70vh;
+  background-color: #001d3d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Footer */
 
 footer {
