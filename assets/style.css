@@ -118,11 +118,9 @@
   font-size: 1rem;
 }
 
-/* Instructions Page */
+/* Instructions Page + Settings Page */
 
-/* Instructions Section */
-
-.instructions_section {
+.text_sections {
   border: 2px solid white;
   border-radius: 5%;
   width: 60vh;
