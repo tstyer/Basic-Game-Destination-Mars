@@ -204,11 +204,12 @@ input:checked + .slider:before {
 
 /* Difficulty Selector */
 
-.difficulty_wrapper {
+.difficulty_wrapper { /* Styling the content within the Div */
   display: flex;
   align-items: center;
   font-family: 'Original Surfer', serif;
   color: #CAF0F8;
+  margin-bottom: 8px; /* Levels with the 'Music' toggle */
 }
 
 .difficulty_label {
@@ -219,10 +220,12 @@ input:checked + .slider:before {
   background-color: #001D3D;
   color: #CAF0F8;
   border: 1px solid #FFC300;
+  border-radius: 10%;
   font-family: 'Original Surfer', serif;
   width: 120px;
   padding: 5px;
 }
+
 
 #difficulty_select option {
   background-color: #001D3D;
@@ -232,7 +235,9 @@ input:checked + .slider:before {
 /* Footer */
 
 footer {
-    margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
 }
 
 footer a {
@@ -244,15 +249,18 @@ footer a:hover {
   color: #FFC300 !important;
 }
 
-.copyright {
+.footer_settings {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 5px;
+    width: 60vh;
 }
 
-.copyright p i {
-    margin-left: 5px;
+.footer_settings p i {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 /* Body */
@@ -288,16 +296,11 @@ p {
     }
 }
 
-@media screen and (max-width: 512px) {
-    .copyright {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-}
+/*@media screen and (max-width: 512px) {  POSSIBLY ADD EXTRA FOOTER SETTINGS */
+  
 
 
-@media screen and (max-width: 444px) { /* This hides the header when the scren is too small, only showing the burger */
+@media screen and (max-width: 444px) { /* This hides the header when the screen is too small, only showing the burger */
     .header {
         display: none;
     }
