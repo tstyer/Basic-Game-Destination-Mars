@@ -418,5 +418,11 @@ p {
   nav .justify-content-center {
     justify-content: flex-start !important;
   }
-  
+}
 
+@media screen and (max-width: 400px) { /* Hides star below this size so looks neater */
+  .doodle_star_10 {
+    display: none;
+  }
+}
+  
