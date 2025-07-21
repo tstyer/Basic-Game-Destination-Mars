@@ -56,7 +56,7 @@
 
 /* Game section */
 
-.game-container {
+.page_container {
     /* This centres the game-area section within the container. */
     position: relative;
     display: flex;
@@ -142,17 +142,47 @@
 /* Settings Page */
 
 .text_section_settings {
+  position: relative;
   border-radius: 5%;
   width: 60vh;
   height: 70vh;
   background-color: #001d3d;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-/* Music Toggle */
+/* Stars for settings page */
+
+.doodle_star_4 {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 20px;
+  bottom: 10px;
+  z-index: 0;
+}
+
+.doodle_star_5 {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: 50px;
+  top: 30px;
+  z-index: 0;
+}
+
+.doodle_star_6 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 15px;
+  top: 20px;
+  z-index: 0;
+}
+
+/* Music Toggle for settings page */
 
 .switch_label {
   position: relative;
@@ -230,6 +260,10 @@ input:checked + .slider:before {
 #difficulty_select option {
   background-color: #001D3D;
   color: #CAF0F8;
+}
+
+.toggle_wrapper, .difficulty_wrapper {
+  padding: 70px;
 }
 
 /* Footer */
