@@ -129,6 +129,7 @@
 /* Instructions Page */
 
 .text_sections_instructions {
+  position: relative;
   border-radius: 5%;
   width: 60vh;
   height: 70vh;
@@ -137,6 +138,44 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* Instructions page stars */
+
+.doodle_star_8 {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: 10px;
+  bottom: 20px;
+  z-index: 0;
+}
+
+.doodle_star_9 {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: 15px;
+  top: 20px;
+  z-index: 0;
+}
+
+.doodle_star_10 { /* Relative to body */
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: 15px;
+  top: 20px;
+  z-index: 0;
+}
+
+.doodle_star_11 { /* Relative to body */
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: 50px;
+  bottom: 300px;
+  z-index: 0;
 }
 
 /* Settings Page */
@@ -179,6 +218,15 @@
   height: 30px;
   left: 15px;
   top: 20px;
+  z-index: 0;
+}
+
+.doodle_star_7 { /* Placed by the footer */
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  right: 10px;
+  bottom: 20px;
   z-index: 0;
 }
 
@@ -269,6 +317,7 @@ input:checked + .slider:before {
 /* Footer */
 
 footer {
+  position: relative;
   display: flex;
   justify-content: space-between;
   margin-top: auto;
@@ -300,7 +349,8 @@ footer a:hover {
 /* Body */
 
 body {
-    background-color: #001D3D;
+  position: relative;
+  background-color: #001D3D;
 }
 
 .page-wrapper {
