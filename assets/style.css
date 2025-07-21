@@ -154,7 +154,8 @@
 }
 
 .can_you_survive p {
-  font-family: 'Codystar', serif;
+  font-family: 'Original Surfer', serif;
+  font-size: larger;
   color: #FFC300;
   padding-top: 30px;
 }
@@ -398,10 +399,6 @@ p {
         text-align: center;
     }
 }
-
-/*@media screen and (max-width: 512px) {  POSSIBLY ADD EXTRA FOOTER SETTINGS */
-  
-
 
 @media screen and (max-width: 767px) { /* This puts the header and navbar next to each other on smaller screens */
     header {
