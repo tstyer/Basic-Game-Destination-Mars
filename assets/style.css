@@ -202,6 +202,33 @@ input:checked + .slider:before {
   transform: translateX(10px);
 }
 
+/* Difficulty Selector */
+
+.difficulty_wrapper {
+  display: flex;
+  align-items: center;
+  font-family: 'Original Surfer', serif;
+  color: #CAF0F8;
+}
+
+.difficulty_label {
+  margin-right: 10px;
+}
+
+#difficulty_select {
+  background-color: #001D3D;
+  color: #CAF0F8;
+  border: 1px solid #FFC300;
+  font-family: 'Original Surfer', serif;
+  width: 120px;
+  padding: 5px;
+}
+
+#difficulty_select option {
+  background-color: #001D3D;
+  color: #CAF0F8;
+}
+
 /* Footer */
 
 footer {
