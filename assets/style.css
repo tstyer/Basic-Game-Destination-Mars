@@ -300,7 +300,7 @@ p {
   
 
 
-@media screen and (max-width: 767px) { /* This hides the header when the screen is too small, only showing the burger */
+@media screen and (max-width: 767px) { /* This puts the header and navbar next to each other on smaller screens */
     header {
       display: flex;
       flex-direction: row;
