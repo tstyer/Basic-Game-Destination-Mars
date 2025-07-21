@@ -300,9 +300,10 @@ p {
   
 
 
-@media screen and (max-width: 444px) { /* This hides the header when the screen is too small, only showing the burger */
-    .header {
-        display: none;
+@media screen and (max-width: 767px) { /* This hides the header when the screen is too small, only showing the burger */
+    header {
+      display: flex;
+      flex-direction: row;
     }
 }
 
