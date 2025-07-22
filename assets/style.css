@@ -94,7 +94,7 @@
 }
 
 .game-area {
-  position: relative;              /* enables absolute positioning inside */
+  position: relative;  /* enables absolute positioning inside */
   border: 2px solid white;
   border-radius: 5%;
   width: 60%;
