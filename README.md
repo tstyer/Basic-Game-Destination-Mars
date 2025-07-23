@@ -164,6 +164,10 @@ I used the CDN version, allowing me to link to the jQuery file online. This ensu
 
 I used Spotify Premium to download a synthwave soundtrack to my device and store it in the assets folder. From there, I was able to play the music instantly when turning the music toggle on. The music is royalty fre from White Bat Music, produce by Karl Casey. 
 
+- git LFS (Large File Storage)
+
+This was installed and applied to the music file in the directory.
+
 
 ## Folder Structure 
 
