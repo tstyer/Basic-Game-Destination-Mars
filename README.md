@@ -160,6 +160,9 @@ I ensured that this image was original. It was paid for by me, and I completed r
 I used the CDN version, allowing me to link to the jQuery file online. This ensured that, if any updates were made during my time using jQuery, those updates would automatically be applied. This would not have been the case had I downloaded the file, which would have allowed me to build the website offline. Had I downloaded the file, I would have pasted it into the JavaScript file within the root folder. 
   
 - jest
+- Spotify
+
+I used Spotify Premium to download a synthwave soundtrack to my device and store it in the assets folder. From there, I was able to play the music instantly when turning the music toggle on. The music is royalty fre from White Bat Music, produce by Karl Casey. 
 
 
 ## Folder Structure 
