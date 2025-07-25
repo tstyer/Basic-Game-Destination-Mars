@@ -1,0 +1,19 @@
+{
+  "name": "destination_mars",
+  "version": "1.0.0",
+  "description": "...",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tstyer/portfolio-project-2---star-hopper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tstyer/portfolio-project-2---star-hopper/issues"
+  },
+  "homepage": "https://github.com/tstyer/portfolio-project-2---star-hopper#readme"
+}
