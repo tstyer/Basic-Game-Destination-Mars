@@ -8,17 +8,37 @@ function handleMusicToggle(checkbox, audio) {
   }
 }
 
-// Only run this block if jQuery exists (for browser only)
+// Only runs in browser with jQuery available.
 if (typeof window !== "undefined" && typeof $ !== "undefined") {
   $(document).ready(function () {
-    const $musicToggle = $('#music_toggle');
     const $music = $('#music');
+    const $musicToggle = $('#music_toggle');
 
-    $music[0].pause();
+    if ($music.length) {
+      const music = $music[0];
 
-    $musicToggle.on('change', function () {
-      handleMusicToggle(this, $music[0]);
-    });
+      // This is to restore saved setting from localStorage and keep music playing. 
+      const musicOn = localStorage.getItem("music_on") === "true";
+
+      // Start or pause the music based on the saved value. 
+      if (musicOn) {
+        music.play().catch(() => {
+          // Autoplay blocked — plays on user interaction
+        });
+      } else {
+        music.pause();
+      }
+
+      // If toggle exists (only on settings page), sync it and add event listener.
+      if ($musicToggle.length) {
+        $musicToggle.prop("checked", musicOn);
+
+        $musicToggle.on("change", function () {
+          localStorage.setItem("music_on", this.checked);
+          handleMusicToggle(this, music);
+        });
+      }
+    }
   });
 }
 
