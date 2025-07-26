@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/tstyer/portfolio-project-2---star-hopper/issues"
   },
-  "homepage": "https://github.com/tstyer/portfolio-project-2---star-hopper#readme"
+  "homepage": "https://github.com/tstyer/portfolio-project-2---star-hopper#readme",
+  "devDependencies": {
+    "jest-environment-jsdom": "^30.0.5"
+  }
 }

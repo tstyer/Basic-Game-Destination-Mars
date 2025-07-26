@@ -6,26 +6,38 @@
 
 // The first thing you do is import the function you are testing from the script.js file:
 
-const musicOn = require("../script");
+const handleMusicToggle = require("../script");
 
 // Parent description of all Music Toggle tests
-describe("Music Toggle Functionality", () => {
+describe("Handle Music Toggle", () => {
     describe("on switch", () => {
-        test("should play music when switched on", () => {
+
+        // Variables need to be described outside the beforeEach scope.
+        let checkbox, audio;
             
-            // Mock test call as there is no audio.play matcher
-            Audio.play = jest.fn();
+            // Before each test... 
+            beforeEach(() => {
+                // Need to create mock checkbox and audio for this type of test
+                checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
 
-            // First test completed
-            expect(Audio.play).toHaveBeenCalled();
-        });
+                audio = document.createElement("audio");
+                audio.play = jest.fn();
+                audio.pause = jest.fn();
+            });
+
+            // First test on music toggle
+
+            test("plays music when checkbox is checked", () => {
+            checkbox.checked = true;
+
+            handleMusicToggle(checkbox, audio);
+
+            expect(audio.play).toHaveBeenCalled();
+            expect(audio.pause).not.toHaveBeenCalled();
+            });
     });
+});
 
-    describe("off switch", () => {
+ 
 
-    })
-})
-
-// CONTINUE WITH THE ABOVE FROM VIDEO 3 IN LETS MEET JEST. 
-
-// - You need to create a mock to test if music was called, this is because there is no matcher, like .toPlay for music. Use chat GPT to help with the mocks and keep what you have as is, following the video. 
