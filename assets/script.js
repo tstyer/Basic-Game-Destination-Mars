@@ -1,3 +1,6 @@
+// ---
+// Code will be mized with jQuery and regular JS to demonstrate understanding of both
+// --- 
 
 // First function - Music Toggle
 function handleMusicToggle(checkbox, audio) {
@@ -42,8 +45,22 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
           handleMusicToggle(this, music);
         });
       }
+
+      // CONTINUE FROM BELOW - WRITE THE BEGINNING, THEN START TO WRITE THE TEST FOR THE NEW FUNCTION
+      // This is saved in the 'Game Section Work' folder in chat GPT
+
+
+      // Logic used for the space bug
+      const bugContainer = $(".space_bug");
+      // This if statement exists to ensure the code only runs if the space bug is available.
+      if(bugContainer) {
+        const bugImage = $("img");
+      }
+
     }
   });
 }
+
+
 
 module.exports = handleMusicToggle;
