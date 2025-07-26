@@ -1,3 +1,5 @@
+
+// First function - Music Toggle
 function handleMusicToggle(checkbox, audio) {
   if (checkbox.checked) {
     audio.play();
@@ -7,6 +9,8 @@ function handleMusicToggle(checkbox, audio) {
     console.log("Music paused...");
   }
 }
+
+// Second function - 
 
 // Only runs in browser with jQuery available.
 if (typeof window !== "undefined" && typeof $ !== "undefined") {

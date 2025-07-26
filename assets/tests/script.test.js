@@ -2,10 +2,11 @@
  * @jest-environment jsdom
  */
 
-// ! NOTE: Notes in this file are also made for my learning, so might be longer and more detailed than expected
+// ! NOTE: Notes in this file are also made for my learning, so they might be longer and more detailed than expected.
 
-// The first thing you do is import the function you are testing from the script.js file:
+// 1: Tests Relating To The Music Toggle.
 
+// First, import the function you are testing from the script.js file:
 const handleMusicToggle = require("../script");
 
 // Parent description of all Music Toggle tests
@@ -38,6 +39,10 @@ describe("Handle Music Toggle", () => {
             });
     });
 });
+
+// 2: Tests Relating To The Space Bug / Space Craft
+
+const 
 
  
 
