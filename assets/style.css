@@ -102,6 +102,16 @@
   background-color: black;
 }
 
+.space_bug {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+}
+
+.platforms {
+  /* design on platforms */
+}
+
 /* Adjusting the paragraphs in the game container to be positoned properly */
 
 .game-paragraphs {
