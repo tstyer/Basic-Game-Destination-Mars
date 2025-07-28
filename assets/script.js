@@ -1,12 +1,14 @@
 // ---
-// Code will be mized with jQuery and regular JS to demonstrate understanding of both
+// Code will be mized with jQuery and regular JS to demonstrate understanding of both.
 // --- 
+
+// NOTE: There are more than expected notes here for my learning. 
 
 
 // MAIN VARIABLES
 
-const gameArea = $('#game_area');
-const spaceBug = $('#space_bug'); 
+const gameArea = document.getElementById('game_area');
+const spaceBug = document.getElementById('space_bug'); 
 let velocityY = 0;
 let gravity = 0.5;
 let isJumping = false;
@@ -17,6 +19,7 @@ let platforms = [];
 
 
 // First function - Music Toggle
+
 function handleMusicToggle(checkbox, audio) {
   if (checkbox.checked) {
     audio.play();
@@ -29,8 +32,16 @@ function handleMusicToggle(checkbox, audio) {
 
 // Second function - Platform Generation
 
-function createPlatform() {
+// TUESDAY 29TH - CONTINUE HERE AND SORT THIS FUNCTION AND TEST OUT
 
+function createPlatform(x, y) {                  // x,y coordinates position the platform on the screen.
+  const platform = document.createElement("div");
+  platform.className = "platform";               // Assign a classname to it so it is styled in CSS.
+  platform.style.left = `${x}px`;
+  platform.style.top = `${y}px`;
+  gameArea.appendChild(platform);                // AppendChild will add the new element as a child to the focused parent element (#game_area)
+  platforms.push(platform);                      // The push method will add the new platform w/coordinates to end of array.
+  return platform;                               // return actually calls the function so it can be tested.
 }
 
 // Only runs in browser with jQuery available.

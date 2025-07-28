@@ -42,15 +42,24 @@ describe("Handle Music Toggle", () => {
 
 // 2: Tests Relating To The Space Bug / Space Craft
 
+// TUESDAY 29TH - CONTINUE HERE AND SORT THIS TEST OUT. 
+
 const createPlatform = require("../script");
 
 describe("Generate new platforms", () => {
-    describe("New element named 'Platform' created", () => {
-        test("The returned element should be a <div>", () => {
-            expect(platform).toBeInstanceOf(HTMLElement);
-            expect(platform.tagName).toBe("DIV");
-        });
+  beforeEach(() => {
+    // Mock the dom structure before each test, so the test runs smoothly. 
+    document.body.innerHTML = `<div id="game-area"></div>`;
+    global.gameArea = document.getElementById("game-area"); // Optional: ensure it's available globally if your script depends on it
+  });
+
+  describe("New element named 'Platform' created", () => {
+    test("The returned element should be a <div>", () => {
+      const platform = createPlatform(100, 200);
+      expect(platform).toBeInstanceOf(HTMLElement);
+      expect(platform.tagName).toBe("DIV");
     });
+  });
 });
 
  
