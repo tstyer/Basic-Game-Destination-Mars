@@ -42,7 +42,16 @@ describe("Handle Music Toggle", () => {
 
 // 2: Tests Relating To The Space Bug / Space Craft
 
-const 
+const createPlatform = require("../script");
+
+describe("Generate new platforms", () => {
+    describe("New element named 'Platform' created", () => {
+        test("The returned element should be a <div>", () => {
+            expect(platform).toBeInstanceOf(HTMLElement);
+            expect(platform.tagName).toBe("DIV");
+        });
+    });
+});
 
  
 

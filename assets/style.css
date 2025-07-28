@@ -93,7 +93,7 @@
   right: 30px;
 }
 
-.game-area {
+.game_area {
   position: relative;  /* enables absolute positioning inside */
   border: 2px solid white;
   border-radius: 5%;
