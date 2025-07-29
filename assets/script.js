@@ -39,6 +39,7 @@ function createPlatform(x, y) {                  // x,y coordinates position the
   platform.className = "platform";               // Assign a classname to it so it is styled in CSS.
   platform.style.left = `${x}px`;
   platform.style.top = `${y}px`;
+  const gameArea = document.getElementById("game-area");
   gameArea.appendChild(platform);                // AppendChild will add the new element as a child to the focused parent element (#game_area)
   platforms.push(platform);                      // The push method will add the new platform w/coordinates to end of array.
   return platform;                               // return actually calls the function so it can be tested.
@@ -87,7 +88,9 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
 }
 
 
+module.exports = {
+  createPlatform,
+  handleMusicToggle
+};
 
 
-
-module.exports = handleMusicToggle, createPlatform;

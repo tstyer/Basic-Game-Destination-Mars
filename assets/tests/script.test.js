@@ -7,7 +7,7 @@
 // 1: Tests Relating To The Music Toggle.
 
 // First, import the function you are testing from the script.js file:
-const handleMusicToggle = require("../script");
+const { handleMusicToggle } = require("../script");
 
 // Parent description of all Music Toggle tests
 describe("Handle Music Toggle", () => {
@@ -42,15 +42,13 @@ describe("Handle Music Toggle", () => {
 
 // 2: Tests Relating To The Space Bug / Space Craft
 
-// TUESDAY 29TH - CONTINUE HERE AND SORT THIS TEST OUT. 
-
-const createPlatform = require("../script");
+const { createPlatform } = require("../script");
 
 describe("Generate new platforms", () => {
   beforeEach(() => {
     // Mock the dom structure before each test, so the test runs smoothly. 
     document.body.innerHTML = `<div id="game-area"></div>`;
-    global.gameArea = document.getElementById("game-area"); // Optional: ensure it's available globally if your script depends on it
+    global.gameArea = document.getElementById("game-area"); 
   });
 
   describe("New element named 'Platform' created", () => {
