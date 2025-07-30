@@ -60,5 +60,26 @@ describe("Generate new platforms", () => {
   });
 });
 
+
+// Test 3: Using arrows to move the space bug
+
+const { moveLeft } = require("../script");
+
+describe("Space Bug moves when arrow keys pushed", () => {
+  describe("Space Bug moves left on left key", () => {
+    let spaceBug;
+
+    beforeEach(() => {
+      document.body.innerHTML = 
+      `<div class="space_bug" style="left: 100px; position: absolute;"></div>;`
+
+      global.spaceBug = document.querySelector('.space_bug'); // Addigns the varaibles spaceBug to a global scale. 
+    });
+
+    test("Space Bug continues left on left key down", () => {
+      expect(spaceBug.style.left).toBe("95px");                  // Every left key down moev left by 5px.
+    })
+  })
+})
  
 

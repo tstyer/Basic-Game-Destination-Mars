@@ -7,8 +7,8 @@
 
 // MAIN VARIABLES
 
-const gameArea = document.getElementById('game_area');
-const spaceBug = document.getElementById('space_bug'); 
+const gameArea = document.querySelector('.game_area');
+const spaceBug = document.querySelector('.space_bug'); 
 let velocityY = 0;
 let gravity = 0.5;
 let isJumping = false;
@@ -32,8 +32,6 @@ function handleMusicToggle(checkbox, audio) {
 
 // Second function - Platform Generation
 
-// TUESDAY 29TH - CONTINUE HERE AND SORT THIS FUNCTION AND TEST OUT
-
 function createPlatform(x, y) {                  // x,y coordinates position the platform on the screen.
   const platform = document.createElement("div");
   platform.className = "platform";               // Assign a classname to it so it is styled in CSS.
@@ -43,6 +41,13 @@ function createPlatform(x, y) {                  // x,y coordinates position the
   gameArea.appendChild(platform);                // AppendChild will add the new element as a child to the focused parent element (#game_area)
   platforms.push(platform);                      // The push method will add the new platform w/coordinates to end of array.
   return platform;                               // return actually calls the function so it can be tested.
+}
+
+// Third function - space bug moves left
+
+function moveLeft () {
+  
+
 }
 
 // Only runs in browser with jQuery available.
@@ -88,9 +93,11 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
 }
 
 
+
 module.exports = {
   createPlatform,
-  handleMusicToggle
+  handleMusicToggle, 
+  moveLeft
 };
 
 
