@@ -114,8 +114,13 @@
   width: 60px;
 }
 
-.platforms {
-  /* design on platforms */
+.platform {
+  position: absolute;
+}
+
+.platform img {
+  width: 100px;
+  height: 115px; 
 }
 
 /* Adjusting the paragraphs in the game container to be positoned properly */
