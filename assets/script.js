@@ -4,18 +4,59 @@
 
 // NOTE: There are more than expected notes here for my learning. 
 
+// Only runs in browser with jQuery available.
+if (typeof window !== "undefined" && typeof $ !== "undefined") {
+  // On loading the webpage, then... 
+  $(document).ready(function () {
 
-// MAIN VARIABLES
+    // MAIN VARIABLES
+    const $music = $('#music');
+    const $musicToggle = $('#music_toggle');
+    const gameArea = document.querySelector('.game_area');
+    const spaceBug = document.querySelector('.space_bug'); 
+    let velocityY = 0;
+    let gravity = 0.5;
+    let isJumping = false;
 
-const gameArea = document.querySelector('.game_area');
-const spaceBug = document.querySelector('.space_bug'); 
-let velocityY = 0;
-let gravity = 0.5;
-let isJumping = false;
+    // Platform Array
 
-// Platform Array
+    let platforms = [];
 
-let platforms = [];
+    // Left-key event listener
+
+    document.addEventListener("keydown", (e) =>{
+      if(e.key === ArrowLeft) {
+        moveLeft(spaceBug);
+      }
+    });
+
+    if ($music.length) {
+      const music = $music[0];
+
+      // This is to restore saved setting from localStorage and keep music playing. 
+      const musicOn = localStorage.getItem("music_on") === "true";
+
+      // Start or pause the music based on the saved value. 
+      if (musicOn) {
+        music.play().catch(() => {
+          // Autoplay blocked — plays on user interaction
+        });
+      } else {
+        music.pause();
+      }
+
+      // If toggle exists (only on settings page), sync it and add event listener.
+      if ($musicToggle.length) {
+        $musicToggle.prop("checked", musicOn);
+
+        $musicToggle.on("change", function () {
+          localStorage.setItem("music_on", this.checked);
+          handleMusicToggle(this, music);
+        });
+      }
+    }
+  });
+}
 
 
 // First function - Music Toggle
@@ -56,49 +97,6 @@ function moveLeft (spaceBug) {
     bugImage.src = "assets/images/space_bug_left.PNG";
   }
 }
-
-// Only runs in browser with jQuery available.
-if (typeof window !== "undefined" && typeof $ !== "undefined") {
-  $(document).ready(function () {
-    const $music = $('#music');
-    const $musicToggle = $('#music_toggle');
-
-    if ($music.length) {
-      const music = $music[0];
-
-      // This is to restore saved setting from localStorage and keep music playing. 
-      const musicOn = localStorage.getItem("music_on") === "true";
-
-      // Start or pause the music based on the saved value. 
-      if (musicOn) {
-        music.play().catch(() => {
-          // Autoplay blocked — plays on user interaction
-        });
-      } else {
-        music.pause();
-      }
-
-      // If toggle exists (only on settings page), sync it and add event listener.
-      if ($musicToggle.length) {
-        $musicToggle.prop("checked", musicOn);
-
-        $musicToggle.on("change", function () {
-          localStorage.setItem("music_on", this.checked);
-          handleMusicToggle(this, music);
-        });
-      }
-
-      // Logic used for the space bug
-      const bugContainer = $(".space_bug");
-      // This if statement exists to ensure the code only runs if the space bug is available.
-      if(bugContainer) {
-        const bugImage = $("img");
-      }
-
-    }
-  });
-}
-
 
 
 module.exports = {
