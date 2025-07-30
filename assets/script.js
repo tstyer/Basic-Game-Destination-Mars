@@ -45,9 +45,16 @@ function createPlatform(x, y) {                  // x,y coordinates position the
 
 // Third function - space bug moves left
 
-function moveLeft () {
-  
+function moveLeft (spaceBug) {
+  const currentLeft = parseInt(spaceBug.style.left, 10) || 0; // This converts the string ("100px") into 100px. || 0 ensures you go back to Zero if is current position not set. 
+  const newLeft = Math.max(0, currentLeft - 5);               // New left moves left by 5px. 
+  spaceBug.style.left = `${newLeft}px`;                       // moveLeft() now shifts it left by 5px. 
 
+  // Add new left-facing image
+  const bugImage = spaceBug.querySelector("img");
+  if (bugImage && !bugImage.src.includes("space_bug_left.PNG")) {
+    bugImage.src = "assets/images/space_bug_left.PNG";
+  }
 }
 
 // Only runs in browser with jQuery available.

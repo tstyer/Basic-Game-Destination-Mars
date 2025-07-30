@@ -67,16 +67,18 @@ const { moveLeft } = require("../script");
 
 describe("Space Bug moves when arrow keys pushed", () => {
   describe("Space Bug moves left on left key", () => {
-    let spaceBug;
 
     beforeEach(() => {
       document.body.innerHTML = 
-      `<div class="space_bug" style="left: 100px; position: absolute;"></div>;`
+      `<div class="space_bug" style="left: 100px; position: absolute;">
+        <img src="assets/images/space_bug_right.PNG" />
+      </div>`;
 
-      global.spaceBug = document.querySelector('.space_bug'); // Addigns the varaibles spaceBug to a global scale. 
+      global.spaceBug = document.querySelector(".space_bug");    // Assigns the varaibles spaceBug to a global scale. 
     });
 
     test("Space Bug continues left on left key down", () => {
+      moveLeft(spaceBug);
       expect(spaceBug.style.left).toBe("95px");                  // Every left key down moev left by 5px.
     })
   })
