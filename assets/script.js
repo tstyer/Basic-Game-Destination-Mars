@@ -1,70 +1,72 @@
 // ---
-// Code will be mized with jQuery and regular JS to demonstrate understanding of both.
-// --- 
+// Code will be mixed with jQuery and regular JS to demonstrate understanding of both.
+// ---
 
-// Only runs in browser with jQuery available.
+// Global variables
+let velocityY = 0;
+let gravity = 0.5;
+let isJumping = false;
+let platforms = [];
+let gameArea;
+let spaceBug;
+
+// --- DOM code (only runs in the browser) ---
 if (typeof window !== "undefined" && typeof $ !== "undefined") {
-  
-  // On loading the webpage, then... 
   $(document).ready(function () {
+    // Select DOM elements
+    const $music = $('#music');
+    const $musicToggle = $('#music_toggle');
+    gameArea = document.querySelector('.game_area');
+    spaceBug = document.querySelector('.space_bug');
 
-  // MAIN VARIABLES
-  const $music = $('#music');
-  const $musicToggle = $('#music_toggle');
-  const gameArea = document.querySelector('.game_area');
-  const spaceBug = document.querySelector('.space_bug');
-  let velocityY = 0;
-  let gravity = 0.5;
-  let isJumping = false;
-  let platforms = [];
+    // Center the spaceBug horizontally
+    const bugWidth = spaceBug.offsetWidth;
+    const gameAreaWidth = gameArea.offsetWidth;
+    const startingLeft = (gameAreaWidth / 2) - (bugWidth / 2);
+    spaceBug.style.left = `${startingLeft}px`;
 
-  // Center the spaceBug horizontally in pixels
-  const bugWidth = spaceBug.offsetWidth;
-  const gameAreaWidth = gameArea.offsetWidth;
-  const startingLeft = (gameAreaWidth / 2) - (bugWidth / 2);
-  spaceBug.style.left = `${startingLeft}px`;
+    // LEFT key listener
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        moveLeft(spaceBug);
+        console.log("Jump Left");
+      }
+    });
 
-  // LEFT key listener
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
-      moveLeft(spaceBug);
-      console.log("Jump Left");
+    // RIGHT key listener
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") {
+        moveRight(spaceBug);
+        console.log("Jump Right");
+      }
+    });
+
+    // Music toggle logic
+    if ($music.length) {
+      const music = $music[0];
+      const musicOn = localStorage.getItem("music_on") === "true";
+
+      if (musicOn) {
+        music.play().catch(() => {});
+      } else {
+        music.pause();
+      }
+
+      if ($musicToggle.length) {
+        $musicToggle.prop("checked", musicOn);
+
+        $musicToggle.on("change", function () {
+          localStorage.setItem("music_on", this.checked);
+          handleMusicToggle(this, music);
+        });
+      }
     }
   });
+}
 
-  // RIGHT key listener
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight") {
-      moveRight(spaceBug);
-      console.log("Jump Right");
-    }
-  });
+// --- Functions ---
 
-  // Music toggle logic
-  if ($music.length) {
-    const music = $music[0];
-    const musicOn = localStorage.getItem("music_on") === "true";
-
-    if (musicOn) {
-      music.play().catch(() => {});
-    } else {
-      music.pause();
-    }
-
-    if ($musicToggle.length) {
-      $musicToggle.prop("checked", musicOn);
-
-      $musicToggle.on("change", function () {
-        localStorage.setItem("music_on", this.checked);
-        handleMusicToggle(this, music);
-      });
-    }
-  }
-});
-
-
-// First function - Music Toggle
-
+// 1. Music Toggle
 function handleMusicToggle(checkbox, audio) {
   if (checkbox.checked) {
     audio.play();
@@ -75,53 +77,69 @@ function handleMusicToggle(checkbox, audio) {
   }
 }
 
-// Second function - Platform Generation
-
-function createPlatform(x, y) {                  // x,y coordinates position the platform on the screen.
+// 2. Platform Creation
+function createPlatform(x, y) {
   const platform = document.createElement("div");
-  platform.className = "platform";               // Assign a classname to it so it is styled in CSS.
+  platform.className = "platform";
   platform.style.left = `${x}px`;
   platform.style.top = `${y}px`;
-  const gameArea = document.getElementById("game-area");
-  gameArea.appendChild(platform);                // AppendChild will add the new element as a child to the focused parent element (#game_area)
-  platforms.push(platform);                      // The push method will add the new platform w/coordinates to end of array.
-  return platform;                               // return actually calls the function so it can be tested.
+
+  const gameAreaEl = document.getElementById("game-area");
+  gameAreaEl.appendChild(platform);
+
+  platforms.push(platform);
+  return platform;
 }
 
-// Third function - space bug moves left
-
+// 3. Move Bug Left
 function moveLeft(spaceBug) {
-  const currentLeft = parseInt(spaceBug.style.left, 10) || 0; // This converts the string ("100px") into 100px. || 0 ensures you go back to Zero if is current position not set. 
-  const newLeft = Math.max(0, currentLeft - 5);               // New left moves left by 5px. 
-  spaceBug.style.left = `${newLeft}px`;                       // moveLeft() now shifts it left by 5px. 
+  const currentLeft = parseInt(spaceBug.style.left, 10) || 0;
+  const newLeft = Math.max(0, currentLeft - 5);
+  spaceBug.style.left = `${newLeft}px`;
 
-  // Add new left-facing image
   const bugImage = spaceBug.querySelector("img");
   if (bugImage && !bugImage.src.includes("space_bug_left.PNG")) {
     bugImage.src = "assets/images/space_bug_left.PNG";
   }
 }
 
-// Fourth Function - jump right
+// 4. Move Bug Right
+function moveRight(spaceBug) {
+  const currentRight = parseInt(spaceBug.style.left, 10) || 0;
+  const newRight = Math.max(0, currentRight + 5);
+  spaceBug.style.left = `${newRight}px`;
 
-function moveRight (spaceBug) {
- const currentRight = parseInt(spaceBug.style.left, 10) || 0;
- const newRight = Math.max(0, currentRight + 5);
- spaceBug.style.left = `${newRight}px`;
-
- const bugImage = spaceBug.querySelector("img");
+  const bugImage = spaceBug.querySelector("img");
   if (bugImage && !bugImage.src.includes("space_bug_right.PNG")) {
     bugImage.src = "assets/images/space_bug_right.PNG";
   }
-};
+}
 
+// 5. Update platform positions - falling platforms
+function updatePlatforms() {
 
+  if (!gameArea) return; // Prevents crash if gameArea is undefined
 
-module.exports = {
-  createPlatform,
-  handleMusicToggle, 
-  moveLeft, 
-  moveRight
-};
+  platforms.forEach((platform, index) => {
+    let currentTop = parseInt(platform.style.top, 10);
+    let newTop = currentTop + 2;
 
+    if (newTop > gameArea.offsetHeight) {
+      gameArea.removeChild(platform);
+      platforms.splice(index, 1);
+    } else {
+      platform.style.top = `${newTop}px`;
+    }
+  });
+}
 
+// --- Exports for Jest Testing ---
+if (typeof module !== "undefined") {
+  module.exports = {
+    handleMusicToggle,
+    moveLeft,
+    moveRight,
+    createPlatform,
+    updatePlatforms
+  };
+}

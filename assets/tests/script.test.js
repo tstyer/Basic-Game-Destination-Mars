@@ -86,7 +86,7 @@ describe("Space Bug moves when arrow keys pushed", () => {
 
 // Test 4 - New platforms
 
-const { updatePlatforms } =require("../script");
+const { updatePlatforms } = require("../script");
 
 describe("Platforms fall and cycle", () => {
   describe("platforms move down when updatePlatform is called", () => {
@@ -105,8 +105,9 @@ describe("Platforms fall and cycle", () => {
 
       // Then, select the elements in the mock html created
 
-      const gameArea = document.querySelector(".game_area");
-      const platform = document.querySelector(".platform");
+      gameArea = document.querySelector(".game_area");
+      platform = document.querySelector(".platform");
+      platform.style.top = "100px";
 
       global.platforms = [platform];       
       global.gameArea = gameArea;
@@ -116,7 +117,7 @@ describe("Platforms fall and cycle", () => {
     test("platform top increases by 2px", () => {
       // test calls the new function
       updatePlatforms();
-      expect(platform.style.top)toBe.("102px");
+      expect(platform.style.top).toBe("102px");
     });
   })
 })
