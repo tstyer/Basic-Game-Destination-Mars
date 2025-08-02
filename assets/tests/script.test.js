@@ -82,6 +82,42 @@ describe("Space Bug moves when arrow keys pushed", () => {
       expect(spaceBug.style.left).toBe("95px");                  // Every left key down moev left by 5px.
     })
   })
+});
+
+// Test 4 - New platforms
+
+const { updatePlatforms } =require("../script");
+
+describe("Platforms fall and cycle", () => {
+  describe("platforms move down when updatePlatform is called", () => {
+
+    // Always need to import variables and create a mock html:
+
+    let gameArea;
+    let platform;
+
+    beforeEach(() => {
+      document.body.innerHTML = `
+      <div class="game_area" style="position: relative; height: 500px">
+        <div class="platform" style="position: absolute; top: 100px; left: 50px"></div>
+      </div>`
+      ;
+
+      // Then, select the elements in the mock html created
+
+      const gameArea = document.querySelector(".game_area");
+      const platform = document.querySelector(".platform");
+
+      global.platforms = [platform];       
+      global.gameArea = gameArea;
+
+    });
+
+    test("platform top increases by 2px", () => {
+      // test calls the new function
+      updatePlatforms();
+      expect(platform.style.top)toBe.("102px");
+    });
+  })
 })
- 
 

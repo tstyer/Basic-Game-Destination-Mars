@@ -104,8 +104,6 @@
 
 .space_bug {
   position: absolute;
-  left: 50%;
-  margin-left: -30px; /* Adding a negative margin left (half of the image size) centres the image (completely) when using absolute positioning */
   bottom: 80px;
 }
 

@@ -2,61 +2,65 @@
 // Code will be mized with jQuery and regular JS to demonstrate understanding of both.
 // --- 
 
-// NOTE: There are more than expected notes here for my learning. 
-
 // Only runs in browser with jQuery available.
 if (typeof window !== "undefined" && typeof $ !== "undefined") {
+  
   // On loading the webpage, then... 
   $(document).ready(function () {
 
-    // MAIN VARIABLES
-    const $music = $('#music');
-    const $musicToggle = $('#music_toggle');
-    const gameArea = document.querySelector('.game_area');
-    const spaceBug = document.querySelector('.space_bug'); 
-    let velocityY = 0;
-    let gravity = 0.5;
-    let isJumping = false;
+  // MAIN VARIABLES
+  const $music = $('#music');
+  const $musicToggle = $('#music_toggle');
+  const gameArea = document.querySelector('.game_area');
+  const spaceBug = document.querySelector('.space_bug');
+  let velocityY = 0;
+  let gravity = 0.5;
+  let isJumping = false;
+  let platforms = [];
 
-    // Platform Array
+  // Center the spaceBug horizontally in pixels
+  const bugWidth = spaceBug.offsetWidth;
+  const gameAreaWidth = gameArea.offsetWidth;
+  const startingLeft = (gameAreaWidth / 2) - (bugWidth / 2);
+  spaceBug.style.left = `${startingLeft}px`;
 
-    let platforms = [];
-
-    // Left-key event listener
-
-    document.addEventListener("keydown", (e) =>{
-      if(e.key === ArrowLeft) {
-        moveLeft(spaceBug);
-      }
-    });
-
-    if ($music.length) {
-      const music = $music[0];
-
-      // This is to restore saved setting from localStorage and keep music playing. 
-      const musicOn = localStorage.getItem("music_on") === "true";
-
-      // Start or pause the music based on the saved value. 
-      if (musicOn) {
-        music.play().catch(() => {
-          // Autoplay blocked — plays on user interaction
-        });
-      } else {
-        music.pause();
-      }
-
-      // If toggle exists (only on settings page), sync it and add event listener.
-      if ($musicToggle.length) {
-        $musicToggle.prop("checked", musicOn);
-
-        $musicToggle.on("change", function () {
-          localStorage.setItem("music_on", this.checked);
-          handleMusicToggle(this, music);
-        });
-      }
+  // LEFT key listener
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      moveLeft(spaceBug);
+      console.log("Jump Left");
     }
   });
-}
+
+  // RIGHT key listener
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") {
+      moveRight(spaceBug);
+      console.log("Jump Right");
+    }
+  });
+
+  // Music toggle logic
+  if ($music.length) {
+    const music = $music[0];
+    const musicOn = localStorage.getItem("music_on") === "true";
+
+    if (musicOn) {
+      music.play().catch(() => {});
+    } else {
+      music.pause();
+    }
+
+    if ($musicToggle.length) {
+      $musicToggle.prop("checked", musicOn);
+
+      $musicToggle.on("change", function () {
+        localStorage.setItem("music_on", this.checked);
+        handleMusicToggle(this, music);
+      });
+    }
+  }
+});
 
 
 // First function - Music Toggle
@@ -86,7 +90,7 @@ function createPlatform(x, y) {                  // x,y coordinates position the
 
 // Third function - space bug moves left
 
-function moveLeft (spaceBug) {
+function moveLeft(spaceBug) {
   const currentLeft = parseInt(spaceBug.style.left, 10) || 0; // This converts the string ("100px") into 100px. || 0 ensures you go back to Zero if is current position not set. 
   const newLeft = Math.max(0, currentLeft - 5);               // New left moves left by 5px. 
   spaceBug.style.left = `${newLeft}px`;                       // moveLeft() now shifts it left by 5px. 
@@ -98,11 +102,26 @@ function moveLeft (spaceBug) {
   }
 }
 
+// Fourth Function - jump right
+
+function moveRight (spaceBug) {
+ const currentRight = parseInt(spaceBug.style.left, 10) || 0;
+ const newRight = Math.max(0, currentRight + 5);
+ spaceBug.style.left = `${newRight}px`;
+
+ const bugImage = spaceBug.querySelector("img");
+  if (bugImage && !bugImage.src.includes("space_bug_right.PNG")) {
+    bugImage.src = "assets/images/space_bug_right.PNG";
+  }
+};
+
+
 
 module.exports = {
   createPlatform,
   handleMusicToggle, 
-  moveLeft
+  moveLeft, 
+  moveRight
 };
 
 
