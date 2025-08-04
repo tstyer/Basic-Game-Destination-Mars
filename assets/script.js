@@ -117,15 +117,15 @@ function moveRight(spaceBug) {
 
 // 5. Update platform positions - falling platforms
 function updatePlatforms() {
-
-  if (!gameArea) return; // Prevents crash if gameArea is undefined
+  const area = gameArea || document.querySelector(".game_area");
+  if (!area) return;
 
   platforms.forEach((platform, index) => {
     let currentTop = parseInt(platform.style.top, 10);
     let newTop = currentTop + 2;
 
-    if (newTop > gameArea.offsetHeight) {
-      gameArea.removeChild(platform);
+    if (newTop > area.offsetHeight) {
+      area.removeChild(platform);
       platforms.splice(index, 1);
     } else {
       platform.style.top = `${newTop}px`;
@@ -140,6 +140,7 @@ if (typeof module !== "undefined") {
     moveLeft,
     moveRight,
     createPlatform,
-    updatePlatforms
+    updatePlatforms,
+    platforms
   };
 }

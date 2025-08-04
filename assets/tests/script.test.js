@@ -86,39 +86,44 @@ describe("Space Bug moves when arrow keys pushed", () => {
 
 // Test 4 - New platforms
 
-const { updatePlatforms } = require("../script");
+const { updatePlatforms, platforms } = require("../script");
 
 describe("Platforms fall and cycle", () => {
   describe("platforms move down when updatePlatform is called", () => {
-
-    // Always need to import variables and create a mock html:
-
     let gameArea;
     let platform;
 
     beforeEach(() => {
-      document.body.innerHTML = `
-      <div class="game_area" style="position: relative; height: 500px">
-        <div class="platform" style="position: absolute; top: 100px; left: 50px"></div>
-      </div>`
-      ;
 
-      // Then, select the elements in the mock html created
-
+      // Begin to set up mock game area, starting with mock html
+      document.body.innerHTML = `<div class="game_area"></div>`;
+      
       gameArea = document.querySelector(".game_area");
-      platform = document.querySelector(".platform");
+
+      // I neded to manually define offsetHeight (jsdom doesn't compute it)
+      Object.defineProperty(gameArea, "offsetHeight", {
+        configurable: true,
+        value: 500,
+      });
+
+      // I need to create a mock platform in the dom
+      platform = document.createElement("div");
+      platform.className = "platform";
+      platform.style.position = "absolute";
       platform.style.top = "100px";
+      platform.style.left = "50px";
 
-      global.platforms = [platform];       
-      global.gameArea = gameArea;
+      gameArea.appendChild(platform);
 
+      // Use the same platforms array that updatePlatforms() uses
+      platforms.length = 0;            // clear existing contents
+      platforms.push(platform);       // add the test platform
     });
 
     test("platform top increases by 2px", () => {
-      // test calls the new function
       updatePlatforms();
-      expect(platform.style.top).toBe("102px");
+      expect(platforms[0].style.top).toBe("102px");
     });
-  })
-})
+  });
+});
 
