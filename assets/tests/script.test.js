@@ -97,7 +97,7 @@ describe("Platforms fall and cycle", () => {
 
       // Begin to set up mock game area, starting with mock html
       document.body.innerHTML = `<div class="game_area"></div>`;
-      
+
       gameArea = document.querySelector(".game_area");
 
       // I neded to manually define offsetHeight (jsdom doesn't compute it)
@@ -127,3 +127,45 @@ describe("Platforms fall and cycle", () => {
   });
 });
 
+// Test 5 - Falling platforms function
+
+const { startPlatformFall } = require("../script");
+
+describe("Platforms start to fall when game starts", () => {
+  describe("An interval is set", () => {
+
+    // Mock DOM area
+    beforeEach(() => {
+
+      // Jest offers fake timers to be used in mock's
+      jest.useFakeTimers();
+      // Need to spy on setInterval within the test
+      jest.spyOn(global, "setInterval");
+    });
+
+    // First test
+
+    test("Calls setInterval", () => {
+      startPlatformFall();
+      expect(setInterval).toHaveBeenCalled();
+    })
+  })
+})
+
+// Test 6 - generate platforms regularly
+
+const { generatePLatforms } = require("../script");
+
+describe("Platforms falling generator called", => () {
+  describe("createPlatform is called", => () {
+
+    beforeEach(() => {
+    // Mock the createPlatform function --- REF: (learned from: https://jestjs.io/docs/mock-functions)
+    jest.spyOn(script, "createPlatform").mockImplementation(() => {});
+
+    // I also need to mock math.random from the function --- REF: (learned from: https://jestjs.io/docs/mock-functions)
+    jest.spyOn(script, "random").mockReturnValue("0.5");
+    })
+  })
+  // 
+})

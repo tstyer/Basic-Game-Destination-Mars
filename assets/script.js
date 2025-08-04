@@ -41,6 +41,9 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
       }
     });
 
+    // Start platforms falling
+    startPlatformFall();
+
     // Music toggle logic
     if ($music.length) {
       const music = $music[0];
@@ -133,6 +136,14 @@ function updatePlatforms() {
   });
 }
 
+// Function 6 - generate platform fall loop
+
+function startPlatformFall() {
+  setInterval(() => {
+    updatePlatforms();
+    }, 30);
+};
+
 // --- Exports for Jest Testing ---
 if (typeof module !== "undefined") {
   module.exports = {
@@ -141,6 +152,7 @@ if (typeof module !== "undefined") {
     moveRight,
     createPlatform,
     updatePlatforms,
-    platforms
+    platforms, 
+    startPlatformFall
   };
 }
