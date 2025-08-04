@@ -154,7 +154,7 @@ describe("Platforms start to fall when game starts", () => {
 
 // Test 6 - generate platforms regularly
 
-const { generatePLatforms } = require("../script");
+const { generatePlatforms } = require("../script");
 
 describe("Platforms falling generator called", => () {
   describe("createPlatform is called", => () {
@@ -165,7 +165,12 @@ describe("Platforms falling generator called", => () {
 
     // I also need to mock math.random from the function --- REF: (learned from: https://jestjs.io/docs/mock-functions)
     jest.spyOn(script, "random").mockReturnValue("0.5");
-    })
-  })
-  // 
-})
+    });
+
+      test("calls createPlatform with expected x and y", () => {
+      generatePlatform(); // should call createPlatform(150, 0)
+
+      expect(script.createPlatform).toHaveBeenCalledWith(150, 0);
+    });
+  });
+});

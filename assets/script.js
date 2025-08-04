@@ -141,7 +141,22 @@ function updatePlatforms() {
 function startPlatformFall() {
   setInterval(() => {
     updatePlatforms();
+
+    if (Math.random() < 0.01) {
+      generatePlatform();
+    };
+
     }, 30);
+};
+
+// Function 7 - generating the platforms
+
+function generatePlatforms() {
+  // Setting the width
+  const x = Math.floor(Math.random() * 300);
+  // Starting at the top
+  const y = 0; // start at the top
+  createPlatform(x, y);
 };
 
 // --- Exports for Jest Testing ---
@@ -153,6 +168,7 @@ if (typeof module !== "undefined") {
     createPlatform,
     updatePlatforms,
     platforms, 
-    startPlatformFall
+    startPlatformFall,
+    generatePlatforms
   };
 }
