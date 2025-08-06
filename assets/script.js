@@ -7,6 +7,7 @@ let velocityY = 0;
 let gravity = 0.5;
 let isJumping = false;
 let platforms = [];
+let platformSpacingCounter = 0;
 let gameArea;
 let spaceBug;
 
@@ -154,11 +155,16 @@ function startPlatformFall() {
   setInterval(() => {
     updatePlatforms();
 
-    if (Math.random() < 0.02 && platforms.length < 5) {
+    platformSpacingCounter++;
+
+    // Every 50 ticks a new platform is created
+    if (platformSpacingCounter >= 50 && platforms.length < 5) {
       generatePlatform();
+      platformSpacingCounter = 0;
     };
 
-    }, 30);
+    // Update every 100 milliseconds
+    }, 100);
 };
 
 // Function 7 - generating the platforms
