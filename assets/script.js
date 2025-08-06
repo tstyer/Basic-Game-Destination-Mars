@@ -160,6 +160,7 @@ function generatePlatforms() {
 };
 
 // --- Exports for Jest Testing ---
+
 if (typeof module !== "undefined") {
   module.exports = {
     handleMusicToggle,

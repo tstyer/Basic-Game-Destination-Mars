@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/tstyer/portfolio-project-2---star-hopper#readme",
   "devDependencies": {
+    "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5"
   }
 }

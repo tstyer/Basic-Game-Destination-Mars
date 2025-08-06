@@ -154,23 +154,34 @@ describe("Platforms start to fall when game starts", () => {
 
 // Test 6 - generate platforms regularly
 
-const { generatePlatforms } = require("../script");
+const script = require("../script"); // I had to import the entire script for this test
+const { generatePlatforms } = script;
 
-describe("Platforms falling generator called", => () {
-  describe("createPlatform is called", => () {
+describe("Platforms falling generator called", () => {
+  describe("createPlatform is called", () => {
 
     beforeEach(() => {
+
+    // Create a mock game area div
+    document.body.innerHTML = `<div id="game-area"></div>`;
+
+    // Create Mock Function
+    script.generatePlatforms = function () {
+    const x = 150;
+    const y = 0;
+    script.createPlatform(x, y); // uses mocked version
+    };
+    
     // Mock the createPlatform function --- REF: (learned from: https://jestjs.io/docs/mock-functions)
     jest.spyOn(script, "createPlatform").mockImplementation(() => {});
 
     // I also need to mock math.random from the function --- REF: (learned from: https://jestjs.io/docs/mock-functions)
-    jest.spyOn(script, "random").mockReturnValue("0.5");
+    jest.spyOn(Math, "random").mockReturnValue(0.5);
     });
 
       test("calls createPlatform with expected x and y", () => {
-      generatePlatform(); // should call createPlatform(150, 0)
-
-      expect(script.createPlatform).toHaveBeenCalledWith(150, 0);
-    });
+       script.generatePlatforms(); // now uses mocked createPlatform
+       expect(script.createPlatform).toHaveBeenCalledWith(150, 0);
+       });
   });
 });
