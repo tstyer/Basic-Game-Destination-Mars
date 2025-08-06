@@ -42,9 +42,21 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
       }
     });
 
+    // Jumping listener 
+    document.addEventListener("keydown", (e) => {
+      if(e.code === "space") {
+        jump();
+      }
+    })
+
     // Push HTML platform on DOM load
     const existingPlatform = document.querySelector(".platform");
-    if (existingPlatform) platforms.push(existingPlatform);
+    if (existingPlatform) {
+      // These are starting values for existing platform
+      existingPlatform.style.top = "0px";
+      existingPlatform.style.left = "100px"
+      platforms.push(existingPlatform);
+    }  
 
     // Start platforms falling
     startPlatformFall();
@@ -100,7 +112,7 @@ function createPlatform(x, y) {
   // Add fresh image to the div
   platform.appendChild(platformImage);
 
-  const gameAreaEl = document.querySelector("game_area");
+  const gameAreaEl = document.querySelector(".game_area");
   gameAreaEl.appendChild(platform);
 
   platforms.push(platform);
@@ -128,6 +140,14 @@ function moveRight(spaceBug) {
   const bugImage = spaceBug.querySelector("img");
   if (bugImage && !bugImage.src.includes("space_bug_right.PNG")) {
     bugImage.src = "assets/images/space_bug_right.PNG";
+  }
+}
+
+// 5. Jumping bug
+function jump() {
+  if(!isJumping) {
+    velocityY = -10;
+    isJumping = true;
   }
 }
 
