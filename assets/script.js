@@ -41,6 +41,10 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
       }
     });
 
+    // Push HTML platform on DOM load
+    const existingPlatform = document.querySelector(".platform");
+    if (existingPlatform) platforms.push(existingPlatform);
+
     // Start platforms falling
     startPlatformFall();
 
@@ -142,7 +146,7 @@ function startPlatformFall() {
   setInterval(() => {
     updatePlatforms();
 
-    if (Math.random() < 0.01) {
+    if (Math.random() < 0.02 && platforms.length < 5) {
       generatePlatform();
     };
 
@@ -151,7 +155,7 @@ function startPlatformFall() {
 
 // Function 7 - generating the platforms
 
-function generatePlatforms() {
+function generatePlatform() {
   // Setting the width
   const x = Math.floor(Math.random() * 300);
   // Starting at the top

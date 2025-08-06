@@ -118,7 +118,9 @@
 
 .platform img {
   width: 100px;
-  height: 115px; 
+  height: 115px;
+  filter: brightness(1);
+  filter: contrast(-2); 
 }
 
 /* Adjusting the paragraphs in the game container to be positoned properly */
