@@ -91,7 +91,15 @@ function createPlatform(x, y) {
   platform.style.left = `${x}px`;
   platform.style.top = `${y}px`;
 
-  const gameAreaEl = document.getElementById("game-area");
+  // Create new image for every new platform (div)
+  const platformImage = document.createElement("img");
+  platformImage.src = "assets/images/space_rock_platform.png";
+  platformImage.alt = "space platform";
+
+  // Add fresh image to the div
+  platform.appendChild(platformImage);
+
+  const gameAreaEl = document.querySelector("game_area");
   gameAreaEl.appendChild(platform);
 
   platforms.push(platform);
