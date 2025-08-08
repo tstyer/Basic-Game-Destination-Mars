@@ -12,9 +12,13 @@ let gameArea;
 let spaceBug;
 
 // PlatformFall() speed:
+const tick_ms = 14; 
+let platform_speed = 1.7; 
 
-const tick_ms = 16; 
-let platform_speed = 4; // 4px instead of 2px. 
+// Platform spacing
+const platform_spacing = 120;
+const max_platforms = 12;
+
 
 // --- DOM code (only runs in the browser) ---
 if (typeof window !== "undefined" && typeof $ !== "undefined") {
@@ -180,16 +184,16 @@ function startPlatformFall() {
   setInterval(() => {
     updatePlatforms();
 
-    platformSpacingCounter++;
+    // count how many pixels' worth of fall have happened since last spawn
+    platformSpacingCounter += platform_speed;
 
-    // Every 30 ticks a new platform is created
-    if (platformSpacingCounter >= 30 && platforms.length < 5) {
+    // spawn when we've accumulated enough "distance"
+    if (platformSpacingCounter >= platform_spacing && platforms.length < max_platforms) {
       generatePlatform();
       platformSpacingCounter = 0;
-    };
-
-    }, tick_ms);
-};
+    }
+  }, tick_ms);
+}
 
 // Function 7 - generating the platforms
 
