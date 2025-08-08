@@ -45,6 +45,10 @@
   
 }
 
+h1, h2, h3 {
+  font-family: 'Codystar', serif;
+}
+
 /* Header */
 
 .header {
@@ -53,6 +57,48 @@
     margin: 10px auto;
     color: #FFC300;
 }
+
+/* GAME AREA POP-UP */
+
+/* Overlay container */
+#howto_box {
+  position: absolute;
+  inset: 0;                 /* cover the game area */
+  display: none;            /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+/* show it */
+#howto_box.is-open { display: flex; }
+
+/* Card */
+#howto_box .howto-box {
+  width: 85%;
+  max-width: 900px;
+  padding: 24px 28px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88); /* slightly transparent */
+  color: #001D3D;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+  backdrop-filter: blur(2px);
+  text-align: center;
+}
+
+#howto_box p {
+  color: #001D3D;
+}
+
+#howto_box .howto-btn {
+  margin-top: 16px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 
 /* Game section */
 

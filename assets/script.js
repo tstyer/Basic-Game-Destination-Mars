@@ -25,11 +25,26 @@ let lastSpawnX = null;
 // --- DOM code (only runs in the browser) ---
 if (typeof window !== "undefined" && typeof $ !== "undefined") {
   $(document).ready(function () {
+
     // Select DOM elements
     const $music = $('#music');
     const $musicToggle = $('#music_toggle');
     gameArea = document.querySelector('.game_area');
     spaceBug = document.querySelector('.space_bug');
+
+    // Display pop-up instructions on index.html
+    const isHome = /(^\/$|index\.html$)/.test(window.location.pathname);
+    if (isHome && gameArea) {
+     const modal = document.getElementById("howto_box");
+     const okBtn = document.getElementById("howto_ok");
+      if (modal && okBtn) {
+       modal.classList.add("is-open");        // show on initial load
+       okBtn.addEventListener("click", () => { // close on click
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+          });
+       }
+     }
 
     // Center the spaceBug horizontally
     const bugWidth = spaceBug.offsetWidth;
@@ -167,17 +182,23 @@ function updatePlatforms() {
   const area = gameArea || document.querySelector(".game_area");
   if (!area) return;
 
-  platforms.forEach((platform, index) => {
-    let currentTop = parseInt(platform.style.top, 10);
-    let newTop = currentTop + platform_speed;
+  const areaHeight = area.clientHeight; // inside the white border
 
-    if (newTop > area.offsetHeight) {
+  // iterate backwards since I splice the array
+  for (let i = platforms.length - 1; i >= 0; i--) {
+    const platform = platforms[i];
+    const currentTop = parseInt(platform.style.top, 10) || 0;
+    const newTop = currentTop + platform_speed;
+    const platH = platform.offsetHeight || 0;
+
+    // remove when platform's bottom reaches the bottom of the area
+    if (newTop >= areaHeight - platH) {
       area.removeChild(platform);
-      platforms.splice(index, 1);
+      platforms.splice(i, 1);
     } else {
       platform.style.top = `${newTop}px`;
     }
-  });
+  }
 }
 
 // Function 6 - generate platform fall loop
@@ -226,6 +247,6 @@ if (typeof module !== "undefined") {
     updatePlatforms,
     platforms, 
     startPlatformFall,
-    generatePlatforms
+    generatePlatform
   };
 }
