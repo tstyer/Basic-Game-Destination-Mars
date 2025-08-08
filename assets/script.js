@@ -18,6 +18,8 @@ let platform_speed = 1.7;
 // Platform spacing
 const platform_spacing = 120;
 const max_platforms = 12;
+const x_speparation = 140; // Horizontal spacing between platforms.
+let lastSpawnX = null;
 
 
 // --- DOM code (only runs in the browser) ---
@@ -198,12 +200,20 @@ function startPlatformFall() {
 // Function 7 - generating the platforms
 
 function generatePlatform() {
-  // Setting the width
-  const x = Math.floor(Math.random() * 300);
-  // Starting at the top
-  const y = 0; // start at the top
+  const area = gameArea || document.querySelector(".game_area");
+  if (!area) return;
+
+  const platform_width = 100; // sets the platform width.
+  const margin = 16;
+
+  const minX = margin;
+  const maxX = Math.max(minX, area.clientWidth - platform_width - margin);
+
+  const x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+  const y = 0;
+
   createPlatform(x, y);
-};
+}
 
 // --- Exports for Jest Testing ---
 
