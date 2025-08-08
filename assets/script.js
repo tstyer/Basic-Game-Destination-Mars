@@ -11,6 +11,11 @@ let platformSpacingCounter = 0;
 let gameArea;
 let spaceBug;
 
+// PlatformFall() speed:
+
+const tick_ms = 16; 
+let platform_speed = 4; // 4px instead of 2px. 
+
 // --- DOM code (only runs in the browser) ---
 if (typeof window !== "undefined" && typeof $ !== "undefined") {
   $(document).ready(function () {
@@ -151,14 +156,14 @@ function jump() {
   }
 }
 
-// 5. Update platform positions - falling platforms
+// 6. Update platform positions - falling platforms
 function updatePlatforms() {
   const area = gameArea || document.querySelector(".game_area");
   if (!area) return;
 
   platforms.forEach((platform, index) => {
     let currentTop = parseInt(platform.style.top, 10);
-    let newTop = currentTop + 2;
+    let newTop = currentTop + platform_speed;
 
     if (newTop > area.offsetHeight) {
       area.removeChild(platform);
@@ -177,14 +182,13 @@ function startPlatformFall() {
 
     platformSpacingCounter++;
 
-    // Every 50 ticks a new platform is created
-    if (platformSpacingCounter >= 50 && platforms.length < 5) {
+    // Every 30 ticks a new platform is created
+    if (platformSpacingCounter >= 30 && platforms.length < 5) {
       generatePlatform();
       platformSpacingCounter = 0;
     };
 
-    // Update every 100 milliseconds
-    }, 100);
+    }, tick_ms);
 };
 
 // Function 7 - generating the platforms

@@ -185,3 +185,11 @@ describe("Platforms falling generator called", () => {
        });
   });
 });
+
+// Test 7. Applying Gravity
+
+const { applyGravity } = require("../script");
+
+describe("Check gravity applies", () => {
+  describe("After jumping, gravity")
+})
