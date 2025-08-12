@@ -1,5 +1,5 @@
 // ---
-// Destination: Mars - Game Script (camelCase consts)
+// Destination: Mars - Game Script (with landing detection)
 // ---
 
 // ==== Physics / State ====
@@ -60,7 +60,7 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
       }
     }
 
-    // Centre the bug horizontally; ensure numeric bottom for physics
+    // Center the bug horizontally; ensure numeric bottom for physics
     if (spaceBug && gameArea) {
       const bugW = spaceBug.offsetWidth || 60;
       const areaW = gameArea.offsetWidth || 600;
@@ -185,24 +185,42 @@ function jump() {
   else                                velocityX =  0; // straight up if still
 }
 
-// Physics tick (vertical + mid-air steering + bounds)
+// Physics tick (vertical + landing detection + mid-air steering + bounds)
 function applyGravity() {
   if (!spaceBug || !gameArea) return;
 
-  // Vertical
-  const currentBottom = parseInt(spaceBug.style.bottom || "80", 10);
-  velocityY += gravity;
-  let newBottom = currentBottom - velocityY;
+  const areaH = gameArea.clientHeight;
+  const bugW  = spaceBug.offsetWidth || 60;
 
-  if (newBottom <= 0) {
-    newBottom = 0;
+  // --- vertical integration ---
+  const prevBottom = parseInt(spaceBug.style.bottom || "80", 10);
+  velocityY += gravity;
+  let nextBottom = prevBottom - velocityY; // positive velocityY moves bug down
+
+  // Try to land on a platform only while falling
+  if (velocityY > 0) {
+    const landedBottom = getLandingBottom(prevBottom, nextBottom, bugW);
+    if (landedBottom != null) {
+      nextBottom = landedBottom; // snap feet to platform top
+      velocityY = 0;
+      isJumping = false;
+      velocityX = 0;            // remove this line if you want momentum on landing
+    }
+  }
+
+  // Ground clamp
+  if (nextBottom <= 0) {
+    nextBottom = 0;
     velocityY = 0;
     isJumping = false;
-    velocityX = 0; // kill lateral carry on landing (for crisp control)
+    velocityX = 0;
   }
-  spaceBug.style.bottom = `${newBottom}px`;
 
-  // Horizontal
+  spaceBug.style.bottom = `${nextBottom}px`;
+
+  // --- horizontal integration + mid-air steering ---
+  let left = parseInt(spaceBug.style.left || "0", 10);
+
   if (isJumping) {
     if (keys.left && !keys.right) {
       velocityX = Math.max(-maxAirSpeed, velocityX - airAccel);
@@ -215,13 +233,53 @@ function applyGravity() {
     }
   }
 
-  const areaW = gameArea.clientWidth;
-  const bugW  = spaceBug.offsetWidth || 60;
-
-  let left = parseInt(spaceBug.style.left || "0", 10);
   left += velocityX;
-  left = Math.max(0, Math.min(left, areaW - bugW)); // clamp
+  left = Math.max(0, Math.min(left, gameArea.clientWidth - bugW)); // clamp
   spaceBug.style.left = `${left}px`;
+}
+
+// Returns the corrected bottom value to place the bug ON the platform,
+// or null if no landing occurs this tick.
+function getLandingBottom(prevBottom, nextBottom, bugW) {
+  const areaH = gameArea.clientHeight;
+
+  // Convert bug's feet positions to "distance from TOP" of the game area
+  const prevFeetFromTop = areaH - prevBottom;
+  const nextFeetFromTop = areaH - nextBottom;
+
+  // Bug horizontal span
+  const bugLeft  = parseInt(spaceBug.style.left || "0", 10);
+  const bugRight = bugLeft + bugW;
+
+  // We'll snap to the closest platform top we crossed this tick
+  let snapBottom = null;
+  let closestDelta = Infinity;
+
+  for (let i = 0; i < platforms.length; i++) {
+    const p = platforms[i];
+
+    // Platform geometry relative to .game_area
+    const platTop   = p.offsetTop;
+    const platLeft  = p.offsetLeft;
+    const platRight = platLeft + (p.offsetWidth || 100);
+
+    // Horizontal overlap?
+    const overlapsX = bugRight > platLeft && bugLeft < platRight;
+    if (!overlapsX) continue;
+
+    // Did the bug's feet cross the platform top this tick (descending)?
+    if (prevFeetFromTop <= platTop && nextFeetFromTop >= platTop) {
+      const candidateBottom = areaH - platTop; // place feet on top
+      const delta = platTop - prevFeetFromTop; // how far below prev feet
+
+      if (delta >= 0 && delta < closestDelta) {
+        closestDelta = delta;
+        snapBottom = candidateBottom;
+      }
+    }
+  }
+
+  return snapBottom;
 }
 
 // Platforms falling + despawn at white line
@@ -292,7 +350,6 @@ if (typeof module !== "undefined") {
     moveRight,
     createPlatform,
     updatePlatforms,
-    platforms,
     startPlatformFall,
     generatePlatform,
     applyGravity,
