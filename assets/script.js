@@ -8,8 +8,15 @@
 
 // --- Globals ---
 let velocityY = 0;
+let velocityX = 0;
 let gravity = 0.5;
 let isJumping = false;
+
+const jump_horizontal_speed = 3; // The horizontal speed when going left or right.
+const air_drag = 0.15;           // This slows the bug when in the air. 
+
+// This tracks which keys are currently being held:
+const keys = { left: false, right: false};
 
 let platforms = [];
 let platformSpacingCounter = 0;
@@ -65,7 +72,7 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
       const startingLeft = (gameAreaWidth / 2) - (bugWidth / 2);
       spaceBug.style.left = `${startingLeft}px`;
 
-      // Ensure we have a numeric bottom to work with for gravity
+      // Ensure there is a numeric bottom to work with for gravity
       if (!spaceBug.style.bottom) {
         const computedBottom = getComputedStyle(spaceBug).bottom || "80px";
         spaceBug.style.bottom = computedBottom;
@@ -87,11 +94,25 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
         return; // stop here so arrows below don't run on same event
       }
 
-      // Arrows only work once the game has started
+        // This Tracks arrow-key state
+      if (e.key === "ArrowLeft")  keys.left = true;
+      if (e.key === "ArrowRight") keys.right = true;
+
+       // Move only after game started
       if (!gameStarted) return;
       if (e.key === "ArrowLeft")  moveLeft(spaceBug);
       if (e.key === "ArrowRight") moveRight(spaceBug);
-    });
+      });
+
+      document.addEventListener("keyup", (e) => {
+        if (e.key === "ArrowLeft")  keys.left = false;
+        if (e.key === "ArrowRight") keys.right = false;
+        });
+
+document.addEventListener("keyup", (e) => {
+  if (e.key === "ArrowLeft")  keys.left = false;
+  if (e.key === "ArrowRight") keys.right = false;
+});
 
     // Push HTML platform on DOM load (if present)
     const existingPlatform = document.querySelector(".platform");
@@ -188,24 +209,46 @@ function jump() {
   if (!isJumping) {
     velocityY = -10;
     isJumping = true;
+
+    if (keys.left && !keys.right)      velocityX = -jump_horizontal_speed;
+    else if (keys.right && !keys.left) velocityX =  jump_horizontal_speed;
+    else                               velX =  0; // straight up if still
   }
 }
 
 // Gravity applied to bug each tick
 function applyGravity() {
-  if (!spaceBug) return;
+  if (!spaceBug || !gameArea) return;
+
+  // --- vertical ---
   const currentBottom = parseInt(spaceBug.style.bottom || "80", 10);
   velocityY += gravity;
   let newBottom = currentBottom - velocityY;
 
-  // Hit the ground
   if (newBottom <= 0) {
     newBottom = 0;
     velocityY = 0;
     isJumping = false;
+    velocityX = 0; // stop sliding once you land
   }
-
   spaceBug.style.bottom = `${newBottom}px`;
+
+  // --- horizontal (only relevant while in air but harmless on ground) ---
+  const areaW = gameArea.clientWidth;
+  const bugW  = spaceBug.offsetWidth || 60;
+
+  let left = parseInt(spaceBug.style.left || "0", 10);
+  left += velocityX;
+
+  // keep inside bounds
+  left = Math.max(0, Math.min(left, areaW - bugW));
+  spaceBug.style.left = `${left}px`;
+
+  // air drag to gently reduce sideways speed
+  if (isJumping) {
+    if (velocityX > 0)      velocityX = Math.max(0, velocityX - air_drag);
+    else if (velocityX < 0) velocityX = Math.min(0, velocityX + air_drag);
+  }
 }
 
 // Update platform positions - falling platforms
