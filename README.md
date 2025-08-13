@@ -207,11 +207,31 @@ This was installed and applied to the music file in the directory.
 
 ## Reflections 
 
+The javascript learning hurdle has made me realise that I need to complete plenty more projects in this language to feel confident, and I plan to do that via Udemy, YouTube, and other resources. 
+
 ### What Went Well?
+
+#### HTML and CSS
+
+The html and CSS sections of the website were easily written with few errors. 
 
 ### Lessons Learned
 
+#### JavaScript Logic 
+
+Initially, looking at a blank javascript file was daunting, and the start was incredibly slow. I had to dedicate long nights to figuring things out and solving small problems. 
+At times, I lost motivation and considered exiting the course due to it's difficulty. However, help from tutors and mentors allowed me to ove forward. 
+
+#### Jest
+
+Combining Jest into the creation, when I was brand new to Javascript only made it more difficult. The provess was incredibly slow, but I have sped up lately. 
+
 ### Future Considerations
+
+#### Difficulty Settings
+
+This is something I planned on implementing, but due to time and considering I had created plenty of javascript, I thought to leave it for now. My plan is to heavily modify this game and 
+include this section as initially intended. 
 
 ## Conclusion 
 
