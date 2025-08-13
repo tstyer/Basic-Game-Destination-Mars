@@ -34,8 +34,8 @@ const maxPlatforms = 12;
 const platformWidth = 100;
 const spawnMargin = 16;
 
-// NEW: clamp horizontal distance between consecutive spawns
-const maxHorizontalStepPx = 140;        // ↓ lower to make platforms closer (e.g., 120, 100)
+// clamp horizontal distance between consecutive spawns
+const maxHorizontalStepPx = 300;        // lower to make platforms closer (e.g., 120, 100)
 let lastSpawnX = null;                   // remember last spawn X to clamp around it
 
 // ==== Mars Meter / Difficulty ====

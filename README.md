@@ -106,23 +106,29 @@ I ensured that this image was original. It was paid for by me, and I completed r
 
 ### Navigation Bar
 
+The navigation bar sits at the top of the page and links to Home, Instructions, and Settings. It’s built with Bootstrap, so it’s fully responsive: centred on larger screens and collapsing into a hamburger menu on mobiles. The current page is clearly underlined, and link colours transition from the light text to the gold highlight on hover for better visibility. 
+
 ### Score Counter
 
-### Level Counter
+The score counter appears within the game UI as “Mars: 1000” and counts down towards 0 as you successfully land on platforms. Each clean landing reduces 5, giving a clear sense of progress. When the counter reaches 0, you’ve arrived at Mars and a win message is shown with your score.
 
 ### Changing Platforms
 
+Platforms spawn at the top of the game area and drift downwards. Early on they fall a little slower. Once you’ve progressed (halfway to Mars), they speed up to keep things lively. Spawning is constrained so the horizontal gap between consecutive platforms stays within a jumpable range, and the vertical spacing is tuned so every new platform is realistically reachable. Old platforms are removed once they pass the bottom edge to keep performance smooth.
+
 ### Interactive Sounds
 
-### Gravity Hole
-
-### About Page
+Background music can be toggled on or off. Your preference is saved locally, so if you turn the music off it will stay off next time you visit. (System volume and mute controls still apply.) The toggle is available from the Settings page for quick access.
 
 ### Settings Page
+
+The Settings page lets you tailor the experience. You can switch the Music on or off. Preferences are remembered where appropriate, so you don’t need to set them every time.
 
 ## Design
 
 ### Colour Scheme
+
+A deep navy background (#001D3D) with light cyan text (#CAF0F8) ensures strong contrast. Gold accents (#FFC300) highlight interactive elements (links, current nav item, headings).
 
 #### [Colour Scheme 1](https://coolors.co/000814-001d3d-003566-ffc300-ffd60a)
 
@@ -134,7 +140,12 @@ I ensured that this image was original. It was paid for by me, and I completed r
 
 ### Typography 
 
+Headings use Codystar for a retro sci-fi feel; body text uses Original Surfer for friendly legibility.
+
 ### Images
+
+All images are AI generated as explained above, and they live in assets/images/. Sprites (the bug facing left/right) and the platform use PNG so their transparent edges render cleanly.
+
 
 ### Wireframes
 
@@ -170,6 +181,16 @@ This was installed and applied to the music file in the directory.
 
 
 ## Folder Structure 
+
+├─ index.html                # Home (game) page
+├─ instructions.html         # How to play
+├─ settings.html             # Options (music, difficulty, etc.)
+├─ assets/
+│  ├─ script.js              # Game logic
+│  ├─ style.css              # Site and game styling
+│  ├─ images/                # Sprites, platforms, stars, favicon
+│  └─ music/                 # Background music (MP3)
+└─ README.md
 
 ## Deployment
 
