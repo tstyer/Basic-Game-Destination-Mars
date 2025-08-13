@@ -1,5 +1,5 @@
 // ---
-// Destination: Mars — IMG landing + sticky + Mars meter + ramp + ground-touch grace + instant walking
+// Destination: Mars — IMG landing + sticky + Mars meter + ramp + ground-touch grace + instant walking + horizontal clamp
 // ---
 
 // ==== Physics / State ====
@@ -34,10 +34,14 @@ const maxPlatforms = 12;
 const platformWidth = 100;
 const spawnMargin = 16;
 
+// NEW: clamp horizontal distance between consecutive spawns
+const maxHorizontalStepPx = 140;        // ↓ lower to make platforms closer (e.g., 120, 100)
+let lastSpawnX = null;                   // remember last spawn X to clamp around it
+
 // ==== Mars Meter / Difficulty ====
 const startDistance = 1000;
 let distanceRemaining = startDistance;
-const landingDecrement = 5;             // Mars counter decreases per platform landing
+const landingDecrement = 5;            // Mars decreases per platform landing
 const slowSpeed = 1.1;                  // starting easy speed
 const fastSpeed = 1.7;                  // ramped speed (your current value)
 const speedRampThreshold = 500;         // when distanceRemaining <= this, use fast speed
@@ -52,7 +56,7 @@ let hasAcknowledged = false; // clicked “Okay, got it.”
 let gameStarted = false;     // pressed Space after acknowledging
 let loopId = null;           // setInterval id
 
-// Allow exactly one safe ground touch after starting
+// Ground grace: allow exactly one safe ground touch after starting
 let allowOneGroundTouch = true;
 let isOnGround = false;      // track ground state to detect air->ground transitions
 
@@ -236,7 +240,7 @@ function moveRight(el) {
 // ==== Jump ====
 function jump() {
   if (isJumping) return;
-  velocityY = -14; // How far it can jump
+  velocityY = -14;
   isJumping = true;
 
   if (keys.left && !keys.right)      velocityX = -jumpHorizontalSpeed;
@@ -394,6 +398,12 @@ function resetGameState() {
     const areaW = gameArea.offsetWidth || 600;
     spaceBug.style.left = `${(areaW - bugW) / 2}px`;
     spaceBug.style.bottom = "80px";
+
+    // Seed first spawn near the bug’s start so it’s reachable
+    const bugLeft = parseFloat(spaceBug.style.left || "0");
+    lastSpawnX = bugLeft + bugW / 2 - platformWidth / 2;
+  } else {
+    lastSpawnX = null;
   }
 
   // Clear platforms
@@ -426,6 +436,15 @@ function startGame() {
   allowOneGroundTouch = true;
   isOnGround = false;
 
+  // Seed first spawn near the bug so it’s reachable
+  if (spaceBug && gameArea) {
+    const bugW = spaceBug.offsetWidth || 60;
+    const bugLeft = parseFloat(spaceBug.style.left || "0");
+    lastSpawnX = bugLeft + bugW / 2 - platformWidth / 2;
+  } else {
+    lastSpawnX = null;
+  }
+
   if (!loopId) loopId = startLoop();
 }
 function stopLoop() {
@@ -435,11 +454,11 @@ function stopLoop() {
   }
 }
 
-// ==== This is the Main Game loop ====
+// ==== Main loop ====
 function startLoop() {
   return setInterval(() => {
     updatePlatforms();      // platforms move down first
-    applyGroundMovement();  // NEW: instant walking while standing (no key-repeat lag)
+    applyGroundMovement();  // instant walking while standing (no key-repeat lag)
     applyGravity();         // then resolve player movement/landing
 
     // spawn after travel distance
@@ -560,14 +579,35 @@ function updatePlatforms() {
   }
 }
 
+// NEW: clamp spawn X within a window around the previous platform (or bug at start)
 function generatePlatform() {
   const area = gameArea || document.querySelector(".game_area");
   if (!area) return;
 
-  const minX = spawnMargin;
-  const maxX = Math.max(minX, area.clientWidth - platformWidth - spawnMargin);
+  const areaW = area.clientWidth;
+  const minWall = spawnMargin;
+  const maxWall = areaW - platformWidth - spawnMargin;
+
+  // If we don’t have a previous platform yet, use the bug as reference
+  const bugLeft  = parseFloat(spaceBug?.style.left || "0");
+  const bugW     = spaceBug?.offsetWidth || 60;
+  const bugCenterX = bugLeft + bugW / 2;
+
+  const refX = (lastSpawnX != null)
+    ? lastSpawnX
+    : (bugCenterX - platformWidth / 2);
+
+  // Window around refX (clamped to walls)
+  const windowMin = Math.max(minWall, refX - maxHorizontalStepPx);
+  const windowMax = Math.min(maxWall, refX + maxHorizontalStepPx);
+
+  // Safety in case margins make the window collapse
+  const minX = Math.min(windowMin, windowMax);
+  const maxX = Math.max(windowMin, windowMax);
 
   const x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+  lastSpawnX = x; // remember for the next spawn
+
   const y = 0;
   createPlatform(x, y);
 }
