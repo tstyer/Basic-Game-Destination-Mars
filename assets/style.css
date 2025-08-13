@@ -149,24 +149,28 @@ h1, h2, h3 {
 }
 
 .space_bug {
+  line-height: 0;
   position: absolute;
-  bottom: 80px;
+  /*bottom: 80px;*/
 }
 
-.space_bug img {
-  height: 60px;
-  width: 60px;
+.space_bug img { 
+  display: block; 
+  width: 60px; 
+  height: 60px; 
 }
 
 .platform {
   position: absolute;
+  line-height: 0;
 }
 
 .platform img {
   width: 100px;
   height: 115px;
   filter: brightness(1);
-  filter: contrast(-2); 
+  filter: contrast(-2);
+  display: block; 
 }
 
 /* Adjusting the paragraphs in the game container to be positoned properly */

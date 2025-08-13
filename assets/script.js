@@ -1,45 +1,47 @@
-// ---
-// Destination: Mars - Game Script (with landing detection)
-// ---
+// --- Destination: Mars - precise IMG landing (with bug foot offset) ---
 
 // ==== Physics / State ====
 let velocityY = 0;
 let velocityX = 0;
 let isJumping = false;
 
-const gravity = 0.5;
-
-const jumpHorizontalSpeed = 3; // horizontal push on jump
-const airDrag = 0.15;          // bleed sideways speed when no key held
-const airAccel = 0.3;          // mid-air steering accel per tick
-const maxAirSpeed = 5;         // clamp sideways speed in air
+const gravity = 0.45;
+const jumpHorizontalSpeed = 4.5;
+const airDrag = 0.10;
+const airAccel = 0.45;
+const maxAirSpeed = 7;
 
 // Which keys are held?
 const keys = { left: false, right: false };
+
+// Tunables:
+// Skip transparent pixels at top of platform PNG when landing:
+const platformCollisionTopInsetPx = 10;   // try 8–16
+// If your bug PNG has transparent pixels at the bottom, nudge feet down:
+const bugFootOffsetPx = 55;               // try 4–10
 
 // ==== Platforms / Spawning ====
 let platforms = [];
 let platformSpacingCounter = 0;
 
 const tickMs = 14;
-let platformSpeed = 1.7;           // px per tick (let so you can tweak at runtime)
-const platformSpacingPx = 120;     // distance between spawns
-const maxPlatforms = 12;           // on-screen cap
-const platformWidth = 100;         // match your sprite/CSS
-const spawnMargin = 16;            // keep away from edges
+let platformSpeed = 1.7;
+const platformSpacingPx = 120;
+const maxPlatforms = 12;
+const platformWidth = 100;
+const spawnMargin = 16;
 
-// ==== DOM handles / Game flow flags ====
+// ==== DOM handles / Game flow ====
 let gameArea;
 let spaceBug;
 
 let hasAcknowledged = false; // clicked “Okay, got it.”
 let gameStarted = false;     // pressed Space after acknowledging
-let fallIntervalId = null;   // setInterval id
+let loopId = null;           // setInterval id
 
 // ==== DOM code (browser only) ====
 if (typeof window !== "undefined" && typeof $ !== "undefined") {
   $(document).ready(function () {
-    // DOM elements
     const $music = $('#music');
     const $musicToggle = $('#music_toggle');
     gameArea = document.querySelector('.game_area');
@@ -60,7 +62,7 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
       }
     }
 
-    // Center the bug horizontally; ensure numeric bottom for physics
+    // Center the bug; ensure numeric bottom for physics
     if (spaceBug && gameArea) {
       const bugW = spaceBug.offsetWidth || 60;
       const areaW = gameArea.offsetWidth || 600;
@@ -83,11 +85,9 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
         return;
       }
 
-      // Track arrow states
       if (e.key === "ArrowLeft")  keys.left = true;
       if (e.key === "ArrowRight") keys.right = true;
 
-      // Ground movement (only once game has started)
       if (!gameStarted) return;
       if (e.key === "ArrowLeft")  moveLeft(spaceBug);
       if (e.key === "ArrowRight") moveRight(spaceBug);
@@ -120,8 +120,6 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
         });
       }
     }
-
-    // Do NOT auto-start; Space (after OK) will start it
   });
 }
 
@@ -129,8 +127,7 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
 
 // Music toggle
 function handleMusicToggle(checkbox, audio) {
-  if (checkbox.checked) audio.play();
-  else audio.pause();
+  if (checkbox.checked) audio.play(); else audio.pause();
 }
 
 // Create platform
@@ -152,32 +149,29 @@ function createPlatform(x, y) {
   return platform;
 }
 
-// Ground move left/right (snappy on ground)
+// Ground move left/right
 function moveLeft(el) {
   const left = parseInt(el.style.left, 10) || 0;
   el.style.left = `${Math.max(0, left - 5)}px`;
-
   const img = el.querySelector("img");
   if (img && !img.src.includes("space_bug_left.PNG")) {
     img.src = "assets/images/space_bug_left.PNG";
   }
 }
-
 function moveRight(el) {
   const left = parseInt(el.style.left, 10) || 0;
   const maxLeft = (gameArea?.clientWidth || left) - (el.offsetWidth || 60);
   el.style.left = `${Math.min(maxLeft, left + 5)}px`;
-
   const img = el.querySelector("img");
   if (img && !img.src.includes("space_bug_right.PNG")) {
     img.src = "assets/images/space_bug_right.PNG";
   }
 }
 
-// Jump (with initial sideways push depending on held key)
+// Jump (initial sideways push depending on held key)
 function jump() {
   if (isJumping) return;
-  velocityY = -10;
+  velocityY = -14;
   isJumping = true;
 
   if (keys.left && !keys.right)      velocityX = -jumpHorizontalSpeed;
@@ -185,7 +179,7 @@ function jump() {
   else                                velocityX =  0; // straight up if still
 }
 
-// Physics tick (vertical + landing detection + mid-air steering + bounds)
+// Physics (vertical + IMG landing + mid-air steer + bounds)
 function applyGravity() {
   if (!spaceBug || !gameArea) return;
 
@@ -193,18 +187,18 @@ function applyGravity() {
   const bugW  = spaceBug.offsetWidth || 60;
 
   // --- vertical integration ---
-  const prevBottom = parseInt(spaceBug.style.bottom || "80", 10);
+  const prevBottom = parseFloat(spaceBug.style.bottom || "80");
   velocityY += gravity;
   let nextBottom = prevBottom - velocityY; // positive velocityY moves bug down
 
-  // Try to land on a platform only while falling
+  // Try to land on a platform image only while falling
   if (velocityY > 0) {
-    const landedBottom = getLandingBottom(prevBottom, nextBottom, bugW);
+    const landedBottom = getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW);
     if (landedBottom != null) {
-      nextBottom = landedBottom; // snap feet to platform top
+      nextBottom = landedBottom; // snap feet to image (with insets)
       velocityY = 0;
       isJumping = false;
-      velocityX = 0;            // remove this line if you want momentum on landing
+      velocityX = 0; // remove if you want momentum on landing
     }
   }
 
@@ -219,7 +213,7 @@ function applyGravity() {
   spaceBug.style.bottom = `${nextBottom}px`;
 
   // --- horizontal integration + mid-air steering ---
-  let left = parseInt(spaceBug.style.left || "0", 10);
+  let left = parseFloat(spaceBug.style.left || "0");
 
   if (isJumping) {
     if (keys.left && !keys.right) {
@@ -238,41 +232,56 @@ function applyGravity() {
   spaceBug.style.left = `${left}px`;
 }
 
-// Returns the corrected bottom value to place the bug ON the platform,
-// or null if no landing occurs this tick.
-function getLandingBottom(prevBottom, nextBottom, bugW) {
-  const areaH = gameArea.clientHeight;
+// Precise landing on the *image* while platforms move.
+// Measures image in the game area's padding box; subtracts border (clientTop/Left).
+function getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW) {
+  const area = gameArea;
+  const areaRect = area.getBoundingClientRect();
+  const areaH = area.clientHeight;     // content height (no border)
+  const offX = area.clientLeft;        // border-left width
+  const offY = area.clientTop;         // border-top width
+  const EPS = 4;
 
-  // Convert bug's feet positions to "distance from TOP" of the game area
-  const prevFeetFromTop = areaH - prevBottom;
-  const nextFeetFromTop = areaH - nextBottom;
+  // Bug feet from TOP of game area padding box
+  const prevFeet = areaH - prevBottom;
+  const nextFeet = areaH - nextBottom;
 
-  // Bug horizontal span
-  const bugLeft  = parseInt(spaceBug.style.left || "0", 10);
+  // Bug horizontal span (already relative to padding box)
+  const bugLeft  = parseFloat(spaceBug.style.left || "0");
   const bugRight = bugLeft + bugW;
 
-  // We'll snap to the closest platform top we crossed this tick
   let snapBottom = null;
   let closestDelta = Infinity;
 
   for (let i = 0; i < platforms.length; i++) {
-    const p = platforms[i];
+    const plat = platforms[i];
+    const imgEl = plat.querySelector('img');
+    if (!imgEl) continue;
 
-    // Platform geometry relative to .game_area
-    const platTop   = p.offsetTop;
-    const platLeft  = p.offsetLeft;
-    const platRight = platLeft + (p.offsetWidth || 100);
+    const r = imgEl.getBoundingClientRect();
 
-    // Horizontal overlap?
-    const overlapsX = bugRight > platLeft && bugLeft < platRight;
+    // Image position relative to game area's padding box
+    let currTop  = (r.top  - areaRect.top  - offY);
+    const imgLeft  = (r.left - areaRect.left - offX);
+    const imgRight = imgLeft + r.width;
+
+    // Horizontal overlap with the IMAGE only
+    const overlapsX = bugRight > imgLeft && bugLeft < imgRight;
     if (!overlapsX) continue;
 
-    // Did the bug's feet cross the platform top this tick (descending)?
-    if (prevFeetFromTop <= platTop && nextFeetFromTop >= platTop) {
-      const candidateBottom = areaH - platTop; // place feet on top
-      const delta = platTop - prevFeetFromTop; // how far below prev feet
+    // Push collision plane *inside* the image & account for platform motion
+    currTop += platformCollisionTopInsetPx;            // skip transparent top
+    const prevTop = currTop - platformSpeed;           // where it was last tick
 
-      if (delta >= 0 && delta < closestDelta) {
+    // Did the feet cross the moving top segment this tick?
+    const crossed = (prevFeet <= prevTop + EPS) && (nextFeet >= currTop - EPS);
+    if (crossed) {
+      // Snap feet onto image line, minus bugFootOffset (to counter transparent bug bottom)
+      const candidateBottom = Math.max(0, areaH - currTop - bugFootOffsetPx);
+
+      const midTop = (prevTop + currTop) * 0.5;
+      const delta = Math.abs(midTop - prevFeet);
+      if (delta < closestDelta) {
         closestDelta = delta;
         snapBottom = candidateBottom;
       }
@@ -282,7 +291,7 @@ function getLandingBottom(prevBottom, nextBottom, bugW) {
   return snapBottom;
 }
 
-// Platforms falling + despawn at white line
+// Move platforms (and despawn at bottom line)
 function updatePlatforms() {
   const area = gameArea || document.querySelector(".game_area");
   if (!area) return;
@@ -291,7 +300,7 @@ function updatePlatforms() {
 
   for (let i = platforms.length - 1; i >= 0; i--) {
     const platform = platforms[i];
-    const top = parseInt(platform.style.top, 10) || 0;
+    const top = parseFloat(platform.style.top || `${platform.offsetTop}`) || 0;
     const newTop = top + platformSpeed;
     const h = platform.offsetHeight || 0;
 
@@ -304,11 +313,11 @@ function updatePlatforms() {
   }
 }
 
-// Start main loop (returns interval id)
-function startPlatformFall() {
-  const id = setInterval(() => {
-    updatePlatforms();
-    applyGravity();
+// Main loop — move platforms first, then physics
+function startLoop() {
+  return setInterval(() => {
+    updatePlatforms();   // platforms move down first
+    applyGravity();      // then resolve player movement/landing
 
     // spawn after travel distance
     platformSpacingCounter += platformSpeed;
@@ -317,16 +326,13 @@ function startPlatformFall() {
       platformSpacingCounter = 0;
     }
   }, tickMs);
-  return id;
 }
 
 // Start game (once)
 function startGame() {
   if (gameStarted) return;
   gameStarted = true;
-  if (!fallIntervalId) {
-    fallIntervalId = startPlatformFall();
-  }
+  if (!loopId) loopId = startLoop();
 }
 
 // Spawn platform at random X across area (with margins)
@@ -350,7 +356,7 @@ if (typeof module !== "undefined") {
     moveRight,
     createPlatform,
     updatePlatforms,
-    startPlatformFall,
+    startLoop,
     generatePlatform,
     applyGravity,
   };

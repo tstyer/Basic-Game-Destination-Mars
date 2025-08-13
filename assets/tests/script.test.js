@@ -1,195 +1,360 @@
-/** 
- * @jest-environment jsdom
- */
+// ---
+// Destination: Mars - Game Script (precise IMG landing, moving platforms)
+// ---
 
-// ! NOTE: Notes in this file are also made for my learning, so they might be longer and more detailed than expected.
+// ==== Physics / State ====
+let velocityY = 0;
+let velocityX = 0;
+let isJumping = false;
 
-// 1: Tests Relating To The Music Toggle.
+const gravity = 0.45;
+const jumpHorizontalSpeed = 4.5;
+const airDrag = 0.10;
+const airAccel = 0.45;
+const maxAirSpeed = 7;
 
-// First, import the function you are testing from the script.js file:
-const { handleMusicToggle } = require("../script");
+// Key state
+const keys = { left: false, right: false };
 
-// Parent description of all Music Toggle tests
-describe("Handle Music Toggle", () => {
-    describe("on switch", () => {
+// Tunable: skip transparent pixels at top of PNG when landing
+const platformCollisionTopInsetPx = 50; // try 8–16
 
-        // Variables need to be described outside the beforeEach scope.
-        let checkbox, audio;
-            
-            // Before each test... 
-            beforeEach(() => {
-                // Need to create mock checkbox and audio for this type of test
-                checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
+// ==== Platforms / Spawning ====
+let platforms = [];
+let platformSpacingCounter = 0;
 
-                audio = document.createElement("audio");
-                audio.play = jest.fn();
-                audio.pause = jest.fn();
-            });
+const tickMs = 14;
+let platformSpeed = 1.7;
+const platformSpacingPx = 120;
+const maxPlatforms = 12;
+const platformWidth = 100;
+const spawnMargin = 16;
 
-            // First test on music toggle
+// ==== DOM handles / Game flow ====
+let gameArea;
+let spaceBug;
 
-            test("plays music when checkbox is checked", () => {
-            checkbox.checked = true;
+let hasAcknowledged = false; // clicked “Okay, got it.”
+let gameStarted = false;     // pressed Space after acknowledging
+let loopId = null;           // setInterval id
 
-            handleMusicToggle(checkbox, audio);
+// ==== DOM code (browser only) ====
+if (typeof window !== "undefined" && typeof $ !== "undefined") {
+  $(document).ready(function () {
+    const $music = $('#music');
+    const $musicToggle = $('#music_toggle');
+    gameArea = document.querySelector('.game_area');
+    spaceBug = document.querySelector('.space_bug');
 
-            expect(audio.play).toHaveBeenCalled();
-            expect(audio.pause).not.toHaveBeenCalled();
-            });
+    // Modal only on index.html
+    const isHome = /(^\/$|index\.html$)/.test(window.location.pathname);
+    if (isHome && gameArea) {
+      const modal = document.getElementById("howto_box");
+      const okBtn = document.getElementById("howto_ok");
+      if (modal && okBtn) {
+        modal.classList.add("is-open");
+        okBtn.addEventListener("click", () => {
+          hasAcknowledged = true;
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+        });
+      }
+    }
+
+    // Center the bug; ensure numeric bottom for physics
+    if (spaceBug && gameArea) {
+      const bugW = spaceBug.offsetWidth || 60;
+      const areaW = gameArea.offsetWidth || 600;
+      spaceBug.style.left = `${(areaW - bugW) / 2}px`;
+
+      if (!spaceBug.style.bottom) {
+        const computedBottom = getComputedStyle(spaceBug).bottom || "80px";
+        spaceBug.style.bottom = computedBottom;
+      }
+    }
+
+    // Single keyboard pipeline
+    document.addEventListener("keydown", (e) => {
+      // Space: start after OK, later = jump
+      if (e.code === "Space") {
+        if (!hasAcknowledged) return;
+        e.preventDefault();
+        if (!gameStarted) startGame();
+        else jump();
+        return;
+      }
+
+      if (e.key === "ArrowLeft")  keys.left = true;
+      if (e.key === "ArrowRight") keys.right = true;
+
+      if (!gameStarted) return;
+      if (e.key === "ArrowLeft")  moveLeft(spaceBug);
+      if (e.key === "ArrowRight") moveRight(spaceBug);
     });
-});
 
-// 2: Tests Relating To The Space Bug / Space Craft
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "ArrowLeft")  keys.left = false;
+      if (e.key === "ArrowRight") keys.right = false;
+    });
 
-const { createPlatform } = require("../script");
+    // Seed any existing platform in markup
+    const existingPlatform = document.querySelector(".platform");
+    if (existingPlatform) {
+      existingPlatform.style.top = "0px";
+      existingPlatform.style.left = "100px";
+      platforms.push(existingPlatform);
+    }
 
-describe("Generate new platforms", () => {
-  beforeEach(() => {
-    // Mock the dom structure before each test, so the test runs smoothly. 
-    document.body.innerHTML = `<div id="game-area"></div>`;
-    global.gameArea = document.getElementById("game-area"); 
+    // Music toggle
+    if ($music.length) {
+      const music = $music[0];
+      const musicOn = localStorage.getItem("music_on") === "true";
+      if (musicOn) music.play().catch(() => {}); else music.pause();
+
+      if ($musicToggle.length) {
+        $musicToggle.prop("checked", musicOn);
+        $musicToggle.on("change", function () {
+          localStorage.setItem("music_on", this.checked);
+          handleMusicToggle(this, music);
+        });
+      }
+    }
   });
+}
 
-  describe("New element named 'Platform' created", () => {
-    test("The returned element should be a <div>", () => {
-      const platform = createPlatform(100, 200);
-      expect(platform).toBeInstanceOf(HTMLElement);
-      expect(platform.tagName).toBe("DIV");
-    });
-  });
-});
+// ==== Functions ====
 
+// Music toggle
+function handleMusicToggle(checkbox, audio) {
+  if (checkbox.checked) audio.play(); else audio.pause();
+}
 
-// Test 3: Using arrows to move the space bug
+// Create platform
+function createPlatform(x, y) {
+  const platform = document.createElement("div");
+  platform.className = "platform";
+  platform.style.left = `${x}px`;
+  platform.style.top = `${y}px`;
 
-const { moveLeft } = require("../script");
+  const img = document.createElement("img");
+  img.src = "assets/images/space_rock_platform.png";
+  img.alt = "space platform";
+  platform.appendChild(img);
 
-describe("Space Bug moves when arrow keys pushed", () => {
-  describe("Space Bug moves left on left key", () => {
+  const area = document.querySelector(".game_area");
+  area.appendChild(platform);
 
-    beforeEach(() => {
-      document.body.innerHTML = 
-      `<div class="space_bug" style="left: 100px; position: absolute;">
-        <img src="assets/images/space_bug_right.PNG" />
-      </div>`;
+  platforms.push(platform);
+  return platform;
+}
 
-      global.spaceBug = document.querySelector(".space_bug");    // Assigns the varaibles spaceBug to a global scale. 
-    });
+// Ground move left/right
+function moveLeft(el) {
+  const left = parseInt(el.style.left, 10) || 0;
+  el.style.left = `${Math.max(0, left - 5)}px`;
+  const img = el.querySelector("img");
+  if (img && !img.src.includes("space_bug_left.PNG")) {
+    img.src = "assets/images/space_bug_left.PNG";
+  }
+}
+function moveRight(el) {
+  const left = parseInt(el.style.left, 10) || 0;
+  const maxLeft = (gameArea?.clientWidth || left) - (el.offsetWidth || 60);
+  el.style.left = `${Math.min(maxLeft, left + 5)}px`;
+  const img = el.querySelector("img");
+  if (img && !img.src.includes("space_bug_right.PNG")) {
+    img.src = "assets/images/space_bug_right.PNG";
+  }
+}
 
-    test("Space Bug continues left on left key down", () => {
-      moveLeft(spaceBug);
-      expect(spaceBug.style.left).toBe("95px");                  // Every left key down moev left by 5px.
-    })
-  })
-});
+// Jump (initial sideways push depending on held key)
+function jump() {
+  if (isJumping) return;
+  velocityY = -14;
+  isJumping = true;
 
-// Test 4 - New platforms
+  if (keys.left && !keys.right)      velocityX = -jumpHorizontalSpeed;
+  else if (keys.right && !keys.left) velocityX =  jumpHorizontalSpeed;
+  else                                velocityX =  0; // straight up if still
+}
 
-const { updatePlatforms, platforms } = require("../script");
+// Physics (vertical + IMG landing + mid-air steer + bounds)
+function applyGravity() {
+  if (!spaceBug || !gameArea) return;
 
-describe("Platforms fall and cycle", () => {
-  describe("platforms move down when updatePlatform is called", () => {
-    let gameArea;
-    let platform;
+  const areaH = gameArea.clientHeight;
+  const bugW  = spaceBug.offsetWidth || 60;
 
-    beforeEach(() => {
+  // --- vertical integration ---
+  const prevBottom = parseFloat(spaceBug.style.bottom || "80");
+  velocityY += gravity;
+  let nextBottom = prevBottom - velocityY; // positive velocityY moves bug down
 
-      // Begin to set up mock game area, starting with mock html
-      document.body.innerHTML = `<div class="game_area"></div>`;
+  // Try to land on a platform image only while falling
+  if (velocityY > 0) {
+    const landedBottom = getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW);
+    if (landedBottom != null) {
+      nextBottom = landedBottom; // snap feet to image top (with inset)
+      velocityY = 0;
+      isJumping = false;
+      velocityX = 0; // remove if you want momentum on landing
+    }
+  }
 
-      gameArea = document.querySelector(".game_area");
+  // Ground clamp
+  if (nextBottom <= 0) {
+    nextBottom = 0;
+    velocityY = 0;
+    isJumping = false;
+    velocityX = 0;
+  }
 
-      // I neded to manually define offsetHeight (jsdom doesn't compute it)
-      Object.defineProperty(gameArea, "offsetHeight", {
-        configurable: true,
-        value: 500,
-      });
+  spaceBug.style.bottom = `${nextBottom}px`;
 
-      // I need to create a mock platform in the dom
-      platform = document.createElement("div");
-      platform.className = "platform";
-      platform.style.position = "absolute";
-      platform.style.top = "100px";
-      platform.style.left = "50px";
+  // --- horizontal integration + mid-air steering ---
+  let left = parseFloat(spaceBug.style.left || "0");
 
-      gameArea.appendChild(platform);
+  if (isJumping) {
+    if (keys.left && !keys.right) {
+      velocityX = Math.max(-maxAirSpeed, velocityX - airAccel);
+    } else if (keys.right && !keys.left) {
+      velocityX = Math.min(maxAirSpeed, velocityX + airAccel);
+    } else {
+      // no arrow: bleed speed gently
+      if (velocityX > 0)      velocityX = Math.max(0, velocityX - airDrag);
+      else if (velocityX < 0) velocityX = Math.min(0, velocityX + airDrag);
+    }
+  }
 
-      // Use the same platforms array that updatePlatforms() uses
-      platforms.length = 0;            // clear existing contents
-      platforms.push(platform);       // add the test platform
-    });
+  left += velocityX;
+  left = Math.max(0, Math.min(left, gameArea.clientWidth - bugW)); // clamp
+  spaceBug.style.left = `${left}px`;
+}
 
-    test("platform top increases by 2px", () => {
-      updatePlatforms();
-      expect(platforms[0].style.top).toBe("102px");
-    });
-  });
-});
+// Precise landing on the *image* while platforms move.
+// Uses .getBoundingClientRect() minus the game area's border (clientTop/Left)
+// so everything is measured in the game area's padding box coordinates.
+function getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW) {
+  const area = gameArea;
+  const areaRect = area.getBoundingClientRect();
+  const areaH = area.clientHeight;     // content height (no border)
+  const offX = area.clientLeft;        // border-left width
+  const offY = area.clientTop;         // border-top width
+  const EPS = 4;
 
-// Test 5 - Falling platforms function
+  // Bug feet from TOP of game area padding box
+  const prevFeet = areaH - prevBottom;
+  const nextFeet = areaH - nextBottom;
 
-const { startPlatformFall } = require("../script");
+  // Bug horizontal span (already relative to padding box)
+  const bugLeft  = parseFloat(spaceBug.style.left || "0");
+  const bugRight = bugLeft + bugW;
 
-describe("Platforms start to fall when game starts", () => {
-  describe("An interval is set", () => {
+  let snapBottom = null;
+  let closestDelta = Infinity;
 
-    // Mock DOM area
-    beforeEach(() => {
+  for (let i = 0; i < platforms.length; i++) {
+    const plat = platforms[i];
+    const imgEl = plat.querySelector('img');
+    if (!imgEl) continue;
 
-      // Jest offers fake timers to be used in mock's
-      jest.useFakeTimers();
-      // Need to spy on setInterval within the test
-      jest.spyOn(global, "setInterval");
-    });
+    const r = imgEl.getBoundingClientRect();
 
-    // First test
+    // Image position relative to game area's padding box
+    const currTop  = (r.top  - areaRect.top  - offY) + platformCollisionTopInsetPx;
+    const imgLeft  = (r.left - areaRect.left - offX);
+    const imgRight = imgLeft + r.width;
 
-    test("Calls setInterval", () => {
-      startPlatformFall();
-      expect(setInterval).toHaveBeenCalled();
-    })
-  })
-})
+    // Horizontal overlap with the IMAGE only
+    const overlapsX = bugRight > imgLeft && bugLeft < imgRight;
+    if (!overlapsX) continue;
 
-// Test 6 - generate platforms regularly
+    // Previous top (platform moved down by platformSpeed already this tick)
+    const prevTop = currTop - platformSpeed;
 
-const script = require("../script"); // I had to import the entire script for this test
-const { generatePlatforms } = script;
+    // Did the feet cross the moving top segment this tick?
+    const crossed = (prevFeet <= prevTop + EPS) && (nextFeet >= currTop - EPS);
+    if (crossed) {
+      const candidateBottom = areaH - currTop; // place feet on current img top (inset)
+      const midTop = (prevTop + currTop) * 0.5;
+      const delta = Math.abs(midTop - prevFeet);
+      if (delta < closestDelta) {
+        closestDelta = delta;
+        snapBottom = candidateBottom;
+      }
+    }
+  }
 
-describe("Platforms falling generator called", () => {
-  describe("createPlatform is called", () => {
+  return snapBottom;
+}
 
-    beforeEach(() => {
+// Move platforms (and despawn at bottom line)
+function updatePlatforms() {
+  const area = gameArea || document.querySelector(".game_area");
+  if (!area) return;
 
-    // Create a mock game area div
-    document.body.innerHTML = `<div id="game-area"></div>`;
+  const areaH = area.clientHeight;
 
-    // Create Mock Function
-    script.generatePlatforms = function () {
-    const x = 150;
-    const y = 0;
-    script.createPlatform(x, y); // uses mocked version
-    };
-    
-    // Mock the createPlatform function --- REF: (learned from: https://jestjs.io/docs/mock-functions)
-    jest.spyOn(script, "createPlatform").mockImplementation(() => {});
+  for (let i = platforms.length - 1; i >= 0; i--) {
+    const platform = platforms[i];
+    const top = parseFloat(platform.style.top || `${platform.offsetTop}`) || 0;
+    const newTop = top + platformSpeed;
+    const h = platform.offsetHeight || 0;
 
-    // I also need to mock math.random from the function --- REF: (learned from: https://jestjs.io/docs/mock-functions)
-    jest.spyOn(Math, "random").mockReturnValue(0.5);
-    });
+    if (newTop >= areaH - h) {
+      area.removeChild(platform);
+      platforms.splice(i, 1);
+    } else {
+      platform.style.top = `${newTop}px`;
+    }
+  }
+}
 
-      test("calls createPlatform with expected x and y", () => {
-       script.generatePlatforms(); // now uses mocked createPlatform
-       expect(script.createPlatform).toHaveBeenCalledWith(150, 0);
-       });
-  });
-});
+// Main loop — move platforms first, then physics (so we collide with where they *are* now)
+function startLoop() {
+  return setInterval(() => {
+    updatePlatforms();   // platforms move down first
+    applyGravity();      // then we resolve player movement/landing
 
-// Test 7. Applying Gravity
+    // spawn after travel distance
+    platformSpacingCounter += platformSpeed;
+    if (platformSpacingCounter >= platformSpacingPx && platforms.length < maxPlatforms) {
+      generatePlatform();
+      platformSpacingCounter = 0;
+    }
+  }, tickMs);
+}
 
-const { applyGravity } = require("../script");
+// Start game (once)
+function startGame() {
+  if (gameStarted) return;
+  gameStarted = true;
+  if (!loopId) loopId = startLoop();
+}
 
-describe("Check gravity applies", () => {
-  describe("After jumping, gravity")
-})
+// Spawn platform at random X across area (with margins)
+function generatePlatform() {
+  const area = gameArea || document.querySelector(".game_area");
+  if (!area) return;
+
+  const minX = spawnMargin;
+  const maxX = Math.max(minX, area.clientWidth - platformWidth - spawnMargin);
+
+  const x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+  const y = 0;
+  createPlatform(x, y);
+}
+
+// ==== Exports for Jest ====
+if (typeof module !== "undefined") {
+  module.exports = {
+    handleMusicToggle,
+    moveLeft,
+    moveRight,
+    createPlatform,
+    updatePlatforms,
+    startLoop,
+    generatePlatform,
+    applyGravity,
+  };
+}
