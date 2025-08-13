@@ -1,5 +1,5 @@
 // ---
-// Destination: Mars — IMG landing + sticky + Mars meter + ramp + ground-touch grace
+// Destination: Mars — IMG landing + sticky + Mars meter + ramp + ground-touch grace + instant walking
 // ---
 
 // ==== Physics / State ====
@@ -8,13 +8,16 @@ let velocityX = 0;
 let isJumping = false;
 
 const gravity = 0.45;
-const jumpHorizontalSpeed = 3.5;    // This is an initial burst when you jump
+const jumpHorizontalSpeed = 4.5;
 const airDrag = 0.10;
 const airAccel = 0.45;
 const maxAirSpeed = 7;
 
 // Key state
 const keys = { left: false, right: false };
+
+// Movement tunables
+const groundStepPx = 4;               // pixels per tick while walking on ground/platform
 
 // Image collision tunables
 const platformCollisionTopInsetPx = 10; // skip transparent pixels at top of platform PNG
@@ -34,7 +37,7 @@ const spawnMargin = 16;
 // ==== Mars Meter / Difficulty ====
 const startDistance = 1000;
 let distanceRemaining = startDistance;
-const landingDecrement = 25;            // Mars decreases per platform landing
+const landingDecrement = 5;             // Mars counter decreases per platform landing
 const slowSpeed = 1.1;                  // starting easy speed
 const fastSpeed = 1.7;                  // ramped speed (your current value)
 const speedRampThreshold = 500;         // when distanceRemaining <= this, use fast speed
@@ -49,7 +52,7 @@ let hasAcknowledged = false; // clicked “Okay, got it.”
 let gameStarted = false;     // pressed Space after acknowledging
 let loopId = null;           // setInterval id
 
-// Ground grace: allow exactly one safe ground touch after starting
+// Allow exactly one safe ground touch after starting
 let allowOneGroundTouch = true;
 let isOnGround = false;      // track ground state to detect air->ground transitions
 
@@ -88,9 +91,8 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
     // Initialize Mars label
     updateDistanceLabel();
 
-    // Single keyboard pipeline
+    // Key handlers: set flags, no immediate movement (instant walking happens each tick)
     document.addEventListener("keydown", (e) => {
-      // Space: start after OK, later = jump
       if (e.code === "Space") {
         if (!hasAcknowledged) return;
         e.preventDefault();
@@ -99,16 +101,15 @@ if (typeof window !== "undefined" && typeof $ !== "undefined") {
         return;
       }
 
-      if (e.key === "ArrowLeft")  keys.left = true;
-      if (e.key === "ArrowRight") keys.right = true;
-
-      if (!gameStarted) return;
-      if (e.key === "ArrowLeft")  moveLeft(spaceBug);
-      if (e.key === "ArrowRight") moveRight(spaceBug);
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        e.preventDefault(); // avoid page scroll, feels snappier
+        if (e.key === "ArrowLeft")  keys.left  = true;
+        if (e.key === "ArrowRight") keys.right = true;
+      }
     });
 
     document.addEventListener("keyup", (e) => {
-      if (e.key === "ArrowLeft")  keys.left = false;
+      if (e.key === "ArrowLeft")  keys.left  = false;
       if (e.key === "ArrowRight") keys.right = false;
     });
 
@@ -186,10 +187,37 @@ function createPlatform(x, y) {
   return platform;
 }
 
-// ==== Ground move ====
+// ==== Ground walking each tick (instant, continuous while standing) ====
+function setBugFacing(dir) {
+  const img = spaceBug?.querySelector("img");
+  if (!img) return;
+  const want = dir === "left"
+    ? "assets/images/space_bug_left.PNG"
+    : "assets/images/space_bug_right.PNG";
+  if (!img.src.includes(dir === "left" ? "left" : "right")) img.src = want;
+}
+
+function applyGroundMovement() {
+  if (!gameStarted || !spaceBug || !gameArea) return;
+  if (isJumping) return; // only walk when standing on ground/platform (sticky)
+
+  let left = parseFloat(spaceBug.style.left || "0");
+  const maxLeft = gameArea.clientWidth - (spaceBug.offsetWidth || 60);
+
+  if (keys.left && !keys.right) {
+    left = Math.max(0, left - groundStepPx);
+    setBugFacing("left");
+  } else if (keys.right && !keys.left) {
+    left = Math.min(maxLeft, left + groundStepPx);
+    setBugFacing("right");
+  }
+  spaceBug.style.left = `${left}px`;
+}
+
+// ==== (Legacy) Ground move helpers use the same step (kept for completeness) ====
 function moveLeft(el) {
   const left = parseInt(el.style.left, 10) || 0;
-  el.style.left = `${Math.max(0, left - 5)}px`;
+  el.style.left = `${Math.max(0, left - groundStepPx)}px`;
   const img = el.querySelector("img");
   if (img && !img.src.includes("space_bug_left.PNG")) {
     img.src = "assets/images/space_bug_left.PNG";
@@ -198,7 +226,7 @@ function moveLeft(el) {
 function moveRight(el) {
   const left = parseInt(el.style.left, 10) || 0;
   const maxLeft = (gameArea?.clientWidth || left) - (el.offsetWidth || 60);
-  el.style.left = `${Math.min(maxLeft, left + 5)}px`;
+  el.style.left = `${Math.min(maxLeft, left + groundStepPx)}px`;
   const img = el.querySelector("img");
   if (img && !img.src.includes("space_bug_right.PNG")) {
     img.src = "assets/images/space_bug_right.PNG";
@@ -208,7 +236,7 @@ function moveRight(el) {
 // ==== Jump ====
 function jump() {
   if (isJumping) return;
-  velocityY = -14;
+  velocityY = -14; // How far it can jump
   isJumping = true;
 
   if (keys.left && !keys.right)      velocityX = -jumpHorizontalSpeed;
@@ -407,11 +435,12 @@ function stopLoop() {
   }
 }
 
-// ==== Main loop ====
+// ==== This is the Main Game loop ====
 function startLoop() {
   return setInterval(() => {
-    updatePlatforms();   // platforms move down first
-    applyGravity();      // then resolve player movement/landing
+    updatePlatforms();      // platforms move down first
+    applyGroundMovement();  // NEW: instant walking while standing (no key-repeat lag)
+    applyGravity();         // then resolve player movement/landing
 
     // spawn after travel distance
     platformSpacingCounter += platformSpeed;

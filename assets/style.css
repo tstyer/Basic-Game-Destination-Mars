@@ -141,9 +141,9 @@ h1, h2, h3 {
 
 .game_area {
   position: relative;  /* enables absolute positioning inside */
-  border: 2px solid white;
+  border: 2px solid #FFC300;
   border-radius: 5%;
-  width: 60%;
+  width: 50%;
   height: 90%;
   background-color: black;
 }
