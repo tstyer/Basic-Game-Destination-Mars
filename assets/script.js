@@ -633,6 +633,8 @@ if (typeof module !== "undefined") {
     startLoop: startLoop, // start via startGame()
     generatePlatform,
     applyGravity,
-    showModal
+    showModal,
+    closeModal,
+    startGame
   };
 }

@@ -293,3 +293,72 @@ describe("closeModal()", () => {
     expect(overlay.classList.contains("is-open")).toBe(false);
     expect(overlay.getAttribute("aria-hidden")).toBe("true");
   });
+});
+
+/* --------------------------- startGame --------------------------- */
+// Minimal DOM the game expects
+function setupDOM({ areaWidth = 600, bugLeft = 120, bugWidth = 60 } = {}) {
+  document.body.innerHTML = `
+    <div class="game_area" style="position:relative; height:500px;"></div>
+    <div class="space_bug" style="position:absolute; left:${bugLeft}px; bottom:80px;">
+      <img alt="bug"/>
+    </div>
+  `;
+  const area = document.querySelector(".game_area");
+  const bug  = document.querySelector(".space_bug");
+
+  Object.defineProperty(area, "clientWidth",  { value: areaWidth, configurable: true });
+  Object.defineProperty(area, "clientHeight", { value: 500, configurable: true });
+  Object.defineProperty(area, "clientLeft",   { value: 0, configurable: true });
+  Object.defineProperty(area, "clientTop",    { value: 0, configurable: true });
+
+  Object.defineProperty(bug, "offsetWidth",   { value: bugWidth, configurable: true });
+
+  // let createPlatform append into .game_area
+  area.appendChild(bug);
+  return { area, bug };
+}
+
+describe("startGame() behaviour", () => {
+  let script;
+
+  beforeEach(() => {
+    jest.resetModules();
+    jest.useFakeTimers();
+    setupDOM();
+    script = require(SCRIPT_PATH);
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+    document.body.innerHTML = "";
+    jest.clearAllMocks();
+  });
+
+  test("schedules the main loop (setInterval called once)", () => {
+    const spy = jest.spyOn(global, "setInterval");
+    script.startGame();
+    script.startGame(); // should not schedule a second loop
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  test("after enough ticks, a platform is spawned", () => {
+  script.startGame();
+
+  const TICK_MS = 14;
+  const PLATFORM_SPACING = 120;
+  const SLOW_SPEED = 1.1;
+
+  // Advance a little beyond the spawn threshold
+  const ticks = Math.ceil(PLATFORM_SPACING / SLOW_SPEED); // 110
+  jest.advanceTimersByTime(ticks * TICK_MS + 1); // allow a tiny overrun
+
+  const platform = document.querySelector(".platform");
+  expect(platform).not.toBeNull();
+
+  const top = parseFloat(platform.style.top || "0");
+  expect(top).toBeGreaterThanOrEqual(0);
+  expect(top).toBeLessThanOrEqual(SLOW_SPEED); // 0px or 1.1px
+  expect(platform.style.left).toMatch(/^\d+px$/);
+  });
+}); 
