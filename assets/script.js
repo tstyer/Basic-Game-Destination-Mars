@@ -635,6 +635,7 @@ if (typeof module !== "undefined") {
     applyGravity,
     showModal,
     closeModal,
-    startGame
+    startGame,
+    resetGameState
   };
 }

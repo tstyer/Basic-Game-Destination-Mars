@@ -362,3 +362,52 @@ describe("startGame() behaviour", () => {
   expect(platform.style.left).toMatch(/^\d+px$/);
   });
 }); 
+
+/* --------------------------- resetGameState --------------------------- */
+// minimal game DOM
+function setupGameDOM({ areaWidth = 600, areaHeight = 500, bugLeft = 120, bugWidth = 60 } = {}) {
+  document.body.innerHTML = `
+    <div class="game_area" style="position:relative; height:${areaHeight}px;"></div>
+    <div class="space_bug" style="position:absolute; left:${bugLeft}px; bottom:20px;"><img alt="bug"/></div>
+    <div class="distance-label"></div>
+  `;
+  const area = document.querySelector(".game_area");
+  const bug  = document.querySelector(".space_bug");
+  Object.defineProperty(area, "clientWidth",  { value: areaWidth, configurable: true });
+  Object.defineProperty(area, "clientHeight", { value: areaHeight, configurable: true });
+  Object.defineProperty(bug,  "offsetWidth",  { value: bugWidth,  configurable: true });
+  area.appendChild(bug);
+  return { area, bug, areaWidth, bugWidth };
+}
+
+/* ------------------------------------------------------------------ */
+/* Behaviour test: works without any _test hooks                       */
+/* ------------------------------------------------------------------ */
+describe("resetGameState() — behaviour (no hooks needed)", () => {
+  let script;
+
+  beforeEach(() => {
+    jest.resetModules();
+    script = require(SCRIPT_PATH);
+    setupGameDOM();
+  });
+
+  test("removes all existing platforms from the DOM and leaves a clean slate", () => {
+    // seed platforms through the public API (so the internal array is populated)
+    script.createPlatform(10, 0);
+    script.createPlatform(20, 0);
+    script.createPlatform(30, 0);
+
+    expect(document.querySelectorAll(".platform").length).toBe(3);
+
+    script.resetGameState();
+
+    // platforms cleared from DOM
+    expect(document.querySelectorAll(".platform").length).toBe(0);
+
+    // sanity: after a reset we can spawn again without errors
+    jest.spyOn(Math, "random").mockReturnValue(0.5);
+    script.generatePlatform();
+    expect(document.querySelector(".platform")).not.toBeNull();
+  });
+});
