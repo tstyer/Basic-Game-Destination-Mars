@@ -614,6 +614,16 @@ function generatePlatform() {
 
 // ==== Exports (for tests) ====
 if (typeof module !== "undefined") {
+
+    // Minimal testing hooks to control internal state in tests
+  const _test = {
+    setSpaceBug: (el) => { spaceBug = el; },
+    setVelocityY: (v) => { velocityY = v; },
+    setGravity: (g) => { gravity = g; },
+    getVelocityY: () => velocityY,
+    getIsJumping: () => isJumping,
+  };
+
   module.exports = {
     handleMusicToggle,
     moveLeft,
