@@ -1,360 +1,170 @@
-// ---
-// Destination: Mars - Game Script (precise IMG landing, moving platforms)
-// ---
+/** @jest-environment jsdom */
 
-// ==== Physics / State ====
-let velocityY = 0;
-let velocityX = 0;
-let isJumping = false;
+/**
+ * Star Hopper — unified Jest tests (CommonJS)
+ * Expects your script to export:
+ *  - handleMusicToggle, applyGravity, startPlatformFall,
+ *    generatePlatform, createPlatform, checkPlatformCollision, (optional) tickPlatforms
+ *  - _test hooks: { setSpaceBug, setVelocityY, setGravity, getVelocityY, getIsJumping }
+ *
+ * If names differ, tweak the requires/spies below.
+ */
 
-const gravity = 0.45;
-const jumpHorizontalSpeed = 4.5;
-const airDrag = 0.10;
-const airAccel = 0.45;
-const maxAirSpeed = 7;
+/* --------------------------- Music toggle --------------------------- */
+describe("Handle Music Toggle", () => {
+  let handleMusicToggle;
+  let checkbox, audio;
 
-// Key state
-const keys = { left: false, right: false };
+  beforeEach(() => {
+    jest.resetModules();
+    const mod = require("../script");
+    handleMusicToggle = mod.handleMusicToggle;
 
-// Tunable: skip transparent pixels at top of PNG when landing
-const platformCollisionTopInsetPx = 50; // try 8–16
+    checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
 
-// ==== Platforms / Spawning ====
-let platforms = [];
-let platformSpacingCounter = 0;
+    audio = document.createElement("audio");
+    audio.play = jest.fn();
+    audio.pause = jest.fn();
+  });
 
-const tickMs = 14;
-let platformSpeed = 1.7;
-const platformSpacingPx = 120;
-const maxPlatforms = 12;
-const platformWidth = 100;
-const spawnMargin = 16;
+  test("plays music when checkbox is checked", () => {
+    checkbox.checked = true;
+    handleMusicToggle(checkbox, audio);
+    expect(audio.play).toHaveBeenCalledTimes(1);
+    expect(audio.pause).not.toHaveBeenCalled();
+  });
 
-// ==== DOM handles / Game flow ====
-let gameArea;
-let spaceBug;
+  test("pauses music when checkbox is unchecked", () => {
+    checkbox.checked = false;
+    handleMusicToggle(checkbox, audio);
+    expect(audio.pause).toHaveBeenCalledTimes(1);
+    expect(audio.play).not.toHaveBeenCalled();
+  });
+});
 
-let hasAcknowledged = false; // clicked “Okay, got it.”
-let gameStarted = false;     // pressed Space after acknowledging
-let loopId = null;           // setInterval id
+/* --------------------------- applyGravity --------------------------- */
+describe("applyGravity", () => {
+  let script;
+  let setSpaceBug, setVelocityY, setGravity, getVelocityY, getIsJumping;
+  let bug;
 
-// ==== DOM code (browser only) ====
-if (typeof window !== "undefined" && typeof $ !== "undefined") {
-  $(document).ready(function () {
-    const $music = $('#music');
-    const $musicToggle = $('#music_toggle');
-    gameArea = document.querySelector('.game_area');
-    spaceBug = document.querySelector('.space_bug');
+  beforeEach(() => {
+    jest.resetModules();
+    script = require("../script");
 
-    // Modal only on index.html
-    const isHome = /(^\/$|index\.html$)/.test(window.location.pathname);
-    if (isHome && gameArea) {
-      const modal = document.getElementById("howto_box");
-      const okBtn = document.getElementById("howto_ok");
-      if (modal && okBtn) {
-        modal.classList.add("is-open");
-        okBtn.addEventListener("click", () => {
-          hasAcknowledged = true;
-          modal.classList.remove("is-open");
-          modal.setAttribute("aria-hidden", "true");
-        });
-      }
-    }
+    ({ setSpaceBug, setVelocityY, setGravity, getVelocityY, getIsJumping } =
+      script._test || {});
 
-    // Center the bug; ensure numeric bottom for physics
-    if (spaceBug && gameArea) {
-      const bugW = spaceBug.offsetWidth || 60;
-      const areaW = gameArea.offsetWidth || 600;
-      spaceBug.style.left = `${(areaW - bugW) / 2}px`;
+    // Guard if hooks are missing
+    if (!setSpaceBug) throw new Error("Missing _test hooks in script.js");
 
-      if (!spaceBug.style.bottom) {
-        const computedBottom = getComputedStyle(spaceBug).bottom || "80px";
-        spaceBug.style.bottom = computedBottom;
-      }
-    }
+    bug = document.createElement("div");
+    bug.style.position = "absolute";
+    bug.style.bottom = "80px";
 
-    // Single keyboard pipeline
-    document.addEventListener("keydown", (e) => {
-      // Space: start after OK, later = jump
-      if (e.code === "Space") {
-        if (!hasAcknowledged) return;
-        e.preventDefault();
-        if (!gameStarted) startGame();
-        else jump();
-        return;
-      }
+    setSpaceBug(bug);
+    setVelocityY(0);
+    setGravity(0.5);
 
-      if (e.key === "ArrowLeft")  keys.left = true;
-      if (e.key === "ArrowRight") keys.right = true;
+    // Avoid side effects from collisions during unit test
+    script.checkPlatformCollision = jest.fn();
+  });
 
-      if (!gameStarted) return;
-      if (e.key === "ArrowLeft")  moveLeft(spaceBug);
-      if (e.key === "ArrowRight") moveRight(spaceBug);
-    });
+  test("updates bottom and calls checkPlatformCollision", () => {
+    script.applyGravity();
+    expect(bug.style.bottom).toBe("79.5px"); // 80 - (0 + 0.5)
+    expect(script.checkPlatformCollision).toHaveBeenCalledWith(79.5);
+  });
 
-    document.addEventListener("keyup", (e) => {
-      if (e.key === "ArrowLeft")  keys.left = false;
-      if (e.key === "ArrowRight") keys.right = false;
-    });
+  test("stops at ground, resets velocity, clears jumping flag", () => {
+    bug.style.bottom = "1px";
+    setVelocityY(2);   // falling
+    setGravity(0.5);
 
-    // Seed any existing platform in markup
-    const existingPlatform = document.querySelector(".platform");
-    if (existingPlatform) {
-      existingPlatform.style.top = "0px";
-      existingPlatform.style.left = "100px";
-      platforms.push(existingPlatform);
-    }
+    script.applyGravity();
 
-    // Music toggle
-    if ($music.length) {
-      const music = $music[0];
-      const musicOn = localStorage.getItem("music_on") === "true";
-      if (musicOn) music.play().catch(() => {}); else music.pause();
+    expect(bug.style.bottom).toBe("0px");
+    expect(getVelocityY()).toBe(0);
+    expect(getIsJumping()).toBe(false);
+  });
+});
 
-      if ($musicToggle.length) {
-        $musicToggle.prop("checked", musicOn);
-        $musicToggle.on("change", function () {
-          localStorage.setItem("music_on", this.checked);
-          handleMusicToggle(this, music);
-        });
-      }
+/* ----------------------- startPlatformFall/timers ----------------------- */
+describe("Platforms start to fall when game starts", () => {
+  let script;
+
+  beforeEach(() => {
+    jest.resetModules();
+    jest.useFakeTimers();
+    script = require("../script");
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+    jest.clearAllMocks();
+  });
+
+  test("calls setInterval when startPlatformFall is invoked", () => {
+    const spy = jest.spyOn(global, "setInterval");
+    script.startPlatformFall();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  test("interval callback runs at least once", () => {
+    if (typeof script.tickPlatforms === "function") {
+      const tickSpy = jest.spyOn(script, "tickPlatforms");
+      script.startPlatformFall();
+      jest.runOnlyPendingTimers();
+      expect(tickSpy).toHaveBeenCalled();
+    } else {
+      // Smoke-test that timers are scheduled and runnable
+      script.startPlatformFall();
+      expect(() => jest.runOnlyPendingTimers()).not.toThrow();
     }
   });
-}
+});
 
-// ==== Functions ====
+/* --------------------------- generatePlatform --------------------------- */
+describe("generatePlatform", () => {
+  let script;
 
-// Music toggle
-function handleMusicToggle(checkbox, audio) {
-  if (checkbox.checked) audio.play(); else audio.pause();
-}
+  beforeEach(() => {
+    jest.resetModules();
+    script = require("../script");
+  });
 
-// Create platform
-function createPlatform(x, y) {
-  const platform = document.createElement("div");
-  platform.className = "platform";
-  platform.style.left = `${x}px`;
-  platform.style.top = `${y}px`;
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
 
-  const img = document.createElement("img");
-  img.src = "assets/images/space_rock_platform.png";
-  img.alt = "space platform";
-  platform.appendChild(img);
+  test("calls createPlatform with y=0 and computed x", () => {
+    const randSpy = jest.spyOn(Math, "random").mockReturnValue(0.5);
+    const createSpy = jest
+      .spyOn(script, "createPlatform")
+      .mockImplementation(() => {});
 
-  const area = document.querySelector(".game_area");
-  area.appendChild(platform);
+    script.generatePlatform();
 
-  platforms.push(platform);
-  return platform;
-}
+    expect(createSpy).toHaveBeenCalledWith(150, 0); // floor(0.5*300)
+    randSpy.mockRestore();
+  });
 
-// Ground move left/right
-function moveLeft(el) {
-  const left = parseInt(el.style.left, 10) || 0;
-  el.style.left = `${Math.max(0, left - 5)}px`;
-  const img = el.querySelector("img");
-  if (img && !img.src.includes("space_bug_left.PNG")) {
-    img.src = "assets/images/space_bug_left.PNG";
-  }
-}
-function moveRight(el) {
-  const left = parseInt(el.style.left, 10) || 0;
-  const maxLeft = (gameArea?.clientWidth || left) - (el.offsetWidth || 60);
-  el.style.left = `${Math.min(maxLeft, left + 5)}px`;
-  const img = el.querySelector("img");
-  if (img && !img.src.includes("space_bug_right.PNG")) {
-    img.src = "assets/images/space_bug_right.PNG";
-  }
-}
+  test("x stays within bounds [0, 299]", () => {
+    const createSpy = jest
+      .spyOn(script, "createPlatform")
+      .mockImplementation(() => {});
 
-// Jump (initial sideways push depending on held key)
-function jump() {
-  if (isJumping) return;
-  velocityY = -14;
-  isJumping = true;
+    jest
+      .spyOn(Math, "random")
+      .mockReturnValueOnce(0)        // -> x 0
+      .mockReturnValueOnce(0.99999); // -> x 299
 
-  if (keys.left && !keys.right)      velocityX = -jumpHorizontalSpeed;
-  else if (keys.right && !keys.left) velocityX =  jumpHorizontalSpeed;
-  else                                velocityX =  0; // straight up if still
-}
+    script.generatePlatform();
+    script.generatePlatform();
 
-// Physics (vertical + IMG landing + mid-air steer + bounds)
-function applyGravity() {
-  if (!spaceBug || !gameArea) return;
-
-  const areaH = gameArea.clientHeight;
-  const bugW  = spaceBug.offsetWidth || 60;
-
-  // --- vertical integration ---
-  const prevBottom = parseFloat(spaceBug.style.bottom || "80");
-  velocityY += gravity;
-  let nextBottom = prevBottom - velocityY; // positive velocityY moves bug down
-
-  // Try to land on a platform image only while falling
-  if (velocityY > 0) {
-    const landedBottom = getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW);
-    if (landedBottom != null) {
-      nextBottom = landedBottom; // snap feet to image top (with inset)
-      velocityY = 0;
-      isJumping = false;
-      velocityX = 0; // remove if you want momentum on landing
-    }
-  }
-
-  // Ground clamp
-  if (nextBottom <= 0) {
-    nextBottom = 0;
-    velocityY = 0;
-    isJumping = false;
-    velocityX = 0;
-  }
-
-  spaceBug.style.bottom = `${nextBottom}px`;
-
-  // --- horizontal integration + mid-air steering ---
-  let left = parseFloat(spaceBug.style.left || "0");
-
-  if (isJumping) {
-    if (keys.left && !keys.right) {
-      velocityX = Math.max(-maxAirSpeed, velocityX - airAccel);
-    } else if (keys.right && !keys.left) {
-      velocityX = Math.min(maxAirSpeed, velocityX + airAccel);
-    } else {
-      // no arrow: bleed speed gently
-      if (velocityX > 0)      velocityX = Math.max(0, velocityX - airDrag);
-      else if (velocityX < 0) velocityX = Math.min(0, velocityX + airDrag);
-    }
-  }
-
-  left += velocityX;
-  left = Math.max(0, Math.min(left, gameArea.clientWidth - bugW)); // clamp
-  spaceBug.style.left = `${left}px`;
-}
-
-// Precise landing on the *image* while platforms move.
-// Uses .getBoundingClientRect() minus the game area's border (clientTop/Left)
-// so everything is measured in the game area's padding box coordinates.
-function getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW) {
-  const area = gameArea;
-  const areaRect = area.getBoundingClientRect();
-  const areaH = area.clientHeight;     // content height (no border)
-  const offX = area.clientLeft;        // border-left width
-  const offY = area.clientTop;         // border-top width
-  const EPS = 4;
-
-  // Bug feet from TOP of game area padding box
-  const prevFeet = areaH - prevBottom;
-  const nextFeet = areaH - nextBottom;
-
-  // Bug horizontal span (already relative to padding box)
-  const bugLeft  = parseFloat(spaceBug.style.left || "0");
-  const bugRight = bugLeft + bugW;
-
-  let snapBottom = null;
-  let closestDelta = Infinity;
-
-  for (let i = 0; i < platforms.length; i++) {
-    const plat = platforms[i];
-    const imgEl = plat.querySelector('img');
-    if (!imgEl) continue;
-
-    const r = imgEl.getBoundingClientRect();
-
-    // Image position relative to game area's padding box
-    const currTop  = (r.top  - areaRect.top  - offY) + platformCollisionTopInsetPx;
-    const imgLeft  = (r.left - areaRect.left - offX);
-    const imgRight = imgLeft + r.width;
-
-    // Horizontal overlap with the IMAGE only
-    const overlapsX = bugRight > imgLeft && bugLeft < imgRight;
-    if (!overlapsX) continue;
-
-    // Previous top (platform moved down by platformSpeed already this tick)
-    const prevTop = currTop - platformSpeed;
-
-    // Did the feet cross the moving top segment this tick?
-    const crossed = (prevFeet <= prevTop + EPS) && (nextFeet >= currTop - EPS);
-    if (crossed) {
-      const candidateBottom = areaH - currTop; // place feet on current img top (inset)
-      const midTop = (prevTop + currTop) * 0.5;
-      const delta = Math.abs(midTop - prevFeet);
-      if (delta < closestDelta) {
-        closestDelta = delta;
-        snapBottom = candidateBottom;
-      }
-    }
-  }
-
-  return snapBottom;
-}
-
-// Move platforms (and despawn at bottom line)
-function updatePlatforms() {
-  const area = gameArea || document.querySelector(".game_area");
-  if (!area) return;
-
-  const areaH = area.clientHeight;
-
-  for (let i = platforms.length - 1; i >= 0; i--) {
-    const platform = platforms[i];
-    const top = parseFloat(platform.style.top || `${platform.offsetTop}`) || 0;
-    const newTop = top + platformSpeed;
-    const h = platform.offsetHeight || 0;
-
-    if (newTop >= areaH - h) {
-      area.removeChild(platform);
-      platforms.splice(i, 1);
-    } else {
-      platform.style.top = `${newTop}px`;
-    }
-  }
-}
-
-// Main loop — move platforms first, then physics (so we collide with where they *are* now)
-function startLoop() {
-  return setInterval(() => {
-    updatePlatforms();   // platforms move down first
-    applyGravity();      // then we resolve player movement/landing
-
-    // spawn after travel distance
-    platformSpacingCounter += platformSpeed;
-    if (platformSpacingCounter >= platformSpacingPx && platforms.length < maxPlatforms) {
-      generatePlatform();
-      platformSpacingCounter = 0;
-    }
-  }, tickMs);
-}
-
-// Start game (once)
-function startGame() {
-  if (gameStarted) return;
-  gameStarted = true;
-  if (!loopId) loopId = startLoop();
-}
-
-// Spawn platform at random X across area (with margins)
-function generatePlatform() {
-  const area = gameArea || document.querySelector(".game_area");
-  if (!area) return;
-
-  const minX = spawnMargin;
-  const maxX = Math.max(minX, area.clientWidth - platformWidth - spawnMargin);
-
-  const x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
-  const y = 0;
-  createPlatform(x, y);
-}
-
-// ==== Exports for Jest ====
-if (typeof module !== "undefined") {
-  module.exports = {
-    handleMusicToggle,
-    moveLeft,
-    moveRight,
-    createPlatform,
-    updatePlatforms,
-    startLoop,
-    generatePlatform,
-    applyGravity,
-  };
-}
+    expect(createSpy).toHaveBeenNthCalledWith(1, 0, 0);
+    expect(createSpy).toHaveBeenNthCalledWith(2, 299, 0);
+  });
+});
