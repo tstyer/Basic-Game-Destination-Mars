@@ -222,7 +222,6 @@ describe("generatePlatform", () => {
 });
 
 /* --------------------------- showModal --------------------------- */
-
 /* setupOverlay created so as to not type it more than once */
 const setupOverlay = () => {
   document.body.innerHTML = `
@@ -269,4 +268,28 @@ describe("showModal()", () => {
     // button calls provided handler
     btn.click();
     expect(onClick).toHaveBeenCalledTimes(1);
+  });
+});
+
+/* --------------------------- closeModal --------------------------- */
+describe("closeModal()", () => {
+  let script;
+
+  beforeEach(() => {
+    jest.resetModules();
+    script = require(SCRIPT_PATH);
+  });
+
+  test("removes is-open and sets aria-hidden=true", () => {
+    const { overlay } = setupOverlay();
+
+    // open first
+    script.showModal("T", "<p>B</p>", "OK", () => {});
+    expect(overlay.classList.contains("is-open")).toBe(true);
+    expect(overlay.getAttribute("aria-hidden")).toBe("false");
+
+    // then close
+    script.closeModal();
+    expect(overlay.classList.contains("is-open")).toBe(false);
+    expect(overlay.getAttribute("aria-hidden")).toBe("true");
   });
