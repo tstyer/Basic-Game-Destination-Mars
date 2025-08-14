@@ -149,11 +149,13 @@ All images are AI generated as explained above, and they live in assets/images/.
 
 ### Wireframes
 
+The initial Wire Frame designs are listed below. However, over the course of creating the website, and due to timiing, modicfications were made and elements subtracted. 
+
 #### Initial Website Design
 
-- [Home / Main Page](https://balsamiq.cloud/smzasgd/ppiwpgi/r2278)
-- [Settings Page](https://balsamiq.cloud/smzasgd/ppiwpgi/rFC6A)
-- [Instructions Page](https://balsamiq.cloud/smzasgd/ppiwpgi/rCAF6)
+- ![Screenshot of Hompage Design](assets\images\balsamiq_home_screenshot.png)
+- ![Screenshot of Settings Page](assets\images\balsamiq_settings_screenshot.png)
+- ![Screenshot of Instructions Page](assets\images\balsamiq_instructions_screenshot.png)
 
 ### Future Design Plans
 
