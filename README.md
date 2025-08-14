@@ -13,14 +13,25 @@ This project is an interactive web game built using JavaScript, HTML, and CSS. I
 
 ### Scope
 
+The scope of this project is small, being a single-screen browser game where you guide a space bug across falling platforms. The core system are keyboard controls (← → to move, Space to jump), platform spawning and descent, landing, a distance-to-Mars meter, win/lose states, a simple “How to Play” modal, and a music on/off toggle.
+
 ## User Experience 
-...
+
+There is instant feedback, snappy controls, and short sessions that feel fair. The first ground touch after starting is lenient (grace) to avoid cheap game-overs.
+
+The player sees a brief “How to Play” modal, press Space to start, watch the Mars meter tick down as they land platforms, and either win when it reaches zero or retry via the restart prompt.
+
+Controls & feedback: arrow keys move immediately; Space jumps; sprite facing updates as you move; the Mars meter and subtle sounds reinforce progress; game-over/win modals clearly signpost the next action.
+
+Accessibility: fully keyboard-playable, high-contrast UI elements, ARIA attributes on the modal, and a music toggle for reduced-audio play. 
 
 ### Demographics
 
 This game is designed for casual players of all ages 12 and above who enjoy light, engaging browser-based experiences. The visual style can appeal to children and teens, and the challenge-based gameplay and aesthetics are also designed to attract older players, especially those familiar with classic arcade and platform games.
 
 ### Strategy
+
+
 
 #### Target Audience
 
@@ -43,7 +54,7 @@ The site is divided into clear, intuitive sections:
 
 - **Game Screen** – Core interactive experience with responsive UI  
 - **Instructions Page** – Simple, accessible guidance for how to play  
-- **Settings Page** – Toggle controls for difficulty, sound, and customisation  
+- **Settings Page** – Toggle controls music
 - **Footer** – Includes social links, credits, and accessibility information  
 
 The site utilises Bootstrap and jQuery for its layout and responsiveness, complemented by custom CSS for a unique visual identity.
@@ -60,6 +71,8 @@ Users expect:
 - The ability to share or compete (e.g. scores or achievements)
 
 ### User Stories
+
+Below are user stories representative of the project. 
 
 #### Target User Goals
 
@@ -94,7 +107,16 @@ As a returning user…
 
 ### Site-Owner Goals
 
+As the site owner, my goals are:
+
+- To showcase my skills within JavaScript and Jest. 
+- To deliver a simple website that gholds complex JavaScript and Jest. 
+- To develop a responsive game for all browsers. 
+- To use interactivity with the mouse AND keyboard. A simple game like this was the best option. 
+
 ## Features 
+
+Below are the main features within the project. 
 
 ### Space Bug
 
@@ -116,7 +138,7 @@ The score counter appears within the game UI as “Mars: 1000” and counts down
 
 Platforms spawn at the top of the game area and drift downwards. Early on they fall a little slower. Once you’ve progressed (halfway to Mars), they speed up to keep things lively. Spawning is constrained so the horizontal gap between consecutive platforms stays within a jumpable range, and the vertical spacing is tuned so every new platform is realistically reachable. Old platforms are removed once they pass the bottom edge to keep performance smooth.
 
-### Interactive Sounds
+### Interactive Music
 
 Background music can be toggled on or off. Your preference is saved locally, so if you turn the music off it will stay off next time you visit. (System volume and mute controls still apply.) The toggle is available from the Settings page for quick access.
 
@@ -159,14 +181,33 @@ The initial Wire Frame designs are listed below. However, over the course of cre
 
 ### Future Design Plans
 
+My plans for the future are:
+
+1. Create an animated background as the Space Bug goes higher. 
+2. To add sound effects to the landing, new game, and game over effects. 
+3. To add a difficulty setting. 
+4. Create a score chart. 
+5. Make the Bug more repsonsive and animated when it lands or moves. 
+6. Improve the overall layout and appearance.
+7. Develop into an app for own learning. 
+
 ## Technology Use
 
 - Balsamiq
 - Canva
 - Visual Studio Code
 - Github
+
+
+
 - Youtube
+
+YouTube was for tutorials and learning. I foudn freeCodeCamp to offer a great example of their doodle jump game. 
+
 - Coolors
+
+Colours used in the website. 
+
 - Google Fonts
 - jQuery (CDN)
 
@@ -196,9 +237,31 @@ This was installed and applied to the music file in the directory.
 
 ## Deployment
 
+This website is lightweight and static, so deployment is simple. 
+
 ### To Github Pages
 
+The simplest way to deploy to Github:
+
+1. Commit the site at the root, ensuring index.html is in there. 
+2. Push to Github Pages. 
+3. In github, go to settings, then select 'Pages'.
+4. Under 'Source', choose to deploy from branch. 
+5. Select Branch: Main. 
+6. click Save. 
+
 ### How To Make a Clone
+
+To clone a repository, you need to:
+
+1. Go to the main page of the repository. 
+2. Above the file, click 'Code'. 
+3. Copy the URL to the repository. 
+4. Under 'HTTPS', click the copy clipboard. ![Screenshot of Example](../Project_2_Star_Hopper/assets/images/screenshot_copy_github_url.webp)
+5. Open Git Bash. 
+6. Change the current working directory to where you want the cloned directory. 
+7. Type 'git clone' and paste in the URL. 
+8. Press enter to create your local clone. 
 
 ## Testing
 
