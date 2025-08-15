@@ -359,22 +359,74 @@ CSS validation:
 
 For Javascript, I used JS Lint to validate the code:
 
-![Screenshot of Javascript Validation]()
+![Screenshot of Javascript Validation](../Project_2_Destination_Mars/assets/images/jslint_validation_screenshot.jpeg)
 
+You can se there is only 1 warning to show, however, I cannot remove the '$' to get zero warnings. 
 
 ### Lighthouse 
 
+Screenshot of the lighthouse performance analysis for the home page:
+
+![Screenshot of Homepage](../Project_2_Destination_Mars/assets/images/lighthouse_home_page.jpg)
+
+Settings Page:
+
+![Screenshot of the Settings Page](../Project_2_Destination_Mars/assets/images/lighthouse_settings_page.jpg)
+
+Instructions Page:
+
+![Screenshot of the Instructions Page](../Project_2_Destination_Mars/assets/images/lighthouse_instructions_page.jpg)
+
 ### Manual Testing
+
+| ID  | Area                           | Steps                                                                          | Expected Outcome                                                           | Result |
+| --- | ------------------------------ | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | ------ |
+| T01 | Landing / Modal                | Load home page.                                                                | “How to Play” modal is visible, overlayed; background is inert.            | Pass   |
+| T02 | Modal – Close                  | Click **Okay, got it.**                                                        | Modal closes; focus returns to page; game not yet started.                 | Pass   |
+| T03 | Modal – Keyboard Guard         | Press **Space** *before* closing modal.                                        | Game does not start; no movement; no console errors.                       | Pass   |
+| T04 | Start Game                     | After closing modal, press **Space**.                                          | Game starts; platforms begin moving; controls active.                      | Pass   |
+| T05 | Keyboard – Move Left/Right     | Hold **←** then **→** while standing.                                          | Bug walks instantly each tick; faces correct direction; clamped to bounds. | Pass   |
+| T06 | Keyboard – Jump                | Press **Space** while standing.                                                | Bug jumps; optional mid-air steer works; lands if platform under path.     | Pass   |
+| T07 | One-Time Ground Grace          | Start, step off and hit ground once.                                           | First ground touch after start is **safe**; gameplay continues.            | Pass   |
+| T08 | Second Ground Touch            | Hit ground again without landing a platform.                                   | **Game Over** modal appears with score; loop stops.                        | Pass   |
+| T09 | Restart Button                 | In **Game Over**, click **Restart**.                                           | Modal closes; state reset; press **Space** to start a new run.             | Pass   |
+| T10 | Win Flow                       | Reduce meter to 0 via repeated landings (or test shortcut).                    | **You made it to Mars!** modal appears; score shown; loop stops.           | Pass   |
+| T11 | Mars Meter Updates             | Land on a platform.                                                            | “Mars: N” decreases by **5** per valid landing.                            | Pass   |
+| T12 | Speed Ramp                     | Continue until meter ≤ **500**.                                                | Platform fall speed increases to fast speed; no visual glitches.           | Pass   |
+| T13 | Platform Spawn Clamping        | Observe several spawns in a row.                                               | Horizontal gaps stay within reachable range; no off-screen spawns.         | Pass   |
+| T14 | Music Toggle – On              | Tick **Music** toggle.                                                         | Audio starts playing; control reflects checked state.                      | Pass   |
+| T15 | Music Toggle – Off             | Untick **Music** toggle.                                                       | Audio pauses; control reflects unchecked state.                            | Pass   |
+| T16 | Music Persistence              | Toggle to **On**, refresh page.                                                | Toggle remains **On**; audio resumes (subject to browser autoplay rules).  | Pass   |
+| T17 | Autoplay Block Handling        | With autoplay blocked, set toggle **On**.                                      | No crash; audio may remain paused until user gesture; UI stays consistent. | Pass   |
+| T18 | Links / Navigation             | Click any header/footer/internal links (e.g., Home/Settings/About if present). | Navigate to correct targets in same/new tab as designed; no 404s.          | Pass   |
+| T19 | Responsive – Mobile Portrait   | 320–375 px width.                                                              | No horizontal scroll; text legible; buttons tappable; game area fits.      | Pass   |
+| T20 | Responsive – Mobile Landscape  | 568–812 px width.                                                              | UI adapts; controls usable; no clipped modals.                             | Pass   |
+| T21 | Responsive – Tablet            | 768–1024 px width.                                                             | Layout scales; modal centred; game area not stretched oddly.               | Pass   |
+| T22 | Responsive – Desktop           | ≥ 1280 px width.                                                               | Game area centred; no excess whitespace funkiness; FPS feels stable.       | Pass   |
+| T23 | Performance – Load             | Hard refresh (cache disabled).                                                 | Page interactive quickly; no long blocking scripts; no console errors.     | Pass   |
+| T24 | Performance – Runtime          | Play for 3–5 minutes.                                                          | No memory creep; consistent input response; stable spawn cadence.          | Pass   |
+| T25 | Accessibility – Keyboard       | Use **Tab/Shift+Tab** to reach modal button and links.                         | Visible focus states; **Enter/Space** activates buttons.                   | Pass   |
+| T26 | Accessibility – ARIA           | Open/close modal and inspect `aria-hidden`.                                    | `aria-hidden` toggles correctly; overlay adds/removes `is-open`.           | Pass   |
+| T27 | Accessibility – Labels         | Inspect Music toggle control.                                                  | Input is labelled; screen readers announce state changes.                  | Pass   |
+| T28 | Error Handling – Missing Audio | Temporarily remove audio element and toggle.                                   | No crash; toggle hidden or safely no-ops.                                  | Pass   |
+| T29 | Error Handling – No Platforms  | Start and wait without moving.                                                 | Platforms spawn over time; none appear off-screen; no exceptions.          | Pass   |
+| T30 | Bounds Clamping                | Hold **→** at right edge; hold **←** at left edge.                             | Bug never moves outside game area; position clamped.                       | Pass   |
 
 ### Responsiveness 
 
+The layout scales cleanly from small mobiles to large desktops without horizontal scrolling. Core UI elements (modal, buttons, labels) remain legible and tappable at common breakpoints, and the game area recentres to keep the player in view. Controls and status text maintain spacing so nothing overlaps when the viewport changes.
+
 ### Browser Compatibility 
+
+Built with HTML5, CSS3 and vanilla JavaScript (plus jQuery), the site works on current versions of Chrome, Edge, Firefox and Safari, including iOS Safari and Android Chrome. Audio playback respects each browser’s autoplay policy, so sound may wait for a user interaction on first load. All buttons and modals are fully keyboard- and touch-operable; gameplay controls are keyboard-driven on desktop and work with external keyboards on mobile/tablet. 
 
 ## TDD For JavaScript
 
 ## Bugs
 
 ## Validation Errors
+
+There were no HTML, CSS errors. The only present warning was for Javascript, as mentioned above. However, I cannot remove the dollar sign to eliminate the error. 
 
 ## Image Testing
 
