@@ -76,7 +76,7 @@ The scope of this project is small, being a single-screen browser game where you
 
 ## User Experience 
 
-There is instant feedback, snappy controls, and short sessions that feel fair. The first ground touch after starting is lenient (grace) to avoid cheap game-overs.
+There is instant feedback, snappy controls, and short sessions that feel fair. The first ground touch after starting is lenient to avoid cheap game-overs.
 
 The player sees a brief “How to Play” modal, press Space to start, watch the Mars meter tick down as they land platforms, and either win when it reaches zero or retry via the restart prompt.
 
@@ -163,7 +163,7 @@ As a returning user…
 As the site owner, my goals are:
 
 - To showcase my skills within JavaScript and Jest. 
-- To deliver a simple website that gholds complex JavaScript and Jest. 
+- To deliver a simple website that holds complex JavaScript and Jest. 
 - To develop a responsive game for all browsers. 
 - To use interactivity with the mouse AND keyboard. A simple game like this was the best option. 
 
@@ -221,10 +221,9 @@ Headings use Codystar for a retro sci-fi feel; body text uses Original Surfer fo
 
 All images are AI generated as explained above, and they live in assets/images/. Sprites (the bug facing left/right) and the platform use PNG so their transparent edges render cleanly.
 
-
 ### Wireframes
 
-The initial Wire Frame designs are listed below. However, over the course of creating the website, and due to timiing, modicfications were made and elements subtracted. 
+The initial Wire Frame designs are listed below. However, over the course of creating the website, and due to timing, modifications were made and elements subtracted. 
 
 #### Initial Website Design
 
@@ -240,19 +239,19 @@ My plans for the future are:
 2. To add sound effects to the landing, new game, and game over effects. 
 3. To add a difficulty setting. 
 4. Create a score chart. 
-5. Make the Bug more repsonsive and animated when it lands or moves. 
+5. Make the Bug more responsive and animated when it lands or moves. 
 6. Improve the overall layout and appearance.
 7. Develop into an app for own learning. 
 
-## Technology Use
+## Technology Used
 
 - Balsamiq
 
-Used to create initial plans of the layout. The edn result was close to the original designs. 
+Used to create initial plans of the layout. The end result was close to the original designs. 
 
 - Shutterstock
 
-I used a free trial to generate AI images of the space bug and the platforms. U conducted revere image searches on Google, and scanned them for copyright for free online. 
+I used a free trial to generate AI images of the space bug and the platforms. I conducted revere image searches on Google, and scanned them for copyright for free online. 
 
 - Canva
 
@@ -260,7 +259,7 @@ I used Canva to edit the images once downloaded.
 
 - Visual Studio Code
 
-This was thye platform to write all of my code. 
+This was the platform to write all of my code. 
 
 - Github
 
@@ -268,7 +267,7 @@ Used to host the code as it is being built, and to host the finished product.
 
 - Youtube
 
-YouTube was for tutorials and learning. I foudn freeCodeCamp to offer a great example of their doodle jump game. 
+YouTube was for tutorials and learning. I found freeCodeCamp to offer great examples of their doodle jump game. 
 
 - Coolors
 
@@ -288,7 +287,7 @@ Regular testing of functions was carried out with Jest. This was the biggest hur
 
 - Spotify
 
-I used Spotify Premium to download a synthwave soundtrack to my device and store it in the assets folder. From there, I was able to play the music instantly when turning the music toggle on. The music is royalty fre from White Bat Music, produce by Karl Casey. 
+I used Spotify Premium to download a synthwave soundtrack to my device and store it in the assets folder. From there, I was able to play the music instantly when turning the music toggle on. The music is royalty free from White Bat Music, produce by Karl Casey. 
 
 - git LFS (Large File Storage)
 
@@ -344,11 +343,11 @@ Below is an explanation of all the testing that was conducted.
 As a new user…  
 - I want to quickly understand what the game is about so I can decide if I want to proceed to play. 
 
-This user goal is acheived, as on the first page, the instructions and mission are clearly presented in the transparent box. 
+This user goal is achieved, as on the first page, the instructions and mission are clearly presented in the transparent box. 
 
 - I want to browse the instructions page and easily understand how to play the game.
 
-If the user presses the 'Okay, got it.' button, but needs a refresher on the insturcitons, they can find this on the instructions page. Therefore, this is acheived. 
+If the user presses the 'Okay, got it.' button, but needs a refresher on the instructions, they can find this on the instructions page. Therefore, this is achieved. 
 
 - I want simple and clear instructions, displayed well with clear fonts and contrasting colours.  
 
@@ -356,32 +355,32 @@ The instructions are clear and easy to understand.
 
 - I want visual feedback, like hover effects so I know my interactions are correctly registered.  
 
-The game and website is very responsive across all platoforms. There is instant feedback when using the controls, or navigating from page to page. 
+The game and website is very responsive across all platforms. There is instant feedback when using the controls, or navigating from page to page. 
 
 - I want the page to load quickly, so I don’t change my mind and exit before I see the information.  
 
-The website has been tested manually and throuhg lighthouse, achieving good feedback and loading speeds. 
+The website has been tested manually and through lighthouse, achieving good feedback and loading speeds. 
 
 - I want to easily turn the music on or off. 
 
-This is very simple to acheive. Currently it is the only settings available, and is acheived by a simple click. 
+This is very simple to acheive. Currently it is the only settings available, and is achieved by a simple click. 
 
 As a returning user…  
 - I want to easily find the social channels of the game so I can follow them.  
 
 These links are presented in the footer of every page, and open in a new window so as to not exit the current game page. 
 
-- I want my settings (like difficulty or sound preferences) to be remembered, so I don’t have to reselect them each time. 
+- I want my settings (like difficulty or sound preferences) to be remembered, so I don’t have to re-select them each time. 
 
 This is a future goal of mine, as of right now, the game completely resets on every page refresh. 
 
 - I want to see my previous scores or progress, so I can try to beat them or track how I’ve improved.  
 
-This has also not been acheived, and will be implemented on the updated version onve I learn more about Javascript and back-end development. 
+This has also not been acheived, and will be implemented on the updated version once I learn more about Javascript and back-end development. 
 
 - I want quick access to the core parts of the game, so I don’t have to re-read instructions or click through multiple screens.
 
-This has been acheived, since there is no waffle and minimal clicks to get the game started. 
+This has been achieved, since there is no waffle and minimal clicks to get the game started. 
 
 - I want a smooth and fast-loading experience, so I don’t get frustrated and leave the site.  
 
@@ -513,7 +512,7 @@ The pass:
 
 ![Screenshot of moveLeft pass](/assets/images/screenshot_moveleft_pass.jpeg)
 
-4. Updating plaftorm test failure:
+4. Updating platform test failure:
 
 ![Screenshot of platform update failure](/assets/images/update_platform_failure.jpeg)
 
@@ -529,7 +528,7 @@ The pass:
 
 ![Screenshot of platform fall pass](/assets/images/platform_fall_pass.jpeg)
 
-After an issue with changing devidec to work on, I lost my test file. When I went to retrieve it from GitHub, it displayed a message this messgae, and I couldn't find the updated code anywhere:
+After an issue with changing devices to work on, I lost my test file. When I went to retrieve it from GitHub, it displayed a message this messgae, and I couldn't find the updated code anywhere:
 
 ![Github message](/assets/images/github_error_msg.jpeg)
 
@@ -562,9 +561,9 @@ I originally added the container and min-vh-100 classes to the <body>, but this 
 
 ### Audio Error
 
-After creatingt he audio function and connecitng the music, I found that it only played while on the settings pages. 
+After creating the audio function and connecitng the music, I found that it only played while on the settings pages. 
 
-The solution to this was to ensure the html was present on all pages. And, whe the user had chosen to play the music, I then had to persist the user's choice in the local storage. 
+The solution to this was to ensure the html was present on all pages. And, when the user had chosen to play the music, I then had to persist the user's choice in the local storage. 
 
 This was implemented via the applySavedPreference function. 
 
@@ -576,7 +575,6 @@ After creating the moveRight function, the bug jumped to the far left corner bef
 
 The bug was jumping to the far left at the start because it didn’t have a proper starting position set, so the movement code thought it was at 0. The fix was to give it a clear starting 'left' value in pixels as soon as the game loads, and to make sure the game area is set to 'position: relative' and the bug is 'position: absolute'. 
 
-
 ## Validation Errors
 
 There were no HTML, CSS errors. The only present warning was for Javascript, as mentioned above. However, I cannot remove the dollar sign to eliminate the error. 
@@ -587,9 +585,9 @@ For image testing, I checked that all images loaded correctly across different p
 
 ## Credits
 
-Our teacher, Len, has been a massive help by answering email questions and giving intial feedback. Our lessons have also pushed for improvements. 
+Our teacher, Len, has been a massive help by answering email questions and giving initial feedback. Our lessons have also pushed for improvements. 
 
-My personal mentor, Femi, has also been great. However, I ahven't been able to book more meetings with him due to my schedule and not getting enough time. 
+My personal mentor, Femi, has also been great. However, I haven't been able to book more meetings with him due to my schedule and not getting enough time. 
 
 A list of all the resources used:
 
@@ -601,7 +599,7 @@ A list of all the resources used:
 
 - Music was obtained through YouTube, for free (only if credited), via [White Bat Audio](https://www.youtube.com/whitebataudio).
 
-- [jQuery](https://jquery.com/) was implemented, briefly, to demonstrate my learning. This was onyl used for the DOM loading event listener. 
+- [jQuery](https://jquery.com/) was implemented, briefly, to demonstrate my learning. This was only used for the DOM loading event listener. 
 
 - [JSLint](https://www.jslint.com/) was used to test the Javascript. 
 
@@ -621,7 +619,7 @@ The javascript learning hurdle has made me realise that I need to complete plent
 
 The creation of the HTML and CSS went very well. I completed this within a day, and I look forward to being able to write JavaScript as fluidly. 
 
-The designa nd basic Javascript also went well, but when it came to writing the functions, I struggled. This prompted me to make amentla note to complete more javascript projects. I plan to do that while completing the third and fourth milestone project, as I have decided to apply fro front-end roles. 
+The design and basic Javascript also went well, but when it came to writing the functions, I struggled. This prompted me to make a mental note to complete more javascript projects. I plan to do that while completing the third and fourth milestone projects, as I have decided to apply for front-end roles. 
 
 #### HTML and CSS
 
@@ -635,11 +633,11 @@ Jest and Javascript require a foundational knowledge of how to use them - they a
 
 Initially, looking at a blank javascript file was daunting, and the start was incredibly slow. I had to dedicate long nights to figuring things out and solving small problems. 
 
-At times, I lost motivation and considered exiting the course due to it's difficulty. However, help from tutors and mentors allowed me to ove forward. 
+At times, I lost motivation and considered exiting the course due to it's difficulty. However, help from tutors and mentors allowed me to move forward. 
 
 #### Jest
 
-Combining Jest into the creation, when I was brand new to Javascript only made it more difficult. The provess was incredibly slow, but I have sped up lately. 
+Combining Jest into the creation only made it more difficult. The process was incredibly slow, but I have sped up lately. 
 
 ### Future Considerations
 
