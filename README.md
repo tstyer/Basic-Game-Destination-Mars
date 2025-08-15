@@ -335,9 +335,32 @@ The design and layout remains the same every time.
 
 ### HTML Validation
 
+HTML validation was carried out on every page. You can see the screenshots of them below. 
+
+1. The Home Page
+
+![Screenshot of Homepage Validation](../Project_2_Destination_Mars/assets/images/home_page_html_validated.jpeg)
+
+2. The Settings Page
+
+![Screenshot of settings page validation](../Project_2_Destination_Mars/assets/images/settings_page_html_validated.jpeg)
+
+3. The Instructions Page
+
+![Screenshot of Settings Page Validation](../Project_2_Destination_Mars/assets/images/instructions_page_html_validated.jpeg)
+
 ### CSS Validation
 
+CSS validation:
+
+![Screenshot of CSS validation](../Project_2_Destination_Mars/assets/images/css_validated.jpeg)
+
 ### JS Validation 
+
+For Javascript, I used JS Lint to validate the code:
+
+![Screenshot of Javascript Validation]()
+
 
 ### Lighthouse 
 
