@@ -2,12 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--jQuery - placed before everything so it loads first-->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-    crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"></script>
 
     <!--JS link-->
     <script src="assets/script.js"></script>
@@ -15,7 +16,7 @@
     <title>Instructions</title>
 
     <!--Fav icon-->
-    <link rel="icon" href="assets/images/favicon.ico"/>
+    <link rel="icon" href="assets/images/favicon.ico" />
 
     <!--Bootstrap CSS-->
     <link
@@ -25,22 +26,28 @@
       crossorigin="anonymous"/>
 
     <!--Custom CSS-->
-    <link href="assets/style.css" rel="stylesheet"/>
+    <link href="assets/style.css" rel="stylesheet" />
   </head>
 
   <body>
+    <!--Music-->
+    <audio id="music" loop>
+      <source
+        src="assets/music/chill_synthwave_playlist_snapshot _white_bat_audio.mp3"
+        type="audio/mpeg"/>
+    </audio>
 
-  <!--Music-->
-  <audio id="music" loop>
-    <source src="assets/music/chill_synthwave_playlist_snapshot _white_bat_audio.mp3" type="audio/mpeg">
-  </audio>
-
-  <!--Star Images-->  
-  <img src="assets/images/background_star_shutterstock.png" alt="yellow doodle star" class="doodle_star_10">
-  <img src="assets/images/background_star_shutterstock.png" alt="yellow doodle star" class="doodle_star_11">
+    <!--Star Images-->
+    <img
+      src="assets/images/background_star_shutterstock.png"
+      alt="yellow doodle star"
+      class="doodle_star_10"/>
+    <img
+      src="assets/images/background_star_shutterstock.png"
+      alt="yellow doodle star"
+      class="doodle_star_11"/>
 
     <div class="container page-wrapper">
-
       <header>
         <!--Nav Bar / Bootstrap (modified)-->
         <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
@@ -61,17 +68,17 @@
               id="navbarContent">
               <ul class="navbar-nav">
                 <li class="nav-item">
+                  <a class="nav-link text-light" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
                   <a
-                    class="nav-link text-light"
-                    href="index.html"
-                    >Home</a>
+                    class="nav-link text-light current"
+                    href="instructions.html"
+                    aria-label="current"
+                    >Instructions</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-light current" href="instructions.html"
-                    aria-label="current">Instructions</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-light" href="settings.html" 
+                  <a class="nav-link text-light" href="settings.html"
                     >Settings</a>
                 </li>
               </ul>
@@ -79,59 +86,76 @@
           </div>
         </nav>
 
-         <!--Heading of Page-->
+        <!--Heading of Page-->
         <div class="header">
-            <h1>Instructions</h1>
+          <h1>Instructions</h1>
         </div>
       </header>
 
       <main>
         <!--Instructions Section-->
         <div class="container text_sections_instructions">
-          <img src="assets/images/background_star_shutterstock.png" alt="yellow doodle star" class="doodle_star_8">
-          <img src="assets/images/background_star_shutterstock.png" alt="yellow doodle star" class="doodle_star_9">
-           <p><strong>Objective:</strong><br> 
-            Reach Mars safely.</p>
+          <img
+            src="assets/images/background_star_shutterstock.png"
+            alt="yellow doodle star"
+            class="doodle_star_8"/>
+          <img
+            src="assets/images/background_star_shutterstock.png"
+            alt="yellow doodle star"
+            class="doodle_star_9"/>
+
+          <!--Paragraphs for Instructions-->  
+          <p>
+            <strong>Objective:</strong><br />
+            Reach Mars safely.
+          </p>
 
           <div class="controls_description">
-            <p><strong>Controls:</strong><br>
-            Click 'Okay, got it', and then press the space bar to begin.</p>
+            <p>
+              <strong>Controls:</strong><br />
+              Click 'Okay, got it', and then press the space bar to begin.
+            </p>
             <p>Use the left and right arrow keys to guide the beetle.</p>
-            <p>Press the space bar to jump — hold the left or right key to jump in those directions.</p>
-            <p>Jump from platform to platform until the Mars counter hits zero!</p>
+            <p>
+              Press the space bar to jump — hold the left or right key to jump
+              in those directions.
+            </p>
+            <p>
+              Jump from platform to platform until the Mars counter hits zero!
+            </p>
           </div>
 
-          <div class="can_you_survive"><p>Can you survive the journey through space?</p></div> 
+          <div class="can_you_survive">
+            <p>Can you survive the journey through space?</p>
+          </div>
         </div>
       </main>
 
-        <!--Footer-->
+      <!--Footer-->
       <footer>
         <div class="container footer_settings">
           <p>Copyright 2025: <em>Destination: Mars</em></p>
-          <p>Follow Us:
+          <p>
+            Follow Us:
             <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook"></i></a>
             |
             <a href="https://x.com/"><i class="fa-brands fa-instagram"></i></a>
             |
             <a href="https://www.instagram.com/"><i class="fa-brands fa-x-twitter"></i></a>
           </p>
-        </div> 
+        </div>
       </footer>
-
     </div>
 
     <!--Bootstrap JS-->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
 
     <!--Font Awesome-->
     <script
       src="https://kit.fontawesome.com/c23e9e1c8e.js"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
   </body>
 </html>
