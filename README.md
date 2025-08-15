@@ -434,6 +434,22 @@ Here are the screenshots of the tests carried out:
 
 2. The first test written was for the music toggle - before the toggle function was written. You can see the failure:
 
+![Screenshot of music test](../Project_2_Destination_Mars/assets/images/music_test_fail.jpeg)
+
+The, after writing the function, it passed:
+
+![Screenshot of music test pass](../Project_2_Destination_Mars/assets/images/music_test_pass.jpeg)
+
+3. The second test was for the movement of the space bug. Here's the failure:
+
+![Screenshot of test fail](../Project_2_Destination_Mars/assets/images/screenshot_of_movement_fail.jpeg)
+
+The pass:
+
+![Screenshot of moveLeft pass](../Project_2_Destination_Mars/assets/images/screenshot_moveleft_pass.jpeg)
+
+4. 
+
 
 
 ## Bugs
