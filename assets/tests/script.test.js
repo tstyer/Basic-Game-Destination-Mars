@@ -1,10 +1,6 @@
 /** @jest-environment jsdom */
 
-/**
- * Destination: Mars 
- */
-
-const SCRIPT_PATH = "../script"; // from assets/tests -> assets/script.js
+const SCRIPT_PATH = "../script"; // from assets/tests
 
 // Helper to detect hooks on a loaded module
 const hooksExist = (mod) =>
@@ -112,7 +108,7 @@ describe("applyGravity", () => {
   });
 });
 
-/* ----------------------- startPlatformFall/timers ----------------------- */
+/* ----------------------- startPlatformFall ----------------------- */
 describe("Platforms start to fall when game starts", () => {
   let script;
 
@@ -380,9 +376,7 @@ function setupGameDOM({ areaWidth = 600, areaHeight = 500, bugLeft = 120, bugWid
   return { area, bug, areaWidth, bugWidth };
 }
 
-/* ------------------------------------------------------------------ */
-/* Behaviour test: works without any _test hooks                       */
-/* ------------------------------------------------------------------ */
+/* Behaviour test: works without any _test hooks */
 describe("resetGameState() — behaviour (no hooks needed)", () => {
   let script;
 

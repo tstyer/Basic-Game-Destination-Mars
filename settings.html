@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--jQuery - placed before everything so it loads first-->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-    crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"></script>
 
     <!--JS link-->
     <script src="assets/script.js"></script>
 
+    <!--Page Title-->
     <title>Settings</title>
 
     <!--Fav icon-->
@@ -29,10 +31,9 @@
   </head>
 
   <body>
-
     <div class="container page-wrapper">
-
       <header>
+
         <!--Nav Bar / Bootstrap (modified)-->
         <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
           <div class="container-fluid justify-content-center">
@@ -52,79 +53,89 @@
               id="navbarContent">
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <a
-                    class="nav-link text-light"
-                    href="index.html"
-                    >Home</a>
+                  <a class="nav-link text-light" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link text-light" href="instructions.html"
                     >Instructions</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-light current" href="settings.html" aria-label="current">Settings</a>
+                  <a
+                    class="nav-link text-light current"
+                    href="settings.html"
+                    aria-label="current"
+                    >Settings</a>
                 </li>
               </ul>
             </div>
           </div>
         </nav>
 
-         <!--Heading of Page-->
+        <!--Heading of Page-->
         <div class="header">
-            <h1>Basic Settings</h1>
+          <h1>Basic Settings</h1>
         </div>
       </header>
 
       <main>
-
-         <!--Settings Section-->
+        <!--Settings Section-->
         <div class="container text_section_settings">
-          <img src="assets/images/background_star_shutterstock.png" alt="yellow doodle star" class="doodle_star_4">
-          <img src="assets/images/background_star_shutterstock.png" alt="yellow doodle star" class="doodle_star_5">
-          <img src="assets/images/background_star_shutterstock.png" alt="yellow doodle star" class="doodle_star_6">
-            <div class="toggle-wrapper">
-                <label class="switch_label">Music:
-                    <input type="checkbox" id="music_toggle" checked>
-                    <span class="slider"></span>
-                </label>
-                <audio id="music" loop>
-                   <source src="assets/music/chill_synthwave_playlist_snapshot _white_bat_audio.mp3" type="audio/mpeg">
-                </audio>
-            </div> 
+          <img
+            src="assets/images/background_star_shutterstock.png"
+            alt="yellow doodle star"
+            class="doodle_star_4"/>
+          <img
+            src="assets/images/background_star_shutterstock.png"
+            alt="yellow doodle star"
+            class="doodle_star_5"/>
+          <img
+            src="assets/images/background_star_shutterstock.png"
+            alt="yellow doodle star"
+            class="doodle_star_6"/>
+          <div class="toggle-wrapper">
+            <label class="switch_label">Music:
+              <input type="checkbox" id="music_toggle" checked />
+              <span class="slider"></span>
+            </label>
+            <audio id="music" loop>
+              <source
+                src="assets/music/chill_synthwave_playlist_snapshot _white_bat_audio.mp3"
+                type="audio/mpeg"/>
+            </audio>
+          </div>
         </div>
-
-
       </main>
 
-        <!--Footer-->
+      <!--Footer-->
       <footer>
-        <img src="assets/images/background_star_shutterstock.png" alt="yellow doodle star" class="doodle_star_7">
+        <img
+          src="assets/images/background_star_shutterstock.png"
+          alt="yellow doodle star"
+          class="doodle_star_7"/>
         <div class="container footer_settings">
           <p>Music by Karl Casey @ White Bat Music</p>
           <p>Copyright 2025: <em>Destination: Mars</em></p>
-          <p>Follow Us:
+          <p>
+            Follow Us:
             <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook"></i></a>
             |
             <a href="https://x.com/"><i class="fa-brands fa-instagram"></i></a>
             |
             <a href="https://www.instagram.com/"><i class="fa-brands fa-x-twitter"></i></a>
           </p>
-        </div> 
+        </div>
       </footer>
 
       <!--Bootstrap JS-->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-      crossorigin="anonymous">
-    </script>
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
 
-    <!--Font Awesome-->
-    <script
-      src="https://kit.fontawesome.com/c23e9e1c8e.js"
-      crossorigin="anonymous">
-    </script>
-
+      <!--Font Awesome-->
+      <script
+        src="https://kit.fontawesome.com/c23e9e1c8e.js"
+        crossorigin="anonymous"></script>
     </div>
   </body>
 </html>

@@ -29,6 +29,7 @@ let platforms = [];
 let platformSpacingCounter = 0;
 
 const tickMs = 14;
+
 // Top speed of falling platforms after score of 500.
 let platformSpeed = 1.7;
 const platformSpacingPx = 120;
@@ -36,8 +37,9 @@ const maxPlatforms = 12;
 const platformWidth = 100;
 const spawnMargin = 16;
 
-// Max horizontal distance between consecutive spawns
+// Max horizontal distance between spawns
 const maxHorizontalStepPx = 300;
+
 // Remember last spawn X to clamp around it
 let lastSpawnX = null;
 
@@ -69,7 +71,6 @@ let allowOneGroundTouch = true;
 let isOnGround = false;
 
 // ==== DOM code (browser only) ====
-// Safe gating without typeof: globalThis always exists.
 if (globalThis && globalThis.document && globalThis.$) {
   $(document).ready(function () {
     const $music = $("#music");
@@ -95,7 +96,7 @@ if (globalThis && globalThis.document && globalThis.$) {
       );
     }
 
-    // Center the bug; ensure numeric bottom for physics
+    // Center the bug
     if (spaceBug && gameArea) {
       const bugW = spaceBug.offsetWidth || 60;
       const areaW = gameArea.offsetWidth || 600;
@@ -147,7 +148,7 @@ if (globalThis && globalThis.document && globalThis.$) {
       }
     });
 
-    // Seed any existing platform in markup
+    // This will seed any existing platform in markup
     const existingPlatform = document.querySelector(".platform");
     if (existingPlatform) {
       existingPlatform.style.top = "0px";
@@ -253,7 +254,7 @@ function createPlatform(x, y) {
   return platform;
 }
 
-// ==== Ground walking per tick (instant while standing) ====
+// ==== Ground walking per tick ====
 function setBugFacing(dir) {
   const img = spaceBug && spaceBug.querySelector("img");
   if (!img) {
@@ -292,7 +293,7 @@ function applyGroundMovement() {
   spaceBug.style.left = String(left) + "px";
 }
 
-// ==== (Legacy) Ground move helpers ====
+// ==== Ground move helpers ====
 function moveLeft(el) {
   const left = parseInt(el.style.left, 10) || 0;
   el.style.left = String(Math.max(0, left - groundStepPx)) + "px";
@@ -331,7 +332,7 @@ function jump() {
   }
 }
 
-// ==== Physics (vertical + IMG landing + sticky + bounds) ====
+// ==== Physics (vertical + image landing + sticky + bounds) ====
 function applyGravity() {
   if (!spaceBug || !gameArea) {
     return;
@@ -397,7 +398,7 @@ function applyGravity() {
 
     if (gameStarted && wasInAir) {
       if (allowOneGroundTouch) {
-        // First ground touch after start is safe; consume it
+        // First ground touch after start is safe
         allowOneGroundTouch = false;
         velocityY = 0;
         isJumping = false;
@@ -409,7 +410,7 @@ function applyGravity() {
     }
     // Already on ground: nothing else
   } else {
-    // We’re in the air
+    // In the air
     isOnGround = false;
     spaceBug.style.bottom = String(nextBottom) + "px";
   }
@@ -436,7 +437,7 @@ function applyGravity() {
   spaceBug.style.left = String(left) + "px";
 }
 
-// ==== Landing progress / UI ====
+// ==== Landing progress ====
 function applyLandingProgress() {
   if (distanceRemaining <= 0) {
     return;
@@ -604,7 +605,7 @@ function startLoop() {
   }, tickMs);
 }
 
-// ==== Support / Landing helpers ====
+// ==== Landing helpers ====
 function getSupportBottomOnImage(bugW, supportEps) {
   let eps = (
     typeof supportEps === "number"
@@ -692,7 +693,7 @@ function getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW) {
       return;
     }
 
-    // Skip transparent top and compute previous top
+    // Skip transparent top 
     currTop += platformCollisionTopInsetPx;
     const prevTop = currTop - platformSpeed;
 
@@ -738,8 +739,7 @@ function updatePlatforms() {
   });
 }
 
-// NEW: clamp spawn X within a window around the previous platform
-// (or bug at start)
+// clamp spawn 
 function generatePlatform() {
   const area = gameArea || document.querySelector(".game_area");
   if (!area) {
@@ -750,7 +750,6 @@ function generatePlatform() {
   const minWall = spawnMargin;
   const maxWall = areaW - platformWidth - spawnMargin;
 
-  // If we don’t have a previous platform yet, use the bug as reference
   const bugLeft = parseFloat((spaceBug && spaceBug.style.left) || "0");
   const bugW = (spaceBug && spaceBug.offsetWidth) || 60;
   const bugCenterX = bugLeft + bugW / 2;
@@ -777,7 +776,6 @@ function generatePlatform() {
 }
 
 // ==== Exports (for tests) ====
-// No typeof: gate via globalThis.
 if (globalThis && globalThis.module && globalThis.module.exports) {
   const _test = {
     getIsJumping: function () { return isJumping; },
