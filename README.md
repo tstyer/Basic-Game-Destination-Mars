@@ -412,6 +412,12 @@ Instructions Page:
 | T29 | Error Handling – No Platforms  | Start and wait without moving.                                                 | Platforms spawn over time; none appear off-screen; no exceptions.          | Pass   |
 | T30 | Bounds Clamping                | Hold **→** at right edge; hold **←** at left edge.                             | Bug never moves outside game area; position clamped.                       | Pass   |
 
+Here is a screenshot of the manual testing conducted in the console, showing the platforms falling:
+
+![Screenshot of console showing platform fall](../Project_2_Destination_Mars/assets/images/platform_fall_console.jpeg)
+
+The above shows the number '49' at the top left. This number increased per second, indicating that every second, a platform would fall (this was changed eventually).
+
 ### Responsiveness 
 
 The layout scales cleanly from small mobiles to large desktops without horizontal scrolling. Core UI elements (modal, buttons, labels) remain legible and tappable at common breakpoints, and the game area recentres to keep the player in view. Controls and status text maintain spacing so nothing overlaps when the viewport changes.
@@ -448,11 +454,70 @@ The pass:
 
 ![Screenshot of moveLeft pass](../Project_2_Destination_Mars/assets/images/screenshot_moveleft_pass.jpeg)
 
-4. 
+4. Updating plaftorm test failure:
 
+![Screenshot of platform update failure](../Project_2_Destination_Mars/assets/images/update_platform_failure.jpeg)
+
+The pass:
+
+![Screenshot of platform update pass](../Project_2_Destination_Mars/assets/images/update_platform_pass.jpeg)
+
+5. Platform fall fail:
+
+![Screenshot of platform fall fail](../assets/images/platform_fall_fail.jpeg)
+
+The pass:
+
+![Screenshot of platform fall pass](../Project_2_Destination_Mars/assets/images/platform_fall_pass.jpeg)
+
+After an issue with changing devidec to work on, I lost my test file. When I went to retrieve it from GitHub, it displayed a message this messgae, and I couldn't find the updated code anywhere:
+
+![Github message](../Project_2_Destination_Mars/assets/images/github_error_msg.jpeg)
+
+I then had to rewrite the test file. Here are the further tests:
+
+6. Modal test pass:
+
+![Modal test pass](../Project_2_Destination_Mars/assets/images/modal_test_pass.jpeg)
+
+7. I rewrote the startGame test. Here it passed:
+
+![Start Game test pass](../Project_2_Destination_Mars/assets/images/start_game_test_pass.jpeg)
+
+8. Here is a re-do of the lost test for re-starting the game:
+
+![Screenshot of restart game pass](../Project_2_Destination_Mars/assets/images/restart_game_test_pass.jpeg)
 
 
 ## Bugs
+
+There were numerous bug encountered during development, which is documented with screenshots. 
+
+### Footer
+
+I could not get the footer to the bottom, despite using mt-auto and min-vh-100 on body:
+
+![Screenshot of footer bug](../Project_2_Destination_Mars/assets/images/footer_bug.jpeg)
+
+I originally added the container and min-vh-100 classes to the <body>, but this caused layout constraints. To fix it, I removed these classes from the body and wrapped all the page content (nav, header, main content, and footer) inside a new <div>. I then applied the classes to this new wrapper instead. Finally, I gave the footer margin-top: auto in the CSS so it would stay at the bottom of the page.
+
+### Audio Error
+
+After creatingt he audio function and connecitng the music, I found that it only played while on the settings pages. 
+
+The solution to this was to ensure the html was present on all pages. And, whe the user had chosen to play the music, I then had to persist the user's choice in the local storage. 
+
+This was implemented via the applySavedPreference function. 
+
+### Bug Movement
+
+After creating the moveRight function, the bug jumped to the far left corner before moving to the right:
+
+![Screenshot of bug movement error](../Project_2_Destination_Mars/assets/images/bug_movement_error.jpeg)
+
+
+The bug was jumping to the far left at the start because it didn’t have a proper starting position set, so the movement code thought it was at 0. The fix was to give it a clear starting 'left' value in pixels as soon as the game loads, and to make sure the game area is set to 'position: relative' and the bug is 'position: absolute'. 
+
 
 ## Validation Errors
 
