@@ -29,10 +29,6 @@ Accessibility: fully keyboard-playable, high-contrast UI elements, ARIA attribut
 
 This game is designed for casual players of all ages 12 and above who enjoy light, engaging browser-based experiences. The visual style can appeal to children and teens, and the challenge-based gameplay and aesthetics are also designed to attract older players, especially those familiar with classic arcade and platform games.
 
-### Strategy
-
-
-
 #### Target Audience
 
 - Children aged 8–14 looking for quick, fun web games  
@@ -89,13 +85,11 @@ As a new user…
 - I want to browse the instructions page and easily understand how to play the game.  
 - I want simple and clear instructions, displayed well with clear fonts and contrasting colours.  
 - I want visual feedback, like hover effects so I know my interactions are correctly registered.  
-- I want the page to load quickly, so I don’t change my mind and exit before I see the information.  
-- I want to be able to play this game on my mobile or tablet.  
+- I want the page to load quickly, so I don’t change my mind and exit before I see the information.   
 
 #### Returning Visitors
 
 As a returning user…  
-- I want to be able to play this game on my tablet or mobile.  
 - I want to easily find the social channels of the game so I can follow them.  
 - I want to resume where I left off, so I can continue playing without starting again.  
 - I want my settings (like difficulty or sound preferences) to be remembered, so I don’t have to reselect them each time.  
@@ -194,11 +188,24 @@ My plans for the future are:
 ## Technology Use
 
 - Balsamiq
+
+Used to create initial plans of the layout. The edn result was close to the original designs. 
+
+- Shutterstock
+
+I used a free trial to generate AI images of the space bug and the platforms. U conducted revere image searches on Google, and scanned them for copyright for free online. 
+
 - Canva
+
+I used Canva to edit the images once downloaded. 
+
 - Visual Studio Code
+
+This was thye platform to write all of my code. 
+
 - Github
 
-
+Used to host the code as it is being built, and to host the finished product. 
 
 - Youtube
 
@@ -209,11 +216,17 @@ YouTube was for tutorials and learning. I foudn freeCodeCamp to offer a great ex
 Colours used in the website. 
 
 - Google Fonts
+
+The two fonts used were obtained via Google fonts. 
+
 - jQuery (CDN)
 
 I used the CDN version, allowing me to link to the jQuery file online. This ensured that, if any updates were made during my time using jQuery, those updates would automatically be applied. This would not have been the case had I downloaded the file, which would have allowed me to build the website offline. Had I downloaded the file, I would have pasted it into the JavaScript file within the root folder. 
   
-- jest
+- Jest
+
+Regular testing of functions was carried out with Jest. This was the biggest hurdle to overcome. 
+
 - Spotify
 
 I used Spotify Premium to download a synthwave soundtrack to my device and store it in the assets folder. From there, I was able to play the music instantly when turning the music toggle on. The music is royalty fre from White Bat Music, produce by Karl Casey. 
@@ -265,7 +278,60 @@ To clone a repository, you need to:
 
 ## Testing
 
-### Client Stories
+Below is an explanation of all the testing that was conducted. 
+
+### User Stories
+
+As a new user…  
+- I want to quickly understand what the game is about so I can decide if I want to proceed to play. 
+
+This user goal is acheived, as on the first page, the instructions and mission are clearly presented in the transparent box. 
+
+- I want to browse the instructions page and easily understand how to play the game.
+
+If the user presses the 'Okay, got it.' button, but needs a refresher on the insturcitons, they can find this on the instructions page. Therefore, this is acheived. 
+
+- I want simple and clear instructions, displayed well with clear fonts and contrasting colours.  
+
+The instructions are clear and easy to understand. 
+
+- I want visual feedback, like hover effects so I know my interactions are correctly registered.  
+
+The game and website is very responsive across all platoforms. There is instant feedback when using the controls, or navigating from page to page. 
+
+- I want the page to load quickly, so I don’t change my mind and exit before I see the information.  
+
+The website has been tested manually and throuhg lighthouse, achieving good feedback and loading speeds. 
+
+- I want to easily turn the music on or off. 
+
+This is very simple to acheive. Currently it is the only settings available, and is acheived by a simple click. 
+
+As a returning user…  
+- I want to easily find the social channels of the game so I can follow them.  
+
+These links are presented in the footer of every page, and open in a new window so as to not exit the current game page. 
+
+- I want my settings (like difficulty or sound preferences) to be remembered, so I don’t have to reselect them each time. 
+
+This is a future goal of mine, as of right now, the game completely resets on every page refresh. 
+
+- I want to see my previous scores or progress, so I can try to beat them or track how I’ve improved.  
+
+This has also not been acheived, and will be implemented on the updated version onve I learn more about Javascript and back-end development. 
+
+- I want quick access to the core parts of the game, so I don’t have to re-read instructions or click through multiple screens.
+
+This has been acheived, since there is no waffle and minimal clicks to get the game started. 
+
+- I want a smooth and fast-loading experience, so I don’t get frustrated and leave the site.  
+
+The initial load is quick and there has been no lag during the game play. 
+
+- I want the design and layout to feel familiar, so I can quickly get back into the flow of playing.
+
+The design and layout remains the same every time. 
+
 
 ### HTML Validation
 
