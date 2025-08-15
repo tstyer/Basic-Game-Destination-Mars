@@ -422,6 +422,20 @@ Built with HTML5, CSS3 and vanilla JavaScript (plus jQuery), the site works on c
 
 ## TDD For JavaScript
 
+For test-driven development, I used Jest. Initially, I found this to be overwhelming and hard to grasp. I resorted to YouTube channels, such as [this one](https://www.youtube.com/watch?v=IPiUDhwnZxA), which helped. 
+
+While testing with Jest, I also learned that you cannot test jQuery code. For this reason, all of my functions were written in vanilla JS. 
+
+Here are the screenshots of the tests carried out:
+
+1. I first ensured jest was installed correctly by typing npm test (before any tests written):
+
+![Screenshot of 'npm test'](../Project_2_Destination_Mars/assets/images/screenshot_proving_jest_installed.jpeg)
+
+2. The first test written was for the music toggle - before the toggle function was written. You can see the failure:
+
+
+
 ## Bugs
 
 ## Validation Errors
