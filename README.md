@@ -513,8 +513,7 @@ This was implemented via the applySavedPreference function.
 
 After creating the moveRight function, the bug jumped to the far left corner before moving to the right:
 
-![Screenshot of bug movement error](../Project_2_Destination_Mars/assets/images/bug_movement_error.jpeg)
-
+![Screenshot of bug movement error](/assets/images/bug_movement_error.jpeg)
 
 The bug was jumping to the far left at the start because it didn’t have a proper starting position set, so the movement code thought it was at 0. The fix was to give it a clear starting 'left' value in pixels as soon as the game loads, and to make sure the game area is set to 'position: relative' and the bug is 'position: absolute'. 
 
@@ -525,7 +524,31 @@ There were no HTML, CSS errors. The only present warning was for Javascript, as 
 
 ## Image Testing
 
+For image testing, I checked that all images loaded correctly across different pages and devices, ensuring there were no broken links or missing files. I verified that the file paths were correct, the images displayed at the intended size, and that they retained good quality on both desktop and mobile screens. I also confirmed that alt text was in place for accessibility and that images did not distort or overlap other content when the screen was resized.
+
 ## Credits
+
+Our teacher, Len, has been a massive help by answering email questions and giving intial feedback. Our lessons have also pushed for improvements. 
+
+My personal mentor, Femi, has also been great. However, I ahven't been able to book more meetings with him due to my schedule and not getting enough time. 
+
+A list of all the resources used:
+
+- All images found through [Shutterstock AI](https://www.shutterstock.com/ai-image-generator?pl=PPC_GOO_UK_BD-645779273169&cr=ec&kw=shutterstock+ai+generator&ds_eid=700000001391652&utm_source=GOOGLE&utm_campaign=CO%3DUK_LG%3DEN_BU%3DIMG_AD%3DBRAND_TS%3Dlggeneric_RG%3DEUAF_AB%3DACQ_CH%3DSEM_OG%3DCONV_PB%3DGoogle&ds_cid=71700000014796324&ds_ag=FF%3DBrand-AI-Generator_AU%3DProspecting&ds_agid=58700008248428438&utm_medium=cpc&gclsrc=aw.ds&gad_source=1&gad_campaignid=117603508&gbraid=0AAAAADq9ngw6boH0T_NwS_-Mwn1DUZ5-U&gclid=CjwKCAjwtfvEBhAmEiwA-DsKjrnGuC5dWKsvq1vfJup_2iPKtp7MKLDLEAM5EXVwwlJf3DygNKWTGxoCRiEQAvD_BwE&dd_referrer=https%3A%2F%2Fwww.google.com%2F). 
+
+- Boostrap was used for the [navigation bar](https://getbootstrap.com/docs/5.3/components/navbar/#nav). 
+
+- [Coolers](https://coolors.co/000814-001d3d-003566-ffc300-ffd60a) was used to the colours. 
+
+- Music was obtained through YouTube, for free (only if credited), via [White Bat Audio](https://www.youtube.com/whitebataudio).
+
+- [jQuery](https://jquery.com/) was implemented, briefly, to demonstrate my learning. This was onyl used for the DOM loading event listener. 
+
+- [JSLint](https://www.jslint.com/) was used to test the Javascript. 
+
+- [W3C mark up](https://validator.w3.org/) was used for HTML5 validation. 
+
+- [W3C mark up](https://jigsaw.w3.org/css-validator/) was used to validate CSS.
 
 ## Reflections 
 
@@ -533,15 +556,22 @@ The javascript learning hurdle has made me realise that I need to complete plent
 
 ### What Went Well?
 
+The creation of the HTML and CSS went very well. I completed this within a day, and I look forward to being able to write JavaScript as fluidly. 
+
+The designa nd basic Javascript also went well, but when it came to writing the functions, I struggled. This prompted me to make amentla note to complete more javascript projects. I plan to do that while completing the third and fourth milestone project, as I have decided to apply fro front-end roles. 
+
 #### HTML and CSS
 
 The html and CSS sections of the website were easily written with few errors. 
 
 ### Lessons Learned
 
+Jest and Javascript require a foundational knowledge of how to use them - they aren't meant to be completely memorised. From completing more than 8 functions, I found that there is a logic to creating them. 
+
 #### JavaScript Logic 
 
 Initially, looking at a blank javascript file was daunting, and the start was incredibly slow. I had to dedicate long nights to figuring things out and solving small problems. 
+
 At times, I lost motivation and considered exiting the course due to it's difficulty. However, help from tutors and mentors allowed me to ove forward. 
 
 #### Jest
@@ -557,7 +587,7 @@ include this section as initially intended.
 
 ## Conclusion 
 
-
+This project has been a challenging but valuable step in my journey to becoming a confident front-end developer. While the HTML and CSS came naturally, the JavaScript and Jest testing pushed me far outside my comfort zone, forcing me to problem-solve and learn at a much deeper level. Despite moments of frustration, I’ve gained a clearer understanding of JavaScript logic and the importance of consistent practice. Moving forward, I’m motivated to keep building projects, refining my skills, and implementing the features I initially set aside, with the goal of producing more complex and polished work.
 
 
 
