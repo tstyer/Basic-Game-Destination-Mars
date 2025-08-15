@@ -3,18 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="online game, computer game, space game" />
     <meta
-      name="keywords"
-      content="online game, computer game, space game"/>
-    <meta name="description" content="Can you make it to Mars by jumping from platform to platform?" />
+      name="description"
+      content="Can you make it to Mars by jumping from platform to platform?"/>
 
     <!--Fav icon-->
-    <link rel="icon" href="assets/images/favicon.ico" />
+    <link rel="icon" href="assets/images/favicon.ico"/>
 
     <!--jQuery - placed before everything so it loads first-->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-    crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
 
     <!--JS link-->
     <script src="assets/script.js"></script>
@@ -34,14 +36,14 @@
   </head>
 
   <body>
-
     <!--Music-->
     <audio id="music" loop>
-      <source src="assets/music/chill_synthwave_playlist_snapshot _white_bat_audio.mp3" type="audio/mpeg">
+      <source
+        src="assets/music/chill_synthwave_playlist_snapshot _white_bat_audio.mp3"
+        type="audio/mpeg"/>
     </audio>
 
     <div class="container page-wrapper">
-
       <header>
         <!--Nav Bar / Bootstrap (modified)-->
         <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
@@ -57,6 +59,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
 
+            <!--Navigation Bar-->
             <div
               class="collapse navbar-collapse justify-content-center"
               id="navbarContent">
@@ -84,6 +87,8 @@
       <!--Game Area-->
       <main>
         <div class="page_container">
+
+          <!--Stars-->
           <img
             src="assets/images/background_star_shutterstock.png"
             alt="yellow doodle star"
@@ -100,26 +105,34 @@
             <p class="distance-label">Mars: 1000</p>
           </div>
           <div class="game_area">
-            <!--Code for Game in here-->
 
+            <!--Code for Game in here-->
             <div class="platform">
-              <img src="assets/images/space_rock_platform.png" alt="space platform">
+              <img
+                src="assets/images/space_rock_platform.png"
+                alt="space platform"/>
             </div>
 
             <div class="space_bug">
-              <img src="assets/images/space_bug_right.PNG" alt="space bug faces right">
+              <img
+                src="assets/images/space_bug_right.PNG"
+                alt="space bug faces right"/>
             </div>
 
             <!-- Instructions on Home Page -->
             <div id="howto_box" class="howto-modal" aria-hidden="true">
               <div class="howto-box">
-               <h2>How to Play</h2>
+                <h2>How to Play</h2>
                 <div class="howto-body">
-                 <!-- Game Instructions -->
-                 <p>Use ← → to move. Press Space to jump. Land on platforms to climb!<br>
-                  (Press the Space Bar to Start Game).</p>
+
+                  <!-- Game Instructions -->
+                  <p>
+                    Use ← → to move. Press Space to jump. Land on platforms to
+                    climb!<br />
+                    (Press the Space Bar to Start Game).
+                  </p>
                 </div>
-               <button id="howto_ok" class="howto-btn">Okay, got it.</button>
+                <button id="howto_ok" class="howto-btn">Okay, got it.</button>
               </div>
             </div>
           </div>
@@ -132,13 +145,11 @@
           <p>Copyright 2025: <em>Destination: Mars</em></p>
           <p>
             Follow Us:
-            <a href="https://www.facebook.com/"
-              ><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook"></i></a>
             |
             <a href="https://x.com/"><i class="fa-brands fa-instagram"></i></a>
             |
-            <a href="https://www.instagram.com/"
-              ><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/"><i class="fa-brands fa-x-twitter"></i></a>
           </p>
         </div>
       </footer>
