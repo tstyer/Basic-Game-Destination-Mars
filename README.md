@@ -1,7 +1,66 @@
 ﻿# DESTINATION: MARS
 
+You can find the GitHub deployed site, [here](https://tstyer.github.io/portfolio-project-2---Destination-Mars/). 
+
+![Screenshot of homepage](/assets/images/screenshot_of_full_homepage.jpeg)
+
 ## Table of Contents
- ...
+
+- [Introduction](#introduction)
+- [Project Overview](#project-overview)
+  - [Scope](#scope)
+- [User Experience](#user-experience)
+  - [Demographics](#demographics)
+    - [Target Audience](#target-audience)
+    - [Goals](#goals)
+  - [Structure](#structure)
+  - [User Expectations](#user-expectations)
+  - [User Stories](#user-stories)
+    - [Target User Goals](#target-user-goals)
+    - [New Visitors](#new-visitors)
+    - [Returning Visitors](#returning-visitors)
+- [Site-Owner Goals](#site-owner-goals)
+- [Features](#features)
+  - [Space Bug](#space-bug)
+  - [Navigation Bar](#navigation-bar)
+  - [Score Counter](#score-counter)
+  - [Changing Platforms](#changing-platforms)
+  - [Interactive Music](#interactive-music)
+  - [Settings Page](#settings-page)
+- [Design](#design)
+  - [Colour Scheme](#colour-scheme)
+  - [Typography](#typography)
+  - [Images](#images)
+  - [Wireframes](#wireframes)
+  - [Future Design Plans](#future-design-plans)
+- [Technology Use](#technology-use)
+- [Folder Structure](#folder-structure)
+- [Deployment](#deployment)
+  - [To Github Pages](#to-github-pages)
+  - [How To Make a Clone](#how-to-make-a-clone)
+- [Testing](#testing)
+  - [User Stories](#user-stories-1)
+  - [HTML Validation](#html-validation)
+  - [CSS Validation](#css-validation)
+  - [JS Validation](#js-validation)
+  - [Lighthouse](#lighthouse)
+  - [Manual Testing](#manual-testing)
+  - [Responsiveness](#responsiveness)
+  - [Browser Compatibility](#browser-compatibility)
+- [TDD For JavaScript](#tdd-for-javascript)
+- [Bugs](#bugs)
+- [Validation Errors](#validation-errors)
+- [Image Testing](#image-testing)
+- [Credits](#credits)
+- [Reflections](#reflections)
+  - [What Went Well?](#what-went-well)
+    - [HTML and CSS](#html-and-css)
+  - [Lessons Learned](#lessons-learned)
+    - [JavaScript Logic](#javascript-logic)
+    - [Jest](#jest)
+  - [Future Considerations](#future-considerations)
+    - [Difficulty Settings](#difficulty-settings)
+- [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -549,6 +608,10 @@ A list of all the resources used:
 - [W3C mark up](https://validator.w3.org/) was used for HTML5 validation. 
 
 - [W3C mark up](https://jigsaw.w3.org/css-validator/) was used to validate CSS.
+
+- [Canva](https://www.canva.com/en_gb/) was used for editing images.
+
+- And [YouTube](https://www.youtube.com/) was used for learning. 
 
 ## Reflections 
 
