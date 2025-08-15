@@ -177,7 +177,7 @@ The space bug was generated with AI at [Shutterstock](https://www.shutterstock.c
 
 I ensured that this image was original. It was paid for by me, and I completed reverse image searches on google to avoid plagiarism. 
 
-![Image of the space bug](assets\images\space_bug_animation.png)
+![Image of the space bug](assets/images/space_bug_animation.png)
 
 ### Navigation Bar
 
@@ -207,11 +207,11 @@ A deep navy background (#001D3D) with light cyan text (#CAF0F8) ensures strong c
 
 #### [Colour Scheme 1](https://coolors.co/000814-001d3d-003566-ffc300-ffd60a)
 
-![Image of first colour palette](assets\images\screenshot_of_palette1.jpeg)
+![Image of first colour palette](assets/images/screenshot_of_palette1.jpeg)
 
 #### [Colour Scheme 2](https://coolors.co/03045e-0077b6-00b4d8-90e0ef-caf0f8)
 
-![Image of colour palette 2](assets\images\screenshot_of_palette2.jpeg)
+![Image of colour palette 2](assets/images/screenshot_of_palette2.jpeg)
 
 ### Typography 
 
@@ -228,9 +228,9 @@ The initial Wire Frame designs are listed below. However, over the course of cre
 
 #### Initial Website Design
 
-- ![Screenshot of Hompage Design](assets\images\balsamiq_home_screenshot.png)
-- ![Screenshot of Settings Page](assets\images\balsamiq_settings_screenshot.png)
-- ![Screenshot of Instructions Page](assets\images\balsamiq_instructions_screenshot.png)
+- ![Screenshot of Hompage Design](assets/images/balsamiq_home_screenshot.png)
+- ![Screenshot of Settings Page](assets/images/balsamiq_settings_screenshot.png)
+- ![Screenshot of Instructions Page](assets/images/balsamiq_instructions_screenshot.png)
 
 ### Future Design Plans
 
@@ -329,7 +329,7 @@ To clone a repository, you need to:
 1. Go to the main page of the repository. 
 2. Above the file, click 'Code'. 
 3. Copy the URL to the repository. 
-4. Under 'HTTPS', click the copy clipboard. ![Screenshot of Example](../Project_2_Star_Hopper/assets/images/screenshot_copy_github_url.webp)
+4. Under 'HTTPS', click the copy clipboard. ![Screenshot of Example](/assets/images/screenshot_copy_github_url.webp)
 5. Open Git Bash. 
 6. Change the current working directory to where you want the cloned directory. 
 7. Type 'git clone' and paste in the URL. 
@@ -398,27 +398,27 @@ HTML validation was carried out on every page. You can see the screenshots of th
 
 1. The Home Page
 
-![Screenshot of Homepage Validation](../Project_2_Destination_Mars/assets/images/home_page_html_validated.jpeg)
+![Screenshot of Homepage Validation](/assets/images/home_page_html_validated.jpeg)
 
 2. The Settings Page
 
-![Screenshot of settings page validation](../Project_2_Destination_Mars/assets/images/settings_page_html_validated.jpeg)
+![Screenshot of settings page validation](/assets/images/settings_page_html_validated.jpeg)
 
 3. The Instructions Page
 
-![Screenshot of Settings Page Validation](../Project_2_Destination_Mars/assets/images/instructions_page_html_validated.jpeg)
+![Screenshot of Settings Page Validation](/assets/images/instructions_page_html_validated.jpeg)
 
 ### CSS Validation
 
 CSS validation:
 
-![Screenshot of CSS validation](../Project_2_Destination_Mars/assets/images/css_validated.jpeg)
+![Screenshot of CSS validation](/assets/images/css_validated.jpeg)
 
 ### JS Validation 
 
 For Javascript, I used JS Lint to validate the code:
 
-![Screenshot of Javascript Validation](../Project_2_Destination_Mars/assets/images/jslint_validation_screenshot.jpeg)
+![Screenshot of Javascript Validation](/assets/images/jslint_validation_screenshot.jpeg)
 
 You can se there is only 1 warning to show, however, I cannot remove the '$' to get zero warnings. 
 
@@ -426,15 +426,15 @@ You can se there is only 1 warning to show, however, I cannot remove the '$' to 
 
 Screenshot of the lighthouse performance analysis for the home page:
 
-![Screenshot of Homepage](../Project_2_Destination_Mars/assets/images/lighthouse_home_page.jpg)
+![Screenshot of Homepage](/assets/images/lighthouse_home_page.jpg)
 
 Settings Page:
 
-![Screenshot of the Settings Page](../Project_2_Destination_Mars/assets/images/lighthouse_settings_page.jpg)
+![Screenshot of the Settings Page](/assets/images/lighthouse_settings_page.jpg)
 
 Instructions Page:
 
-![Screenshot of the Instructions Page](../Project_2_Destination_Mars/assets/images/lighthouse_instructions_page.jpg)
+![Screenshot of the Instructions Page](/assets/images/lighthouse_instructions_page.jpg)
 
 ### Manual Testing
 
@@ -473,7 +473,7 @@ Instructions Page:
 
 Here is a screenshot of the manual testing conducted in the console, showing the platforms falling:
 
-![Screenshot of console showing platform fall](../Project_2_Destination_Mars/assets/images/platform_fall_console.jpeg)
+![Screenshot of console showing platform fall](/assets/images/platform_fall_console.jpeg)
 
 The above shows the number '49' at the top left. This number increased per second, indicating that every second, a platform would fall (this was changed eventually).
 
@@ -495,57 +495,57 @@ Here are the screenshots of the tests carried out:
 
 1. I first ensured jest was installed correctly by typing npm test (before any tests written):
 
-![Screenshot of 'npm test'](../Project_2_Destination_Mars/assets/images/screenshot_proving_jest_installed.jpeg)
+![Screenshot of 'npm test'](/assets/images/screenshot_proving_jest_installed.jpeg)
 
 2. The first test written was for the music toggle - before the toggle function was written. You can see the failure:
 
-![Screenshot of music test](../Project_2_Destination_Mars/assets/images/music_test_fail.jpeg)
+![Screenshot of music test](/assets/images/music_test_fail.jpeg)
 
 The, after writing the function, it passed:
 
-![Screenshot of music test pass](../Project_2_Destination_Mars/assets/images/music_test_pass.jpeg)
+![Screenshot of music test pass](/assets/images/music_test_pass.jpeg)
 
 3. The second test was for the movement of the space bug. Here's the failure:
 
-![Screenshot of test fail](../Project_2_Destination_Mars/assets/images/screenshot_of_movement_fail.jpeg)
+![Screenshot of test fail](/assets/images/screenshot_of_movement_fail.jpeg)
 
 The pass:
 
-![Screenshot of moveLeft pass](../Project_2_Destination_Mars/assets/images/screenshot_moveleft_pass.jpeg)
+![Screenshot of moveLeft pass](/assets/images/screenshot_moveleft_pass.jpeg)
 
 4. Updating plaftorm test failure:
 
-![Screenshot of platform update failure](../Project_2_Destination_Mars/assets/images/update_platform_failure.jpeg)
+![Screenshot of platform update failure](/assets/images/update_platform_failure.jpeg)
 
 The pass:
 
-![Screenshot of platform update pass](../Project_2_Destination_Mars/assets/images/update_platform_pass.jpeg)
+![Screenshot of platform update pass](/assets/images/update_platform_pass.jpeg)
 
 5. Platform fall fail:
 
-![Screenshot of platform fall fail](../assets/images/platform_fall_fail.jpeg)
+![Screenshot of platform fall fail](/assets/images/platform_fall_fail.jpeg)
 
 The pass:
 
-![Screenshot of platform fall pass](../Project_2_Destination_Mars/assets/images/platform_fall_pass.jpeg)
+![Screenshot of platform fall pass](/assets/images/platform_fall_pass.jpeg)
 
 After an issue with changing devidec to work on, I lost my test file. When I went to retrieve it from GitHub, it displayed a message this messgae, and I couldn't find the updated code anywhere:
 
-![Github message](../Project_2_Destination_Mars/assets/images/github_error_msg.jpeg)
+![Github message](/assets/images/github_error_msg.jpeg)
 
 I then had to rewrite the test file. Here are the further tests:
 
 6. Modal test pass:
 
-![Modal test pass](../Project_2_Destination_Mars/assets/images/modal_test_pass.jpeg)
+![Modal test pass](/assets/images/modal_test_pass.jpeg)
 
 7. I rewrote the startGame test. Here it passed:
 
-![Start Game test pass](../Project_2_Destination_Mars/assets/images/start_game_test_pass.jpeg)
+![Start Game test pass](/assets/images/start_game_test_pass.jpeg)
 
 8. Here is a re-do of the lost test for re-starting the game:
 
-![Screenshot of restart game pass](../Project_2_Destination_Mars/assets/images/restart_game_test_pass.jpeg)
+![Screenshot of restart game pass](/assets/images/restart_game_test_pass.jpeg)
 
 
 ## Bugs
@@ -556,7 +556,7 @@ There were numerous bug encountered during development, which is documented with
 
 I could not get the footer to the bottom, despite using mt-auto and min-vh-100 on body:
 
-![Screenshot of footer bug](../Project_2_Destination_Mars/assets/images/footer_bug.jpeg)
+![Screenshot of footer bug](/assets/images/footer_bug.jpeg)
 
 I originally added the container and min-vh-100 classes to the <body>, but this caused layout constraints. To fix it, I removed these classes from the body and wrapped all the page content (nav, header, main content, and footer) inside a new <div>. I then applied the classes to this new wrapper instead. Finally, I gave the footer margin-top: auto in the CSS so it would stay at the bottom of the page.
 
@@ -642,6 +642,8 @@ At times, I lost motivation and considered exiting the course due to it's diffic
 Combining Jest into the creation, when I was brand new to Javascript only made it more difficult. The provess was incredibly slow, but I have sped up lately. 
 
 ### Future Considerations
+
+I plan to revisit this project in the future to add more depth and replayability. Features such as difficulty settings, animated backgrounds, sound effects for actions, and a scoreboard are high on the list. I also want to improve the responsiveness and animation of the space bug, refine the layout, and eventually develop the game into a mobile app for my own learning. These enhancements will help make the game more engaging and polished while further strengthening my JavaScript skills.
 
 #### Difficulty Settings
 
