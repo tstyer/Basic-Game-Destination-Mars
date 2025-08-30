@@ -354,6 +354,13 @@ Key differences I observed:
 
 Using both approaches gave me faster feedback and much greater confidence in the codebase.
 
+When each type of testing should be deployed:
+
+- TDD, such as Jest, should be used during the development phase to run unit tests. Before having written a JavaScript function, you should write the beginning of the test, describing the initial output of the function. You should then proceed to write (just enough) of the function so the test passes. The unit test progresses and builds on one step ahead of the actual function used in JavaScript. This is to ensure every increment or addition to the function is only written once the previous line of code has been recognised and passed in the test. For this reason, I believe it is sensible to write a test for most - if not all - functions. That will include running tests after bugs have been fixed, or any updates made.
+
+- Manual testing, on the other hand, is essential during and post development. Human judgement is needed to test interactivity, styling, and the blueprint or layout of any program or website. The initial manual testing should be done after the HTML boilerplate has been written, followed by basic styling to the background or a header. This is to see that the stylesheet is connected, and to spot any initial bugs. Following this, any additional style adjustments should be tested after writing, as well as implementing Bootstrap, Tailwind, external links (Google Fonts), add to/modifying HTML, and the addition of every new JavaScript function. The amendments and modifications of existing functions should too be manually tested.
+
+Ideally, after every new line of code, or after every adjustment, you should manually check the response via 'Live Server' before progressing onto a new task. The reason for this is to catch any bugs the moment they occur, before moving on to write more code and leaving it to get lost - making it harder to find in the future.
 Below is an explanation of all the testing that was conducted. 
 
 ### User Stories
