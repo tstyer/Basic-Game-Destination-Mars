@@ -336,6 +336,24 @@ To clone a repository, you need to:
 
 ## Testing
 
+### Automated & Manual Testing
+
+I used a mix of automated and manual testing throughout development. Early on, I learned the differences between the two approaches and why both are important on a new project.
+
+For manual testing, I tested frequently—usually after every save—using the Live Server extension to see real-time updates. Playing the game in the browser surfaced subtle UX and performance issues that automated tests wouldn’t have caught.
+
+For automated testing, I wrote Jest tests. They were admittedly challenging and time-consuming at first, so I’ve committed to deepening my JavaScript and Jest skills through dedicated courses.
+
+Key differences I observed:
+
+1. Manual testing excels at catching interaction/UX quirks that only appear in real use.
+2. Automated tests verify code logic and prevent regressions, but they rarely reveal live performance or UX issues.
+3. Manual testing is essential for user experience; automated testing is essential for reliability and long-term maintainability.
+4. Effective Jest testing demands solid JavaScript knowledge and good test design; manual testing is accessible for beginners and remains valuable at all levels.
+5. Automated tests scale to cover broader scenarios and provide a safety net when refactoring or adding features.
+
+Using both approaches gave me faster feedback and much greater confidence in the codebase.
+
 Below is an explanation of all the testing that was conducted. 
 
 ### User Stories
