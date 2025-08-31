@@ -4,36 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!--jQuery - placed before everything so it loads first-->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"></script>
-
-    <!--JS link-->
-    <script src="assets/script.js"></script>
-
     <!--Page Title-->
     <title>Settings</title>
 
+    <!--Font Awesome-->
+    <script
+      src="https://kit.fontawesome.com/c23e9e1c8e.js"
+      crossorigin="anonymous"
+    ></script>
+
     <!--Fav icon-->
-    <link rel="icon" href="assets/images/favicon.ico"/>
+    <link rel="icon" href="assets/images/favicon.ico" />
 
     <!--Bootstrap CSS-->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
-      crossorigin="anonymous"/>
+      crossorigin="anonymous"
+    />
 
     <!--Custom CSS-->
-    <link href="assets/style.css" rel="stylesheet"/>
+    <link href="assets/style.css" rel="stylesheet" />
   </head>
 
   <body>
     <div class="container page-wrapper">
       <header>
-
         <!--Nav Bar / Bootstrap (modified)-->
         <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
           <div class="container-fluid justify-content-center">
@@ -44,27 +41,31 @@
               data-bs-target="#navbarContent"
               aria-controls="navbarContent"
               aria-expanded="false"
-              aria-label="Toggle navigation">
+              aria-label="Toggle navigation"
+            >
               <span class="navbar-toggler-icon"></span>
             </button>
 
             <div
               class="collapse navbar-collapse justify-content-center"
-              id="navbarContent">
+              id="navbarContent"
+            >
               <ul class="navbar-nav">
                 <li class="nav-item">
                   <a class="nav-link text-light" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link text-light" href="instructions.html"
-                    >Instructions</a>
+                    >Instructions</a
+                  >
                 </li>
                 <li class="nav-item">
                   <a
                     class="nav-link text-light current"
                     href="settings.html"
                     aria-label="current"
-                    >Settings</a>
+                    >Settings</a
+                  >
                 </li>
               </ul>
             </div>
@@ -83,24 +84,29 @@
           <img
             src="assets/images/background_star_shutterstock.png"
             alt="yellow doodle star"
-            class="doodle_star_4"/>
+            class="doodle_star_4"
+          />
           <img
             src="assets/images/background_star_shutterstock.png"
             alt="yellow doodle star"
-            class="doodle_star_5"/>
+            class="doodle_star_5"
+          />
           <img
             src="assets/images/background_star_shutterstock.png"
             alt="yellow doodle star"
-            class="doodle_star_6"/>
+            class="doodle_star_6"
+          />
           <div class="toggle-wrapper">
-            <label class="switch_label">Music:
+            <label class="switch_label"
+              >Music:
               <input type="checkbox" id="music_toggle" checked />
               <span class="slider"></span>
             </label>
             <audio id="music" loop>
               <source
                 src="assets/music/chill_synthwave_playlist_snapshot _white_bat_audio.mp3"
-                type="audio/mpeg"/>
+                type="audio/mpeg"
+              />
             </audio>
           </div>
         </div>
@@ -111,31 +117,42 @@
         <img
           src="assets/images/background_star_shutterstock.png"
           alt="yellow doodle star"
-          class="doodle_star_7"/>
+          class="doodle_star_7"
+        />
         <div class="container footer_settings">
           <p>Music by Karl Casey @ White Bat Music</p>
           <p>Copyright 2025: <em>Destination: Mars</em></p>
           <p>
             Follow Us:
-            <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://www.facebook.com/"
+              ><i class="fa-brands fa-facebook"></i
+            ></a>
             |
             <a href="https://x.com/"><i class="fa-brands fa-instagram"></i></a>
             |
-            <a href="https://www.instagram.com/"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/"
+              ><i class="fa-brands fa-x-twitter"></i
+            ></a>
           </p>
         </div>
       </footer>
+
+      <!-- JS Link-->
+      <script src="assets/script.js"></script>
 
       <!--Bootstrap JS-->
       <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"
+      ></script>
 
-      <!--Font Awesome-->
+      <!--jQuery-->
       <script
-        src="https://kit.fontawesome.com/c23e9e1c8e.js"
-        crossorigin="anonymous"></script>
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"
+      ></script>
     </div>
   </body>
 </html>
