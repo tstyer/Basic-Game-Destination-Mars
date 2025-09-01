@@ -464,9 +464,7 @@ p {
 #space_bug_404 {
   height: 5rem;
   width: 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding-top: 1rem;
 }
 
 .nf-wrap {
@@ -488,6 +486,16 @@ p {
   border-radius:9999px; 
   text-decoration:none; 
   border:1px solid currentColor;
+}
+
+p, a {
+  color: #CAF0F8;
+  font-family: 'Original Surfer', sans-serif;
+  transition: 0.3s ease;
+}
+
+a:hover {
+  color: #FFC300;
 }
 
 /* Media Query's */
