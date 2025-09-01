@@ -70,6 +70,9 @@ let allowOneGroundTouch = true;
 // Track ground state to detect air->ground transitions
 let isOnGround = false;
 
+// For accessible focus restore on modal close
+let lastFocus = null;
+
 // ==== DOM code (browser only) ====
 if (globalThis && globalThis.document && globalThis.$) {
   $(document).ready(function () {
@@ -79,10 +82,9 @@ if (globalThis && globalThis.document && globalThis.$) {
     spaceBug = document.querySelector(".space_bug");
     distanceLabel = document.querySelector(".distance-label");
 
-    // Modal only on index.html
-    const isHome = /(^\/$|index\.html$)/m
-      .test(window.location.pathname);
-    if (isHome && gameArea) {
+    // Show modal if it exists on the page (works on Live Server & any path)
+    const overlay = document.getElementById("howto_box");
+    if (overlay && gameArea) {
       showModal(
         "How to Play",
         "Use ← → to move. Press Space to jump.\n"
@@ -182,23 +184,27 @@ if (globalThis && globalThis.document && globalThis.$) {
 // ==== Modal helpers (re-use #howto_box) ====
 function showModal(titleHTML, bodyText, buttonText, onClick) {
   const overlay = document.getElementById("howto_box");
-  if (!overlay) {
-    return;
-  }
+  if (!overlay) return;
+
+  // Clean up any leftover aria-hidden from old markup
+  overlay.removeAttribute("aria-hidden");
+
+  lastFocus = document.activeElement;
+
   overlay.classList.add("is-open");
-  overlay.setAttribute("aria-hidden", "false");
+  overlay.removeAttribute("hidden"); // make it visible & in a11y tree
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-labelledby", "howto_title");
 
   const box = overlay.querySelector(".howto-box");
-  if (!box) {
-    return;
-  }
+  if (!box) return;
 
   // Clear content safely
-  while (box.firstChild) {
-    box.removeChild(box.firstChild);
-  }
+  while (box.firstChild) box.removeChild(box.firstChild);
 
   const h2 = document.createElement("h2");
+  h2.id = "howto_title";
   h2.innerHTML = titleHTML;
 
   const bodyEl = document.createElement("div");
@@ -215,15 +221,30 @@ function showModal(titleHTML, bodyText, buttonText, onClick) {
   box.appendChild(h2);
   box.appendChild(bodyEl);
   box.appendChild(btn);
+
+  // Move focus into the dialog
+  btn.focus();
 }
 
 function closeModal() {
   const overlay = document.getElementById("howto_box");
-  if (!overlay) {
-    return;
+  if (!overlay) return;
+
+  // Restore focus BEFORE hiding
+  const fallback =
+    lastFocus ||
+    document.querySelector("a.nav-link.current") ||
+    document.querySelector("h1") ||
+    document.body;
+
+  if (fallback && fallback !== document.body && !fallback.hasAttribute("tabindex")) {
+    fallback.setAttribute("tabindex", "-1");
+    fallback.addEventListener("blur", () => fallback.removeAttribute("tabindex"), { once: true });
   }
+  if (fallback) fallback.focus({ preventScroll: true });
+
   overlay.classList.remove("is-open");
-  overlay.setAttribute("aria-hidden", "true");
+  overlay.setAttribute("hidden", ""); // hide & remove from a11y tree
 }
 
 // ==== Music toggle ====
