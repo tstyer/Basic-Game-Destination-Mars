@@ -152,7 +152,8 @@ h1, h2, h3 {
 .space_bug {
   line-height: 0;
   position: absolute;
-  /*bottom: 80px;*/
+  width: 60px; 
+  height: 60px
 }
 
 .space_bug img { 
@@ -456,6 +457,37 @@ body {
 p {
     color: #CAF0F8;
     font-family: 'Original Surfer', serif;
+}
+
+/* 404 PAGE */
+
+#space_bug_404 {
+  height: 5rem;
+  width: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nf-wrap {
+  min-height:100vh; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  text-align:center; 
+  padding:2rem;
+}
+
+ .nf-card {
+  max-width:640px;
+}
+
+.btn {
+  display:inline-block; 
+  padding:.75rem 1.25rem; 
+  border-radius:9999px; 
+  text-decoration:none; 
+  border:1px solid currentColor;
 }
 
 /* Media Query's */
