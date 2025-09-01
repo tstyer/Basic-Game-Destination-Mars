@@ -1,6 +1,6 @@
 /** @jest-environment jsdom */
 
-const SCRIPT_PATH = "../script"; // from assets/tests
+const SCRIPT_PATH = "../javascript/script.js"; 
 
 // Helper to detect hooks on a loaded module
 const hooksExist = (mod) =>
@@ -144,7 +144,7 @@ describe("Platforms start to fall when game starts", () => {
 
 /* --------------------------- generatePlatform --------------------------- */
 describe("generatePlatform", () => {
-  const SCRIPT_PATH = "../script"; // from assets/tests -> assets/script.js
+  const SCRIPT_PATH = "../javascript/script.js"; 
   let script, area;
 
   // helper to compute expected x with your current algorithm

@@ -186,7 +186,7 @@ function showModal(titleHTML, bodyText, buttonText, onClick) {
   const overlay = document.getElementById("howto_box");
   if (!overlay) return;
 
-  // Clean up any leftover aria-hidden from old markup
+  // To clean up any leftover aria-hidden from old markup
   overlay.removeAttribute("aria-hidden");
 
   lastFocus = document.activeElement;
@@ -200,7 +200,7 @@ function showModal(titleHTML, bodyText, buttonText, onClick) {
   const box = overlay.querySelector(".howto-box");
   if (!box) return;
 
-  // Clear content safely
+  // This clears content safely
   while (box.firstChild) box.removeChild(box.firstChild);
 
   const h2 = document.createElement("h2");
