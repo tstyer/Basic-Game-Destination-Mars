@@ -561,4 +561,22 @@ a:hover {
  }
 
 }
-  
+
+/* For the h1 on smaller screens */
+
+@media (max-width: 330px) {
+  h1 {
+  font-size: large;
+ }
+}
+
+/* For the modal on smaller screens */
+
+@media (max-width: 428px) {
+  /* let the overlay cover the whole viewport (not just .game_area) */
+  #howto_box.is-open {
+    position: fixed;     /* was absolute */
+    inset: 0;
+    z-index: 2000;       /* above navbar/game */
+    padding: 12px;       /* optional gutter */
+  }
