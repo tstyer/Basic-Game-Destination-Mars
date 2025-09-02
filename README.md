@@ -422,27 +422,31 @@ HTML validation was carried out on every page. You can see the screenshots of th
 
 1. The Home Page
 
-![Screenshot of Homepage Validation](/assets/images/home_page_html_validated.jpeg)
+![Screenshot of Homepage Validation](/assets/images/new_index.html_validation.png)
 
 2. The Settings Page
 
-![Screenshot of settings page validation](/assets/images/settings_page_html_validated.jpeg)
+![Screenshot of settings page validation](/assets/images/settings_page_val_2.png)
 
 3. The Instructions Page
 
-![Screenshot of Settings Page Validation](/assets/images/instructions_page_html_validated.jpeg)
+![Screenshot of Settings Page Validation](/assets/images/instructions_page_validation_2.png)
+
+4. 404 Page
+
+![Screenshot of 404 page validation](/assets/images/404_validation.png)
 
 ### CSS Validation
 
 CSS validation:
 
-![Screenshot of CSS validation](/assets/images/css_validated.jpeg)
+![Screenshot of CSS validation](/assets/images/css_validation_2.png)
 
 ### JS Validation 
 
 For Javascript, I used JS Lint to validate the code:
 
-![Screenshot of Javascript Validation](/assets/images/jslint_validation_screenshot.jpeg)
+![Screenshot of Javascript Validation](/assets/images/js_lint_re-do.png)
 
 You can se there is only 1 warning to show, however, I cannot remove the '$' to get zero warnings. 
 
