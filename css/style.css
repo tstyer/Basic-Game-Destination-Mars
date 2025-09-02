@@ -171,7 +171,6 @@ h1, h2, h3 {
   width: 100px;
   height: 115px;
   filter: brightness(1);
-  filter: contrast(-2);
   display: block; 
 }
 
