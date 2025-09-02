@@ -536,4 +536,29 @@ a:hover {
     display: none;
   }
 }
+
+/* Adjusting for mobiles and small devices */
+
+@media (max-width: 767px) {
+  .space_bug {
+  line-height: 0;
+  position: absolute;
+  width: 35px; 
+  height: 35px
+ }
+
+.space_bug img { 
+  display: block; 
+  width: 35px; 
+  height: auto; 
+ }
+
+ .platform img {
+  width: 50px;
+  height: auto;
+  filter: brightness(1);
+  display: block; 
+ }
+
+}
   

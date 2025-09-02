@@ -23,9 +23,9 @@ const keys = { left: false, right: false };
 const groundStepPx = 4;
 
 // Skip transparent pixels at top of platform image.
-const platformCollisionTopInsetPx = 10;
+let platformCollisionTopInsetPx = 10;   // was const
 // Adjust for transparent pixels at bottom of bug PNG.
-const bugFootOffsetPx = 55;
+let bugFootOffsetPx = 55;               // was const
 
 // ==== Platforms ====
 let platforms = [];
@@ -37,7 +37,7 @@ const tickMs = 14;
 let platformSpeed = 1.7;
 const platformSpacingPx = 120;
 const maxPlatforms = 12;
-const platformWidth = 100;
+let platformWidth = 100;                // was const
 const spawnMargin = 16;
 
 // Max horizontal distance between spawns
@@ -75,6 +75,38 @@ let isOnGround = false;
 
 // For accessible focus restore on modal close
 let lastFocus = null;
+
+// ==== Metrics: recompute based on current sprite sizes ====
+function recomputeSpriteMetrics() {
+  const BUG_BASE_H = 60;
+  const BUG_BASE_FOOT = 55;
+  const PLAT_BASE_W = 100;
+  const PLAT_BASE_H = 115;
+  const PLAT_BASE_TOP_INSET = 10;
+
+  const bugH = spaceBug
+    ? (spaceBug.offsetHeight || BUG_BASE_H)
+    : BUG_BASE_H;
+
+  bugFootOffsetPx =
+    Math.round((BUG_BASE_FOOT / BUG_BASE_H) * bugH);
+
+  const sampleImg =
+    (platforms[0] && platforms[0].querySelector("img")) ||
+    document.querySelector(".platform img");
+
+  const platW = sampleImg
+    ? (sampleImg.offsetWidth || PLAT_BASE_W)
+    : PLAT_BASE_W;
+
+  const platH = sampleImg
+    ? (sampleImg.offsetHeight || PLAT_BASE_H)
+    : PLAT_BASE_H;
+
+  platformWidth = platW;
+  platformCollisionTopInsetPx =
+    Math.round((PLAT_BASE_TOP_INSET / PLAT_BASE_H) * platH);
+}
 
 // ==== DOM code (browser only) ====
 if (globalThis &&
@@ -122,6 +154,20 @@ if (globalThis &&
       }
     }
 
+    // Seed any existing platform in markup
+    const existingPlatform = document.querySelector(".platform");
+    if (existingPlatform) {
+      existingPlatform.style.top = "0px";
+      existingPlatform.style.left = "100px";
+      platforms.push(existingPlatform);
+    }
+
+    // Compute metrics now that DOM is ready and a platform may exist
+    try { recomputeSpriteMetrics(); } catch (e) { /* no-op */ }
+    window.addEventListener("resize", function () {
+      try { recomputeSpriteMetrics(); } catch (e2) { /* no-op */ }
+    });
+
     // Initialize Mars label
     updateDistanceLabel();
 
@@ -161,14 +207,6 @@ if (globalThis &&
       }
     });
 
-    // This will seed any existing platform in markup
-    const existingPlatform = document.querySelector(".platform");
-    if (existingPlatform) {
-      existingPlatform.style.top = "0px";
-      existingPlatform.style.left = "100px";
-      platforms.push(existingPlatform);
-    }
-
     // Music toggle
     if ($music.length) {
       const music = $music[0];
@@ -203,7 +241,7 @@ function showModal(titleHTML, bodyText, buttonText, onClick) {
   lastFocus = document.activeElement;
 
   overlay.classList.add("is-open");
-  overlay.removeAttribute("hidden"); // make it visible & in a11y tree
+  overlay.removeAttribute("hidden"); // visible & in a11y tree
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
   overlay.setAttribute("aria-labelledby", "howto_title");
@@ -211,7 +249,7 @@ function showModal(titleHTML, bodyText, buttonText, onClick) {
   const box = overlay.querySelector(".howto-box");
   if (!box) { return; }
 
-  // This clears content safely
+  // Clear content safely
   while (box.firstChild) { box.removeChild(box.firstChild); }
 
   const h2 = document.createElement("h2");
@@ -220,7 +258,6 @@ function showModal(titleHTML, bodyText, buttonText, onClick) {
 
   const bodyEl = document.createElement("div");
   bodyEl.className = "howto-body";
-  // Convert \n to <br> so we keep lines under 80 chars
   bodyEl.innerHTML = bodyText.replace(/\n/g, "<br>");
 
   const btn = document.createElement("button");
@@ -261,7 +298,7 @@ function closeModal() {
   if (fallback) { fallback.focus({ preventScroll: true }); }
 
   overlay.classList.remove("is-open");
-  overlay.setAttribute("hidden", ""); // hide & remove from a11y tree
+  overlay.setAttribute("hidden", "");
 }
 
 // ==== Music toggle ====
@@ -286,38 +323,34 @@ function createPlatform(x, y) {
   platform.appendChild(img);
 
   const area = gameArea || document.querySelector(".game_area");
-  if (!area) { return platform; } // don’t throw in tests / other pages
+  if (!area) { return platform; }
   area.appendChild(platform);
 
   platforms.push(platform);
+
+  // Ensure metrics match real on-screen sizes
+  try { recomputeSpriteMetrics(); } catch (e) { /* no-op */ }
+
   return platform;
 }
 
 // ==== Ground walking per tick ====
 function setBugFacing(dir) {
   const img = spaceBug && spaceBug.querySelector("img");
-  if (!img) {
-    return;
-  }
+  if (!img) { return; }
   const want = (
     dir === "left"
       ? "assets/images/space_bug_left.PNG"
       : "assets/images/space_bug_right.PNG"
   );
-
   if (!img.src.includes(dir === "left" ? "left" : "right")) {
     img.src = want;
   }
 }
 
 function applyGroundMovement() {
-  if (!gameStarted || !spaceBug || !gameArea) {
-    return;
-  }
-  // Only walk when standing on ground/platform (sticky)
-  if (isJumping) {
-    return;
-  }
+  if (!gameStarted || !spaceBug || !gameArea) { return; }
+  if (isJumping) { return; } // only when standing
 
   let left = parseFloat(spaceBug.style.left || "0");
   const maxLeft = gameArea.clientWidth - (spaceBug.offsetWidth || 60);
@@ -359,9 +392,7 @@ function moveRight(el) {
 
 // ==== Jump ====
 function jump() {
-  if (isJumping) {
-    return;
-  }
+  if (isJumping) { return; }
   velocityY = -14;
   isJumping = true;
 
@@ -370,36 +401,27 @@ function jump() {
   } else if (keys.right && !keys.left) {
     velocityX = jumpHorizontalSpeed;
   } else {
-    // straight up if still
-    velocityX = 0;
+    velocityX = 0; // straight up
   }
 }
 
 // ==== Physics (vertical + image landing + sticky + bounds) ====
 function applyGravity() {
-  if (!spaceBug || !gameArea) {
-    return;
-  }
+  if (!spaceBug || !gameArea) { return; }
 
   const bugW = spaceBug.offsetWidth || 60;
 
-  // Sticky standing on platform image
+  // Sticky standing on a platform image
   if (!isJumping) {
-    // null/undefined check without '!='
     const supportBottom = getSupportBottomOnImage(bugW);
-    if (
-      supportBottom !== null
-      && supportBottom !== undefined
-    ) {
-      // definitely not on ground while on a platform
+    if (supportBottom !== null && supportBottom !== undefined) {
       isOnGround = false;
       spaceBug.style.bottom = String(supportBottom) + "px";
       velocityY = 0;
 
       const currentLeft = parseFloat(spaceBug.style.left || "0");
       const maxLeftClamp = gameArea.clientWidth - bugW;
-      const leftClamp =
-        Math.max(0, Math.min(currentLeft, maxLeftClamp));
+      const leftClamp = Math.max(0, Math.min(currentLeft, maxLeftClamp));
       spaceBug.style.left = String(leftClamp) + "px";
       return;
     }
@@ -408,8 +430,7 @@ function applyGravity() {
   // Vertical integration (falling or in-air)
   const prevBottom = parseFloat(spaceBug.style.bottom || "80");
   velocityY += gravity;
-  // Positive velocityY moves bug down
-  let nextBottom = prevBottom - velocityY;
+  let nextBottom = prevBottom - velocityY; // positive Y means falling
 
   // Try to land on a platform image while falling
   if (velocityY > 0) {
@@ -417,23 +438,19 @@ function applyGravity() {
       prevBottom, nextBottom, bugW
     );
     if (landing) {
-      // landing on platform, not ground
       isOnGround = false;
       nextBottom = landing.bottom;
       velocityY = 0;
       isJumping = false;
       velocityX = 0;
-
-      // Progress toward Mars
       applyLandingProgress();
     }
   }
 
-  // --- ground handling (only on air -> ground transition) ---
+  // Ground handling (only on air -> ground transition)
   if (nextBottom <= 0) {
     nextBottom = 0;
 
-    // prior state
     const wasInAir = !isOnGround;
     isOnGround = true;
 
@@ -441,7 +458,6 @@ function applyGravity() {
 
     if (gameStarted && wasInAir) {
       if (allowOneGroundTouch) {
-        // First ground touch after start is safe
         allowOneGroundTouch = false;
         velocityY = 0;
         isJumping = false;
@@ -451,7 +467,6 @@ function applyGravity() {
       gameOver();
       return;
     }
-    // Already on ground: nothing else
   } else {
     // In the air
     isOnGround = false;
@@ -482,9 +497,7 @@ function applyGravity() {
 
 // ==== Landing progress ====
 function applyLandingProgress() {
-  if (distanceRemaining <= 0) {
-    return;
-  }
+  if (distanceRemaining <= 0) { return; }
   distanceRemaining = Math.max(0, distanceRemaining - landingDecrement);
   updateDistanceLabel();
 
@@ -494,16 +507,13 @@ function applyLandingProgress() {
     speedUpApplied = true;
   }
 
-  // Win condition
   if (distanceRemaining === 0) {
     youWin();
   }
 }
 
 function updateDistanceLabel() {
-  if (!distanceLabel) {
-    return;
-  }
+  if (!distanceLabel) { return; }
   distanceLabel.textContent = "Mars: " + String(distanceRemaining);
 }
 
@@ -511,7 +521,6 @@ function updateDistanceLabel() {
 function youWin() {
   stopLoop();
   gameStarted = false;
-  // should be 1000 here
   const score = startDistance - distanceRemaining;
 
   showModal(
@@ -573,9 +582,7 @@ function resetGameState() {
   const area = gameArea || document.querySelector(".game_area");
   if (area) {
     platforms.forEach(function (p) {
-      if (p.parentNode === area) {
-        area.removeChild(p);
-      }
+      if (p.parentNode === area) { area.removeChild(p); }
     });
   }
   platforms = [];
@@ -588,13 +595,14 @@ function resetGameState() {
   // Wait for Space to start
   hasAcknowledged = true;
   gameStarted = false;
+
+  // Recompute metrics after layout reset
+  try { recomputeSpriteMetrics(); } catch (e) { /* no-op */ }
 }
 
 // ==== Loop control ====
 function startGame() {
-  if (gameStarted) {
-    return;
-  }
+  if (gameStarted) { return; }
   gameStarted = true;
 
   // Start easy, then ramp later
@@ -650,11 +658,7 @@ function startLoop() {
 
 // ==== Landing helpers ====
 function getSupportBottomOnImage(bugW, supportEps) {
-  let eps = (
-    typeof supportEps === "number"
-      ? supportEps
-      : 8
-  );
+  let eps = (typeof supportEps === "number" ? supportEps : 8);
 
   const area = gameArea;
   const areaRect = area.getBoundingClientRect();
@@ -671,9 +675,7 @@ function getSupportBottomOnImage(bugW, supportEps) {
 
   platforms.forEach(function (plat) {
     const imgEl = plat.querySelector("img");
-    if (!imgEl) {
-      return;
-    }
+    if (!imgEl) { return; }
 
     const r = imgEl.getBoundingClientRect();
     const currTop =
@@ -681,9 +683,7 @@ function getSupportBottomOnImage(bugW, supportEps) {
     const imgLeft = (r.left - areaRect.left - offX);
     const imgRight = imgLeft + r.width;
 
-    if (!(bugRight > imgLeft && bugLeft < imgRight)) {
-      return;
-    }
+    if (!(bugRight > imgLeft && bugLeft < imgRight)) { return; }
 
     const desiredBottom =
       Math.max(0, areaH - currTop - bugFootOffsetPx);
@@ -695,11 +695,7 @@ function getSupportBottomOnImage(bugW, supportEps) {
     }
   });
 
-  return (
-    bestDelta <= eps
-      ? bestBottom
-      : null
-  );
+  return (bestDelta <= eps ? bestBottom : null);
 }
 
 function getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW) {
@@ -721,9 +717,7 @@ function getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW) {
 
   platforms.forEach(function (plat) {
     const imgEl = plat.querySelector("img");
-    if (!imgEl) {
-      return;
-    }
+    if (!imgEl) { return; }
 
     const r = imgEl.getBoundingClientRect();
 
@@ -732,9 +726,7 @@ function getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW) {
     const imgRight = imgLeft + r.width;
 
     const overlapsX = bugRight > imgLeft && bugLeft < imgRight;
-    if (!overlapsX) {
-      return;
-    }
+    if (!overlapsX) { return; }
 
     // Skip transparent top
     currTop += platformCollisionTopInsetPx;
@@ -761,9 +753,7 @@ function getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW) {
 // ==== Platforms ====
 function updatePlatforms() {
   const area = gameArea || document.querySelector(".game_area");
-  if (!area) {
-    return;
-  }
+  if (!area) { return; }
 
   const areaH = area.clientHeight;
 
@@ -785,9 +775,7 @@ function updatePlatforms() {
 // clamp spawn
 function generatePlatform() {
   const area = gameArea || document.querySelector(".game_area");
-  if (!area) {
-    return;
-  }
+  if (!area) { return; }
 
   const areaW = area.clientWidth;
   const minWall = spawnMargin;
@@ -803,11 +791,9 @@ function generatePlatform() {
       : (bugCenterX - (platformWidth / 2))
   );
 
-  // Window around refX (clamped to walls)
   const windowMin = Math.max(minWall, refX - maxHorizontalStepPx);
   const windowMax = Math.min(maxWall, refX + maxHorizontalStepPx);
 
-  // Safety in case margins make the window collapse
   const minX = Math.min(windowMin, windowMax);
   const maxX = Math.max(windowMin, windowMax);
 
