@@ -1,3 +1,6 @@
+/*jslint browser */
+/*global globalThis, localStorage, module */
+
 // ---
 // Destination: Mars
 // ---
@@ -74,7 +77,7 @@ let isOnGround = false;
 let lastFocus = null;
 
 // ==== DOM code (browser only) ====
-if (globalThis && globalThis.document && globalThis.$) {
+if (typeof globalThis !== "undefined" && globalThis.document && globalThis["$"]) {
   $(document).ready(function () {
     const $music = $("#music");
     const $musicToggle = $("#music_toggle");
@@ -96,6 +99,9 @@ if (globalThis && globalThis.document && globalThis.$) {
           closeModal();
         }
       );
+    } else {
+      // Allow starting with Space when no modal is present
+      hasAcknowledged = true;
     }
 
     // Center the bug
@@ -105,9 +111,10 @@ if (globalThis && globalThis.document && globalThis.$) {
       spaceBug.style.left = String((areaW - bugW) / 2) + "px";
 
       if (!spaceBug.style.bottom) {
-        const computedBottom =
-          getComputedStyle(spaceBug).bottom || "80px";
-        spaceBug.style.bottom = computedBottom;
+        const computedBottom = getComputedStyle(spaceBug).bottom;
+        spaceBug.style.bottom = (computedBottom && computedBottom.endsWith("px"))
+          ? computedBottom
+          : "80px";
       }
     }
 
@@ -184,7 +191,7 @@ if (globalThis && globalThis.document && globalThis.$) {
 // ==== Modal helpers (re-use #howto_box) ====
 function showModal(titleHTML, bodyText, buttonText, onClick) {
   const overlay = document.getElementById("howto_box");
-  if (!overlay) return;
+  if (!overlay) { return; }
 
   // To clean up any leftover aria-hidden from old markup
   overlay.removeAttribute("aria-hidden");
@@ -198,10 +205,10 @@ function showModal(titleHTML, bodyText, buttonText, onClick) {
   overlay.setAttribute("aria-labelledby", "howto_title");
 
   const box = overlay.querySelector(".howto-box");
-  if (!box) return;
+  if (!box) { return; }
 
   // This clears content safely
-  while (box.firstChild) box.removeChild(box.firstChild);
+  while (box.firstChild) { box.removeChild(box.firstChild); }
 
   const h2 = document.createElement("h2");
   h2.id = "howto_title";
@@ -228,7 +235,7 @@ function showModal(titleHTML, bodyText, buttonText, onClick) {
 
 function closeModal() {
   const overlay = document.getElementById("howto_box");
-  if (!overlay) return;
+  if (!overlay) { return; }
 
   // Restore focus BEFORE hiding
   const fallback =
@@ -239,9 +246,11 @@ function closeModal() {
 
   if (fallback && fallback !== document.body && !fallback.hasAttribute("tabindex")) {
     fallback.setAttribute("tabindex", "-1");
-    fallback.addEventListener("blur", () => fallback.removeAttribute("tabindex"), { once: true });
+    fallback.addEventListener("blur", function () {
+      fallback.removeAttribute("tabindex");
+    }, { once: true });
   }
-  if (fallback) fallback.focus({ preventScroll: true });
+  if (fallback) { fallback.focus({ preventScroll: true }); }
 
   overlay.classList.remove("is-open");
   overlay.setAttribute("hidden", ""); // hide & remove from a11y tree
@@ -268,7 +277,8 @@ function createPlatform(x, y) {
   img.alt = "space platform";
   platform.appendChild(img);
 
-  const area = document.querySelector(".game_area");
+  const area = gameArea || document.querySelector(".game_area");
+  if (!area) { return platform; } // don’t throw in tests / other pages
   area.appendChild(platform);
 
   platforms.push(platform);
@@ -327,8 +337,11 @@ function moveLeft(el) {
 function moveRight(el) {
   const left = parseInt(el.style.left, 10) || 0;
   const maxLeft =
-    (gameArea ? gameArea.clientWidth : left) - (el.offsetWidth || 60);
-  el.style.left = String(Math.min(maxLeft, left + groundStepPx)) + "px";
+    gameArea
+      ? gameArea.clientWidth - (el.offsetWidth || 60)
+      : Math.max(0, left); // clamp if no gameArea
+  const next = Math.min(maxLeft, left + groundStepPx);
+  el.style.left = String(Math.max(0, next)) + "px";
   const img = el.querySelector("img");
   if (img && !img.src.includes("space_bug_right.PNG")) {
     img.src = "assets/images/space_bug_right.PNG";
@@ -797,16 +810,8 @@ function generatePlatform() {
 }
 
 // ==== Exports (for tests) ====
-if (globalThis && globalThis.module && globalThis.module.exports) {
-  const _test = {
-    getIsJumping: function () { return isJumping; },
-    getVelocityY: function () { return velocityY; },
-    setGravity: function () { return; },      // no-op (const in build)
-    setSpaceBug: function (el) { spaceBug = el; },
-    setVelocityY: function (v) { velocityY = v; }
-  };
-
-  globalThis.module.exports = {
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
     applyGravity,
     closeModal,
     createPlatform,
