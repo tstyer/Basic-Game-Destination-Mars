@@ -1,5 +1,5 @@
 /*jslint browser */
-/*global globalThis, localStorage, module */
+/*global $, getComputedStyle, localStorage, module */
 
 // ---
 // Destination: Mars
@@ -77,7 +77,9 @@ let isOnGround = false;
 let lastFocus = null;
 
 // ==== DOM code (browser only) ====
-if (typeof globalThis !== "undefined" && globalThis.document && globalThis["$"]) {
+if (globalThis &&
+        globalThis.document &&
+        globalThis["$"]) {
   $(document).ready(function () {
     const $music = $("#music");
     const $musicToggle = $("#music_toggle");
@@ -112,9 +114,11 @@ if (typeof globalThis !== "undefined" && globalThis.document && globalThis["$"])
 
       if (!spaceBug.style.bottom) {
         const computedBottom = getComputedStyle(spaceBug).bottom;
-        spaceBug.style.bottom = (computedBottom && computedBottom.endsWith("px"))
-          ? computedBottom
-          : "80px";
+        spaceBug.style.bottom = (
+                (computedBottom && computedBottom.endsWith("px"))
+                ? computedBottom
+                : "80px"
+            );
       }
     }
 
@@ -244,7 +248,11 @@ function closeModal() {
     document.querySelector("h1") ||
     document.body;
 
-  if (fallback && fallback !== document.body && !fallback.hasAttribute("tabindex")) {
+  if (
+          fallback &&
+          fallback !== document.body &&
+          !fallback.hasAttribute("tabindex")
+  ) {
     fallback.setAttribute("tabindex", "-1");
     fallback.addEventListener("blur", function () {
       fallback.removeAttribute("tabindex");
@@ -336,10 +344,11 @@ function moveLeft(el) {
 
 function moveRight(el) {
   const left = parseInt(el.style.left, 10) || 0;
-  const maxLeft =
-    gameArea
-      ? gameArea.clientWidth - (el.offsetWidth || 60)
-      : Math.max(0, left); // clamp if no gameArea
+  const maxLeft = (
+          gameArea
+          ? gameArea.clientWidth - (el.offsetWidth || 60)
+          : Math.max(0, left)
+      );
   const next = Math.min(maxLeft, left + groundStepPx);
   el.style.left = String(Math.max(0, next)) + "px";
   const img = el.querySelector("img");
@@ -727,7 +736,7 @@ function getLandingBottomOnImageMoving(prevBottom, nextBottom, bugW) {
       return;
     }
 
-    // Skip transparent top 
+    // Skip transparent top
     currTop += platformCollisionTopInsetPx;
     const prevTop = currTop - platformSpeed;
 
@@ -773,7 +782,7 @@ function updatePlatforms() {
   });
 }
 
-// clamp spawn 
+// clamp spawn
 function generatePlatform() {
   const area = gameArea || document.querySelector(".game_area");
   if (!area) {
