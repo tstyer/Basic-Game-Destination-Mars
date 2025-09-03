@@ -1,6 +1,12 @@
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Codystar:wght@300;400&family=Original+Surfer&display=swap');
 
+/* Remove error in console: webkit-text-size-adjust unsuported in browsers. */
+html {
+  -webkit-text-size-adjust: 100%; /* iOS Safari */
+  text-size-adjust: 100%;         /* modern Chrome/Edge/Firefox */
+}
+
 /* NOTES TO REMEMBER */
 
 /* 1. Cody Star is for Headers - set weight to 'regular 400' */
@@ -580,3 +586,24 @@ a:hover {
     z-index: 2000;       /* above navbar/game */
     padding: 12px;       /* optional gutter */
   }
+
+/* For The How To box - Intructions Page */
+
+@media (max-width: 428px) {
+  .howto-box {
+    width: 90%; /* This is 90% so it never bleeds over screen size */
+    margin: 0 auto;      /* keep it centred */
+    padding: 12px;       /* a bit tighter padding */
+    font-size: 0.9rem;   /* slightly smaller text */
+    line-height: 1.4;    /* improve readability */
+  }
+  
+  .howto-box h2 {
+    font-size: 1.2rem;   /* smaller headings */
+  }
+
+  .howto-box button {
+    font-size: 0.9rem;   /* shrink button text */
+    padding: 8px 12px;
+  }
+}
