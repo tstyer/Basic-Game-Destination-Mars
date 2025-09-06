@@ -22,7 +22,6 @@ html {
   width: fit-content;
   margin: 0 auto;
   z-index: 1000;
-
 }
 
 .navbar a {
@@ -48,7 +47,6 @@ html {
 .nav-item .current {
   text-decoration: underline;
   color: #FFC300 !important;
-  
 }
 
 h1, h2, h3 {
@@ -58,10 +56,10 @@ h1, h2, h3 {
 /* Header */
 
 .header {
-    font-family: 'Codystar', Serif;
-    width: fit-content;
-    margin: 10px auto;
-    color: #FFC300;
+  font-family: 'Codystar', Serif;
+  width: fit-content;
+  margin: 10px auto;
+  color: #FFC300;
 }
 
 /* GAME AREA POP-UP */
@@ -105,19 +103,18 @@ h1, h2, h3 {
   cursor: pointer;
 }
 
-
 /* Game section */
 
 .page_container {
-    /* This centres the game-area section within the container. */
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    background-color: #001d3d;
-    border-radius: 5%;
+  /* This centres the game-area section within the container. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  background-color: #001d3d;
+  border-radius: 5%;
 }
 
 .doodle_star_1 {
@@ -158,14 +155,14 @@ h1, h2, h3 {
 .space_bug {
   line-height: 0;
   position: absolute;
-  width: 60px; 
+  width: 60px;
   height: 60px
 }
 
-.space_bug img { 
-  display: block; 
-  width: 60px; 
-  height: 60px; 
+.space_bug img {
+  display: block;
+  width: 60px;
+  height: 60px;
 }
 
 .platform {
@@ -177,7 +174,7 @@ h1, h2, h3 {
   width: 100px;
   height: 115px;
   filter: brightness(1);
-  display: block; 
+  display: block;
 }
 
 /* Adjusting the paragraphs in the game container to be positoned properly */
@@ -349,7 +346,7 @@ h1, h2, h3 {
   position: absolute;
   cursor: pointer;
   top: 0;
-  left: 60px; 
+  left: 60px;
   right: 0;
   bottom: 0;
   background-color: #CAF0F8;
@@ -402,7 +399,6 @@ input:checked + .slider:before {
   padding: 5px;
 }
 
-
 #difficulty_select option {
   background-color: #001D3D;
   color: #CAF0F8;
@@ -422,8 +418,8 @@ footer {
 }
 
 footer a {
-    color: #CAF0F8;
-    transition: color 0.5s ease !important;
+  color: #CAF0F8;
+  transition: color 0.5s ease !important;
 }
 
 footer a:hover {
@@ -431,17 +427,17 @@ footer a:hover {
 }
 
 .footer_settings {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5px;
-    width: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+  width: 60vh;
 }
 
 .footer_settings p i {
-    padding-left: 5px;
-    padding-right: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 /* Body */
@@ -452,16 +448,16 @@ body {
 }
 
 .page-wrapper {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Regular Text / Paragraphs */
 
 p {
-    color: #CAF0F8;
-    font-family: 'Original Surfer', serif;
+  color: #CAF0F8;
+  font-family: 'Original Surfer', serif;
 }
 
 /* 404 PAGE */
@@ -473,23 +469,23 @@ p {
 }
 
 .nf-wrap {
-  min-height:100vh; 
-  display:flex; 
-  align-items:center; 
-  justify-content:center; 
-  text-align:center; 
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
   padding:2rem;
 }
 
- .nf-card {
+.nf-card {
   max-width:640px;
 }
 
 .btn {
-  display:inline-block; 
-  padding:.75rem 1.25rem; 
-  border-radius:9999px; 
-  text-decoration:none; 
+  display:inline-block;
+  padding:.75rem 1.25rem;
+  border-radius:9999px;
+  text-decoration:none;
   border:1px solid currentColor;
 }
 
@@ -506,22 +502,22 @@ a:hover {
 /* Media Query's */
 
 @media screen and (max-width: 700px) { /* Max width, so everything below is using these adjustments */
-    .game-paragraphs {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  .game-paragraphs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .game-paragraphs p {
-        text-align: center;
-    }
+  .game-paragraphs p {
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 767px) { /* This puts the header and navbar next to each other on smaller screens */
-    header {
-      display: flex;
-      flex-direction: row;
-    }
+  header {
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 @media (max-width: 767.98px) { /* When navbar turns into burger, it shows on the left */
@@ -544,66 +540,151 @@ a:hover {
 }
 
 /* Adjusting for mobiles and small devices */
-
 @media (max-width: 767px) {
   .space_bug {
-  line-height: 0;
-  position: absolute;
-  width: 35px; 
-  height: 35px
- }
+    line-height: 0;
+    position: absolute;
+    width: 35px;
+    height: 35px
+  }
 
-.space_bug img { 
-  display: block; 
-  width: 35px; 
-  height: auto; 
- }
+  .space_bug img {
+    display: block;
+    width: 35px;
+    height: auto;
+  }
 
- .platform img {
-  width: 50px;
-  height: auto;
-  filter: brightness(1);
-  display: block; 
- }
-
+  .platform img {
+    width: 50px;
+    height: auto;
+    filter: brightness(1);
+    display: block;
+  }
 }
 
 /* For the h1 on smaller screens */
-
 @media (max-width: 330px) {
-  h1 {
-  font-size: large;
- }
+  h1 { font-size: large; }
 }
 
-/* For the modal on smaller screens */
+/* ===== Mobile tweaks ===== */
 
+/* Phones & small tablets */
+@media (max-width: 768px) {
+  /* Instructions card (fluid) */
+  .text_sections_instructions {
+    width: 92vw;
+    max-width: 540px;
+    height: auto;            /* let it grow with content */
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  /* Typography inside the instructions card */
+  .text_sections_instructions p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0.85rem;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .text_sections_instructions strong { font-size: 1rem; }
+  .controls_description { padding-top: 16px; }
+
+  .can_you_survive p {
+    font-size: 1rem;
+    padding-top: 16px;
+  }
+
+  /* Header + nav tighten up a bit */
+  .header h1 { font-size: clamp(1.25rem, 4vw, 1.75rem); }
+  .navbar a { letter-spacing: 2px; }
+
+  .footer_settings { width: 100%; }
+}
+
+/* Narrow phones (360–428px) */
 @media (max-width: 428px) {
-  /* let the overlay cover the whole viewport (not just .game_area) */
+  .text_sections_instructions {
+    width: 94vw;
+    padding: 12px;
+  }
+
+  .text_sections_instructions p {
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .controls_description { padding-top: 12px; }
+  .can_you_survive p { font-size: 0.95rem; padding-top: 12px; }
+
+  /* Hide small decorative stars to reduce clutter */
+  .doodle_star_8,
+  .doodle_star_9,
+  .doodle_star_10,
+  .doodle_star_11 { display: none; }
+
+  /* Modal overlay when open */
   #howto_box.is-open {
-    position: fixed;     /* was absolute */
+    position: fixed;
     inset: 0;
-    z-index: 2000;       /* above navbar/game */
-    padding: 12px;       /* optional gutter */
+    z-index: 2000;
+    padding: 12px;      /* viewport gutter */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-/* For The How To box - Intructions Page */
-
-@media (max-width: 428px) {
-  .howto-box {
-    width: 90%; /* This is 90% so it never bleeds over screen size */
-    margin: 0 auto;      /* keep it centred */
-    padding: 12px;       /* a bit tighter padding */
-    font-size: 0.9rem;   /* slightly smaller text */
-    line-height: 1.4;    /* improve readability */
-  }
-  
-  .howto-box h2 {
-    font-size: 1.2rem;   /* smaller headings */
+  /* Modal card */
+  #howto_box .howto-box {
+    width: 96vw;        /* nearly full width */
+    max-width: 520px;
+    padding: 12px;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin: 0 auto;
   }
 
-  .howto-box button {
-    font-size: 0.9rem;   /* shrink button text */
+  #howto_box .howto-box h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #howto_box .howto-btn {
+    font-size: 0.9rem;
     padding: 8px 12px;
+  }
+}
+
+/* Keep last line inside the rounded box & add scroll safety net */
+@media (max-width: 480px) {
+  .text_sections_instructions {
+    width: 94vw;
+    max-width: 520px;
+    height: auto !important;           /* override 70vh from desktop */
+    min-height: unset !important;
+    max-height: calc(100dvh - 120px);  /* never exceed viewport height */
+    overflow: auto;                    /* scroll if long */
+    padding: 14px 14px 16px;
+    border-radius: 16px;
+    box-sizing: border-box;
+  }
+
+  .text_sections_instructions p {
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin: 0 0 12px;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .controls_description { padding-top: 10px; }
+
+  .can_you_survive { margin-top: 4px; }
+  .can_you_survive p {
+    font-size: 0.98rem;
+    padding-top: 8px;
+    margin-bottom: 0;                  /* keep inside the curve */
   }
 }
