@@ -76,7 +76,9 @@ h1, h2, h3 {
 }
 
 /* show it */
-#howto_box.is-open { display: flex; }
+#howto_box.is-open { 
+  display: flex; 
+}
 
 /* Card */
 #howto_box .howto-box {
@@ -564,7 +566,9 @@ a:hover {
 
 /* For the h1 on smaller screens */
 @media (max-width: 330px) {
-  h1 { font-size: large; }
+  h1 { 
+    font-size: large; 
+  }
 }
 
 /* ===== Mobile tweaks ===== */
@@ -589,8 +593,11 @@ a:hover {
     overflow-wrap: anywhere;
   }
 
-  .text_sections_instructions strong { font-size: 1rem; }
-  .controls_description { padding-top: 16px; }
+  .text_sections_instructions strong { 
+    font-size: 1rem; }
+  .controls_description { 
+    padding-top: 16px; 
+  }
 
   .can_you_survive p {
     font-size: 1rem;
@@ -598,10 +605,17 @@ a:hover {
   }
 
   /* Header + nav tighten up a bit */
-  .header h1 { font-size: clamp(1.25rem, 4vw, 1.75rem); }
-  .navbar a { letter-spacing: 2px; }
+  .header h1 { 
+    font-size: clamp(1.25rem, 4vw, 1.75rem); 
+  }
 
-  .footer_settings { width: 100%; }
+  .navbar a { 
+    letter-spacing: 2px; 
+  }
+
+  .footer_settings { 
+    width: 100%; 
+  }
 }
 
 /* Narrow phones (360–428px) */
@@ -657,7 +671,7 @@ a:hover {
   }
 }
 
-/* Keep last line inside the rounded box & add scroll safety net */
+/* Insturctions box adjustments for smaller screens */
 @media (max-width: 480px) {
   .text_sections_instructions {
     width: 94vw;
@@ -679,9 +693,14 @@ a:hover {
     overflow-wrap: anywhere;
   }
 
-  .controls_description { padding-top: 10px; }
+  .controls_description { 
+    padding-top: 10px; 
+  }
 
-  .can_you_survive { margin-top: 4px; }
+  .can_you_survive { 
+    margin-top: 4px; 
+  }
+
   .can_you_survive p {
     font-size: 0.98rem;
     padding-top: 8px;
