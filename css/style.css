@@ -203,7 +203,7 @@ h1, h2, h3 {
   font-size: 1rem;
 }
 
-/* Instructions Page */
+/* Instructions Page: First Adjustments */
 
 .text_sections_instructions {
   position: relative;
@@ -671,7 +671,7 @@ a:hover {
   }
 }
 
-/* Insturctions box adjustments for smaller screens */
+/* Instructions Page - Second Adjustments - box adjustments for smaller screens */
 @media (max-width: 480px) {
   .text_sections_instructions {
     width: 94vw;
@@ -708,7 +708,7 @@ a:hover {
   }
 }
 
-/* === Settings page: for mobiles === */
+/* === Settings page: Second Adjustments for mobiles === */
 
 /* Tablets & phones */
 @media (max-width: 768px) {
