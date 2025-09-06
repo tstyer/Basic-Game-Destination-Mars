@@ -708,7 +708,7 @@ a:hover {
   }
 }
 
-/* === Settings page: mobile polish === */
+/* === Settings page: for mobiles === */
 
 /* Tablets & phones */
 @media (max-width: 768px) {
@@ -757,6 +757,7 @@ a:hover {
     width: 20px;
     height: 20px;
   }
+
   input:checked + .slider:before {
     transform: translateX(20px); /* 44 - 20 - 2 - 2 */
   }
@@ -768,8 +769,12 @@ a:hover {
     border-radius: 10px;
   }
 
-  .header h1 { font-size: clamp(1.25rem, 4vw, 1.75rem); }
-  .footer_settings { width: 100%; margin-top: 16px; }
+  .header h1 { 
+    font-size: clamp(1.25rem, 4vw, 1.75rem); 
+  }
+  .footer_settings { 
+    width: 100%; margin-top: 16px; 
+  }
 }
 
 /* Narrow phones */
@@ -785,16 +790,31 @@ a:hover {
     padding: 10px 0;
   }
 
-  .switch_label { font-size: 0.95rem; }
-  .slider { width: 40px; height: 22px; }
-  .slider:before { width: 18px; height: 18px; }
-  input:checked + .slider:before { transform: translateX(18px); }
+  .switch_label { 
+    font-size: 0.95rem; 
+  }
 
-  #difficulty_select { width: 160px; padding: 6px; }
+  .slider { 
+    width: 40px; height: 22px; 
+  }
+
+  .slider:before { 
+    width: 18px; height: 18px; 
+  }
+
+  input:checked + .slider:before { 
+    transform: translateX(18px); 
+  }
+
+  #difficulty_select { 
+    width: 160px; padding: 6px; 
+  }
 
   /* Hide decorative stars to reduce clutter */
   .doodle_star_4,
   .doodle_star_5,
   .doodle_star_6,
-  .doodle_star_7 { display: none; }
+  .doodle_star_7 { 
+    display: none; 
+  }
 }
