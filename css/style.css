@@ -359,7 +359,7 @@ h1, h2, h3 {
 }
 
 .slider:before { /* Styles the moveable knob */
-  content: ""; /* Says nothing inside, but creates a circle with styling below*/
+  content: "";
   position: absolute;
   height: 20px;
   width: 20px;
@@ -706,4 +706,95 @@ a:hover {
     padding-top: 8px;
     margin-bottom: 0;                  /* keep inside the curve */
   }
+}
+
+/* === Settings page: mobile polish === */
+
+/* Tablets & phones */
+@media (max-width: 768px) {
+  .text_section_settings {
+    width: 92vw;
+    max-width: 540px;
+    height: auto;              /* stop the fixed 70vh on mobile */
+    padding: 16px;
+    border-radius: 16px;
+    box-sizing: border-box;
+  }
+
+  /* Group rows neatly */
+  .toggle_wrapper,
+  .difficulty_wrapper {
+    width: 100%;
+    padding: 12px 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* label on left, control on right */
+    gap: 12px;
+  }
+
+  /* Music label + toggle side-by-side */
+  .switch_label {
+    position: relative;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+  }
+
+  /* Smaller slider */
+  .slider {
+    position: relative;
+    left: 0;               /* remove the 60px offset */
+    width: 44px;
+    height: 24px;
+  }
+  .slider:before {
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+  }
+  input:checked + .slider:before {
+    transform: translateX(20px); /* 44 - 20 - 2 - 2 */
+  }
+
+  /* Easier-to-tap difficulty select */
+  #difficulty_select {
+    width: 170px;
+    padding: 6px 8px;
+    border-radius: 10px;
+  }
+
+  .header h1 { font-size: clamp(1.25rem, 4vw, 1.75rem); }
+  .footer_settings { width: 100%; margin-top: 16px; }
+}
+
+/* Narrow phones */
+@media (max-width: 428px) {
+  .text_section_settings {
+    width: 94vw;
+    padding: 14px;
+  }
+
+  .toggle_wrapper,
+  .difficulty_wrapper {
+    gap: 10px;
+    padding: 10px 0;
+  }
+
+  .switch_label { font-size: 0.95rem; }
+  .slider { width: 40px; height: 22px; }
+  .slider:before { width: 18px; height: 18px; }
+  input:checked + .slider:before { transform: translateX(18px); }
+
+  #difficulty_select { width: 160px; padding: 6px; }
+
+  /* Hide decorative stars to reduce clutter */
+  .doodle_star_4,
+  .doodle_star_5,
+  .doodle_star_6,
+  .doodle_star_7 { display: none; }
 }
