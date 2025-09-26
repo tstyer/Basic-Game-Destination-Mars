@@ -1,6 +1,6 @@
 ﻿# DESTINATION: MARS
 
-You can find the GitHub deployed site, [here](https://tstyer.github.io/portfolio-project-2---Destination-Mars/). 
+You can find the GitHub deployed site, [here](https://tstyer.github.io/Basic-Game-Destination-Mars/). 
 
 ![Screenshot of homepage](/assets/images/screenshot_of_full_homepage.jpeg)
 
@@ -680,6 +680,7 @@ include this section as initially intended.
 ## Conclusion 
 
 This project has been a challenging but valuable step in my journey to becoming a confident front-end developer. While the HTML and CSS came naturally, the JavaScript and Jest testing pushed me far outside my comfort zone, forcing me to problem-solve and learn at a much deeper level. Despite moments of frustration, I’ve gained a clearer understanding of JavaScript logic and the importance of consistent practice. Moving forward, I’m motivated to keep building projects, refining my skills, and implementing the features I initially set aside, with the goal of producing more complex and polished work.
+
 
 
 
