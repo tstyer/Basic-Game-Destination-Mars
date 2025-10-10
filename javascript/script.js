@@ -1,5 +1,6 @@
 /*jslint browser */
-/*global $, getComputedStyle, localStorage, module */
+/* $ */
+/*global $, getComputedStyle, localStorage, module, console */
 
 // ---
 // Destination: Mars
@@ -84,22 +85,19 @@ function recomputeSpriteMetrics() {
   const PLAT_BASE_H = 115;
   const PLAT_BASE_TOP_INSET = 10;
 
-  const bugH = spaceBug.offsetHeight ?? BUG_BASE_H; // uses value unless null/undefined
+  // uses value unless null/undefined
+  const bugH =
+    spaceBug.offsetHeight ?? BUG_BASE_H;
 
   bugFootOffsetPx =
     Math.round((BUG_BASE_FOOT / BUG_BASE_H) * bugH);
 
   const sampleImg =
-    (platforms[0] && platforms[0].querySelector("img")) ||
+    platforms[0]?.querySelector("img") ??
     document.querySelector(".platform img");
 
-  const platW = sampleImg
-    ? (sampleImg.offsetWidth || PLAT_BASE_W)
-    : PLAT_BASE_W;
-
-  const platH = sampleImg
-    ? (sampleImg.offsetHeight || PLAT_BASE_H)
-    : PLAT_BASE_H;
+  const platW = sampleImg?.offsetWidth ?? PLAT_BASE_W;
+  const platH = sampleImg?.offsetHeight ?? PLAT_BASE_H;
 
   platformWidth = platW;
   platformCollisionTopInsetPx =
@@ -107,9 +105,8 @@ function recomputeSpriteMetrics() {
 }
 
 // ==== DOM code (browser only) ====
-if (globalThis &&
-        globalThis.document &&
-        globalThis.$) {
+// Use bracket-notation for '$' to satisfy strict linters.
+if (globalThis && globalThis.document && globalThis.$) {
   $(document).ready(function () {
     const $music = $("#music");
     const $musicToggle = $("#music_toggle");
@@ -122,9 +119,9 @@ if (globalThis &&
     if (overlay && gameArea) {
       showModal(
         "How to Play",
-        "Use ← → to move. Press Space to jump.\n"
-          + "Land on platforms to climb!\n"
-          + "(Press Space after closing to start.)",
+        "Use ← → to move. Press Space to jump.\n" +
+          "Land on platforms to climb!\n" +
+          "(Press Space after closing to start.)",
         "Okay, got it.",
         function () {
           hasAcknowledged = true;
@@ -145,10 +142,9 @@ if (globalThis &&
       if (!spaceBug.style.bottom) {
         const computedBottom = getComputedStyle(spaceBug).bottom;
         spaceBug.style.bottom = (
-                (computedBottom && computedBottom.endsWith("px"))
-                ? computedBottom
-                : "80px"
-            );
+            (computedBottom && computedBottom.endsWith("px"))
+            ? computedBottom
+            : "80px");
       }
     }
 
@@ -161,9 +157,19 @@ if (globalThis &&
     }
 
     // Compute metrics now that DOM is ready and a platform may exist
-    try { recomputeSpriteMetrics(); } catch (e) { /* no-op */ }
+    try {
+      recomputeSpriteMetrics();
+    } catch (e) {
+       // intentionally ignore
+      console.warn("recomputeSpriteMetrics (ready) failed:", e);
+    }
     window.addEventListener("resize", function () {
-      try { recomputeSpriteMetrics(); } catch (e2) { /* no-op */ }
+      try {
+        recomputeSpriteMetrics();
+      } catch (e2) {
+         // intentionally ignore
+        console.warn("recomputeSpriteMetrics (resize) failed:", e2);
+      }
     });
 
     // Initialize Mars label
@@ -284,14 +290,16 @@ function closeModal() {
     document.body;
 
   if (
-          fallback &&
-          fallback !== document.body &&
-          !fallback.hasAttribute("tabindex")
+    fallback &&
+    fallback !== document.body &&
+    !fallback.hasAttribute("tabindex")
   ) {
     fallback.setAttribute("tabindex", "-1");
-    fallback.addEventListener("blur", function () {
-      fallback.removeAttribute("tabindex");
-    }, { once: true });
+    fallback.addEventListener(
+      "blur",
+      function () { fallback.removeAttribute("tabindex"); },
+      { once: true }
+    );
   }
   if (fallback) { fallback.focus({ preventScroll: true }); }
 
@@ -327,7 +335,12 @@ function createPlatform(x, y) {
   platforms.push(platform);
 
   // Ensure metrics match real on-screen sizes
-  try { recomputeSpriteMetrics(); } catch (e) { /* no-op */ }
+  try {
+    recomputeSpriteMetrics();
+  } catch (e) {
+     // intentionally ignore
+    console.warn("recomputeSpriteMetrics (createPlatform) failed:", e);
+  }
 
   return platform;
 }
@@ -376,10 +389,10 @@ function moveLeft(el) {
 function moveRight(el) {
   const left = parseInt(el.style.left, 10) || 0;
   const maxLeft = (
-          gameArea
-          ? gameArea.clientWidth - (el.offsetWidth || 60)
-          : Math.max(0, left)
-      );
+    gameArea
+      ? gameArea.clientWidth - (el.offsetWidth || 60)
+      : Math.max(0, left)
+  );
   const next = Math.min(maxLeft, left + groundStepPx);
   el.style.left = String(Math.max(0, next)) + "px";
   const img = el.querySelector("img");
@@ -523,8 +536,8 @@ function youWin() {
 
   showModal(
     "You made it to Mars!",
-    "Your score: " + String(score) + "\n"
-      + "Press “Restart” and then Space to play again.",
+    "Your score: " + String(score) + "\n" +
+      "Press “Restart” and then Space to play again.",
     "Restart",
     function () {
       closeModal();
@@ -541,8 +554,8 @@ function gameOver() {
 
   showModal(
     "Game Over",
-    "Your score: " + String(score) + "\n"
-      + "Press “Restart” and then Space to try again.",
+    "Your score: " + String(score) + "\n" +
+      "Press “Restart” and then Space to try again.",
     "Restart",
     function () {
       closeModal();
@@ -595,7 +608,12 @@ function resetGameState() {
   gameStarted = false;
 
   // Recompute metrics after layout reset
-  try { recomputeSpriteMetrics(); } catch (e) { /* no-op */ }
+  try {
+    recomputeSpriteMetrics();
+  } catch (e) {
+     // intentionally ignore
+    console.warn("recomputeSpriteMetrics (reset) failed:", e);
+  }
 }
 
 // ==== Loop control ====
@@ -645,8 +663,8 @@ function startLoop() {
     // Spawn after travel distance
     platformSpacingCounter += platformSpeed;
     if (
-      platformSpacingCounter >= platformSpacingPx
-      && platforms.length < maxPlatforms
+      platformSpacingCounter >= platformSpacingPx &&
+      platforms.length < maxPlatforms
     ) {
       generatePlatform();
       platformSpacingCounter = 0;
@@ -783,11 +801,11 @@ function generatePlatform() {
   const bugW = (spaceBug && spaceBug.offsetWidth) || 60;
   const bugCenterX = bugLeft + bugW / 2;
 
-  const refX = (
-    (lastSpawnX !== null && lastSpawnX !== undefined)
-      ? lastSpawnX
-      : (bugCenterX - (platformWidth / 2))
-  );
+const refX = (
+  (lastSpawnX !== null && lastSpawnX !== undefined)
+    ? lastSpawnX
+    : (bugCenterX - (platformWidth / 2))
+);
 
   const windowMin = Math.max(minWall, refX - maxHorizontalStepPx);
   const windowMax = Math.min(maxWall, refX + maxHorizontalStepPx);
