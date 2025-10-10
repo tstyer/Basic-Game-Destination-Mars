@@ -444,12 +444,13 @@ CSS validation:
 
 ### JS Validation 
 
-For Javascript, I used JS Lint to validate the code:
+For JavaScript, I used JS Lint to validate the code:
 
 ![Screenshot of Javascript Validation](/assets/images/final_js_lint_warning_unresolved.png)
 
-You can se there is only 1 warning to show, however, I cannot remove the '$' to get zero warnings. The '$' sign was added to the globals at the top of the document,
-and I had tried to remove the jQuery aspect of the code that included the '$' sign, and have it as vanilla JavaScript, but that resulted in 500+ more warnings. So I kept it as jQuery, and accepted that JSLint didn't like the jQuery style. 
+You can see there is only 1 warning to show, however, I cannot remove the '$' to get zero warnings. The '$' sign is needed for my code, as part of jQuery. It was also added to the globals at the top of the document. 
+
+In order to remove the final warning, I tried to change the jQuery aspect of the code that included the '$' sign, and have it as vanilla JavaScript, but that resulted in 500+ more warnings. So I kept it as jQuery, and accepted that JSLint didn't like the jQuery style. 
 
 ### Lighthouse 
 
