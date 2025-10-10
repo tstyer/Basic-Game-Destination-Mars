@@ -84,9 +84,7 @@ function recomputeSpriteMetrics() {
   const PLAT_BASE_H = 115;
   const PLAT_BASE_TOP_INSET = 10;
 
-  const bugH = spaceBug
-    ? (spaceBug.offsetHeight || BUG_BASE_H)
-    : BUG_BASE_H;
+  const bugH = spaceBug.offsetHeight ?? BUG_BASE_H; // uses value unless null/undefined
 
   bugFootOffsetPx =
     Math.round((BUG_BASE_FOOT / BUG_BASE_H) * bugH);
@@ -111,7 +109,7 @@ function recomputeSpriteMetrics() {
 // ==== DOM code (browser only) ====
 if (globalThis &&
         globalThis.document &&
-        globalThis["$"]) {
+        globalThis.$) {
   $(document).ready(function () {
     const $music = $("#music");
     const $musicToggle = $("#music_toggle");
@@ -805,7 +803,7 @@ function generatePlatform() {
 }
 
 // ==== Exports (for tests) ====
-if (typeof module !== "undefined" && module.exports) {
+if (globalThis.module?.exports) {
   module.exports = {
     applyGravity,
     closeModal,
