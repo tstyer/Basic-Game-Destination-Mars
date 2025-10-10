@@ -466,6 +466,9 @@ Instructions Page:
 
 ### Manual Testing
 
+As you narrow the browser width on the home screen, the bug and platforms may briefly appear misaligned or spill outside the game border. Refreshing the page fixes this immediately and snaps the elements into the correct positions for that smaller screen size.
+
+
 | ID  | Area                           | Steps                                                                          | Expected Outcome                                                           | Result |
 | --- | ------------------------------ | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | ------ |
 | T01 | Landing / Modal                | Load home page.                                                                | “How to Play” modal is visible, overlayed; background is inert.            | Pass   |

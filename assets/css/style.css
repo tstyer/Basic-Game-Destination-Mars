@@ -1,7 +1,7 @@
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Codystar:wght@300;400&family=Original+Surfer&display=swap');
 
-/* Remove error in console: webkit-text-size-adjust unsuported in browsers. */
+/* Remove error in console: webkit-text-size-adjust unsupported in browsers. */
 html {
   -webkit-text-size-adjust: 100%; /* iOS Safari */
   text-size-adjust: 100%;         /* modern Chrome/Edge/Firefox */
@@ -840,9 +840,23 @@ a:hover {
   }
 }
 
-/* Header pushed to left on smaller screens */
-@media screen and (max-width: 768px) {
+/* ---- FIX: keep the page title centered on small screens ---- */
+@media (max-width: 768px) {
   .header {
-    margin: 10px auto 10px 10px;
+    margin: 10px auto !important;  /* center the block horizontally */
+    text-align: center;            /* center the text inside */
+  }
+}
+
+/* For music toggle */
+@media (max-width: 768px) {
+  .toggle_wrapper {
+    width: auto;                /* don’t stretch the row full width */
+    justify-content: center;    /* center the row contents */
+    gap: 12px;                  /* keep a nice gap if you add more items later */
+  }
+
+  .switch_label {
+    margin: 0 auto;             /* ensure the label+slider pair is centered */
   }
 }
