@@ -84,22 +84,20 @@ function recomputeSpriteMetrics() {
     const PLAT_BASE_H = 115;
     const PLAT_BASE_TOP_INSET = 10;
 
-    // uses value unless null/undefined
-    const bugH = spaceBug.offsetHeight ?? BUG_BASE_H;
-
+    // Be defensive: if spaceBug is absent on this page, fall back to base size
+    const bugH = (spaceBug && spaceBug.offsetHeight) || BUG_BASE_H;
     bugFootOffsetPx = Math.round((BUG_BASE_FOOT / BUG_BASE_H) * bugH);
 
-    const sampleImg =
-        platforms[0]?.querySelector("img") ??
-        document.querySelector(".platform img");
+    // Try an in-array platform img, else any .platform img in the DOM
+    const sampleFromArray = (platforms[0] && platforms[0].querySelector("img")) || null;
+    const sampleFromDom = document.querySelector(".platform img");
+    const sampleImg = sampleFromArray || sampleFromDom || null;
 
-    const platW = sampleImg?.offsetWidth ?? PLAT_BASE_W;
-    const platH = sampleImg?.offsetHeight ?? PLAT_BASE_H;
+    const platW = (sampleImg && sampleImg.offsetWidth) || PLAT_BASE_W;
+    const platH = (sampleImg && sampleImg.offsetHeight) || PLAT_BASE_H;
 
     platformWidth = platW;
-    platformCollisionTopInsetPx = Math.round(
-      (PLAT_BASE_TOP_INSET / PLAT_BASE_H) * platH
-    );
+    platformCollisionTopInsetPx = Math.round((PLAT_BASE_TOP_INSET / PLAT_BASE_H) * platH);
 }
 
 // ==== DOM code (browser only) ====
@@ -156,19 +154,21 @@ if (globalThis && globalThis.document && globalThis.jQuery) {
             platforms.push(existingPlatform);
         }
 
-        // Compute metrics now that DOM is ready and a platform may exist
-        try {
-            recomputeSpriteMetrics();
-        } catch (e) {
-            console.warn("recomputeSpriteMetrics (ready) failed:", e);
-        }
-        window.addEventListener("resize", function () {
-            try {
-                recomputeSpriteMetrics();
-            } catch (e2) {
-                console.warn("recomputeSpriteMetrics (resize) failed:", e2);
+        // Only compute metrics when the page actually has game sprites
+        const hasGameSprites =
+            !!document.querySelector(".space_bug") ||
+            !!document.querySelector(".platform img");
+
+        if (hasGameSprites) {
+            try { recomputeSpriteMetrics(); } catch (e) {
+                console.warn("recomputeSpriteMetrics (ready) failed:", e);
             }
-        });
+            window.addEventListener("resize", function () {
+                try { recomputeSpriteMetrics(); } catch (e2) {
+                    console.warn("recomputeSpriteMetrics (resize) failed:", e2);
+                }
+            });
+        }
 
         // Initialize Mars label
         updateDistanceLabel();
@@ -630,7 +630,7 @@ function resetGameState() {
     hasAcknowledged = true;
     gameStarted = false;
 
-    // Recompute metrics after layout reset
+    // Recompute metrics after layout reset (on game pages only)
     try {
         recomputeSpriteMetrics();
     } catch (e) {

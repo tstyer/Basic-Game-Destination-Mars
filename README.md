@@ -446,9 +446,9 @@ CSS validation:
 
 For JavaScript, I used JS Lint to validate the code:
 
-![Screenshot of Javascript Validation](/assets/images/single_js_lint_warning.png)
+![Screenshot of Javascript Validation](/assets/images/js_lint.png)
 
-You can see there is only 1 warning to show, however, I cannot remove the ' ' to get zero warnings. Once the space is removed, then 80+ further warnings appear. No errors appear.
+There are only five warnings remaining, all related to stylistic preferences flagged by JSLint. I attempted to address them, but each change tended to surface additional minor style suggestions, creating a churn of low-impact tweaks. There are no runtime errors, and the code has run without issues in production.
 
 ### Lighthouse 
 
