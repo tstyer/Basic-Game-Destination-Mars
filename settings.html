@@ -45,6 +45,9 @@
               <span class="navbar-toggler-icon"></span>
             </button>
 
+            <!-- Small-screen title beside burger -->
+            <a class="navbar-brand ms-2 d-md-none header-brand">Basic Settings</a>
+
             <div
               class="collapse navbar-collapse justify-content-center"
               id="navbarContent"
@@ -54,9 +57,7 @@
                   <a class="nav-link text-light" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-light" href="instructions.html"
-                    >Instructions</a
-                  >
+                  <a class="nav-link text-light" href="instructions.html">Instructions</a>
                 </li>
                 <li class="nav-item">
                   <a
@@ -71,8 +72,8 @@
           </div>
         </nav>
 
-        <!--Heading of Page-->
-        <div class="header">
+        <!--Heading of Page (md+ only)-->
+        <div class="header d-none d-md-block">
           <h1>Basic Settings</h1>
         </div>
       </header>
@@ -92,16 +93,16 @@
             src="assets/images/background_star_shutterstock.png"
             alt="yellow doodle star"
             class="doodle_star_6">
-          <div class="toggle-wrapper">
+
+          <div class="toggle_wrapper">
             <label class="switch_label"
               >Music:
               <input type="checkbox" id="music_toggle" checked>
               <span class="slider"></span>
             </label>
+
             <audio id="music" loop>
-              <source
-                src="assets/music/white_bat_audio.mp3"
-                type="audio/mpeg">
+              <source src="assets/music/white_bat_audio.mp3" type="audio/mpeg">
             </audio>
           </div>
         </div>
