@@ -338,6 +338,16 @@ To clone a repository, you need to:
 
 ## Testing
 
+Before I mention any of the testing done, I wanted to note that the page needs to be refreshed every time you make it smaller or larger (Mobile, Tablet, Desktop) for proper viewing. For example, below is a screenshot of the game on a mobile screen. Initially, it has misplaced items, but once you refresh the page, all of the items align themselves correctly.
+
+![Screenshot of misplaced items on mobile]("assets\images\misplaced_screenshot.png")
+
+Here is a screenshot of the same (mobile-view) page after refreshing. You can see all of the items have been aligned properly:
+
+![Screenshot of refreshed page]("assets\images\images_placed_correctly.png")
+
+So please remember to refresh if you change the page size. 
+
 ### Automated & Manual Testing
 
 I used a mix of automated and manual testing throughout development. Early on, I learned the differences between the two approaches and why both are important on a new project.
