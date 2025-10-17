@@ -64,7 +64,9 @@ You can find the GitHub deployed site, [here](https://tstyer.github.io/Basic-Gam
 
 ## Introduction
 
-Welcome to the README for my second portfolio project: a JavaScript-based browser game. This document outlines the whole development journey, from initial planning and design choices to implementation and final deployment. It also highlights key features, challenges encountered, and how I applied core front-end skills to bring the project to life.
+This is a JavaScript-based browser game. It was inspired by the popular iPod game (10 years ago), called 'Doodle Jump'. [This](https://en.wikipedia.org/wiki/Doodle_Jump) is the official Wikipedia page which tells you all about 'Doodle Jump'. 
+
+In this document, I outline the whole development journey, from initial planning and design choices to implementation and final deployment. It also highlights key features, challenges encountered, and how I applied core front-end skills to bring the project to life.
 
 ## Project Overview
 
@@ -72,11 +74,11 @@ This project is an interactive web game built using JavaScript, HTML, and CSS. I
 
 ### Scope
 
-The scope of this project is small, being a single-screen browser game where you guide a space bug across falling platforms. The core system are keyboard controls (← → to move, Space to jump), platform spawning and descent, landing, a distance-to-Mars meter, win/lose states, a simple “How to Play” modal, and a music on/off toggle.
+The scope of this project is small, being a single-screen browser game where you guide a "space bug" across falling platforms. You will use keyboard controls (← → to move, Space to jump) to move, jumping from platform to platform as they descend. There is a score status, a win/lose status, a simple “How to Play” modal, and a music on/off toggle.
 
 ## User Experience 
 
-There is instant feedback, snappy controls, and short sessions that feel fair. The first ground touch after starting is lenient to avoid cheap game-overs.
+There is instant feedback, snappy controls, and short sessions that feel fair. The first ground touch after starting is lenient.
 
 The player sees a brief “How to Play” modal, press Space to start, watch the Mars meter tick down as they land platforms, and either win when it reaches zero or retry via the restart prompt.
 
